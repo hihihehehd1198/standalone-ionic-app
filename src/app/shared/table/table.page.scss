@@ -1,0 +1,13 @@
+tr td {
+    text-align: center;
+    align-items: center;
+    // display: flex;
+    padding: 5px 10px;
+    &:first-child{
+        display: flex;
+        align-items: center;
+        input[type~=checkbox]{
+            margin:auto;
+        }
+    }
+}

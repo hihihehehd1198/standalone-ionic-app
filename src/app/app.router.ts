@@ -54,7 +54,7 @@ const Router: Routes = [
     },
     {
         path: '',
-        redirectTo: 'Pages',
+        redirectTo: 'Pages/dashboard',
         pathMatch: 'full'
     }
 

@@ -5,12 +5,12 @@
         </ion-toolbar>
     </ion-header>
     <ion-content>
-
         <ul class="p-0 pb-[100px]">
-            <li [routerLink]="item?.url" class="focus:bg-red py-[10px] px-[20px] border-[1px]"
+            <li [routerLink]="item?.url" class="focus:bg-[#00ff00] py-[10px] px-[20px] border-[1px]"
                 *ngFor="let item of listMenu |async">
                 <h1>{{item?.name }}</h1>
             </li>
+
         </ul>
 
     </ion-content>

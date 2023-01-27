@@ -1,0 +1,52 @@
+<h1>app-table work </h1>
+<div class="flex flex-col w-[100%]">
+    <div class="flex flex-row justify-between">
+        <div>
+            <h1>test</h1>
+        </div>
+        <div>
+            <app-inputSearch>
+
+            </app-inputSearch>
+        </div>
+    </div>
+    <div class="p-[20px]">
+        <table #tableView class="border-collapse border-[1px] w-[100%]" *ngIf="tableData.length">
+            <tr class="bg-[yellowgreen]">
+                <td>
+                    <ion-checkbox>
+                        <input type="checkbox" />
+                    </ion-checkbox>
+                </td>
+                <td *ngFor="let items of tableData[0] | arrayObject:true">
+                    {{items}}
+                </td>
+                <td colspan="2">
+                    test
+                </td>
+            </tr>
+            <tr *ngFor="let row of tableData ;  let i = index">
+                <td>
+                    <ion-checkbox>
+                        <input type="checkbox" />
+                    </ion-checkbox>
+                </td>
+                <td *ngFor="let item  of row | arrayObject">
+                    {{item}}
+                </td>
+                <td>
+
+                    <app-button>
+                        edit
+                    </app-button>
+                </td>
+                <td>
+                    <app-button>
+                        delete
+                    </app-button>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
