@@ -44,7 +44,7 @@ const Router: Routes = [
             },
             {
                 path: 'dashboard',
-                loadComponent: () => import('./pages/dashboard/dashboard.page').then(c => c.DashboardComponent)
+                loadComponent: () => import('./pages/dashboard/dashboard.page').then(c => c.DashboardComponent),
             },
             {
                 path: 'article',
