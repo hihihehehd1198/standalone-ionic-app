@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.checkRouteApp()
     // console.log(this.routeService.url)
-    this.routeService.url === '/' && this.routeService.navigateByUrl('/Pages/dashboard')
+    // this.routeService.url === '/' && this.routeService.navigateByUrl('/Pages/dashboard')
   }
 
   checkRouteApp() {

@@ -15,15 +15,20 @@
                         <div class="p-[10px] relative">
                             <h1>Quang ninh</h1>
                             <h2>Admin</h2>
+                        </div>
+                        <div>
 
-                            <!-- <div class="absolute z-30 bg-[red]"> -->
-                            <!-- <div>
-                                    isClickLogout
-                                </div>
-                                <div>
-                                    isClickLogout
-                                </div> -->
-                            <!-- </div> -->
+                            <button (click)="presentPopover($event)">Click Me</button>
+                            <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+                                <ng-template>
+                                    <ion-content class="ion-padding">
+                                        <div class="flex px-[10px] flex-col">
+                                            <div class="py-[10px]" [routerLink]="['Pages','account-detail']" routerLinkActive="router-link-active" >Thông tin tài khoản</div>
+                                            <div class="py-[10px]">Đăng xuất </div>
+                                        </div>
+                                    </ion-content>
+                                </ng-template>
+                            </ion-popover>
                         </div>
                     </div>
                 </div>

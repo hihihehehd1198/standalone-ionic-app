@@ -1,0 +1,18 @@
+ion-popover {
+    --background: white;
+    --backdrop-opacity: 0.6;
+    // --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
+    --color: white;
+    --width: max-content;
+    --padding: 20px;
+
+}
+
+ion-popover ion-content {
+    --background: unset;
+    --padding: 20px !important;
+}
+
+ion-popover::part(backdrop) {
+    background-color: unset;
+}

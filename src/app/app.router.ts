@@ -6,6 +6,7 @@ const Router: Routes = [
     {
         path: 'Pages',
         children: [
+
             {
                 path: 'Account-detail',
                 loadComponent: () => import('./pages/account/account-detail.page').then(c => c.AccountDetailComponent)
@@ -50,6 +51,10 @@ const Router: Routes = [
                 path: 'article',
                 loadComponent: () => import('./pages/article/article.page').then(c => c.ArticleComponent)
             },
+            {
+                path: 'account-detail',
+                loadComponent: () => import('./pages/account-info/account-info.page').then(c => c.AccountinfoComponent)
+            }
         ]
     },
     // {
@@ -57,8 +62,8 @@ const Router: Routes = [
     //     loadComponent: () => import('./pages/cv/cv.page').then(c => c.CvComponent)
     // },
     {
-        path: '',
-        redirectTo: 'Pages/dashboard',
+        path: '**',
+        redirectTo: 'Pages/account-detail',
         pathMatch: 'full',
 
     }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from 'stream';
 import { ArrayObjectPipe } from '../../pipes/array-object.pipe';
@@ -23,6 +24,7 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit {
 
 
     @ViewChild('tableView', { static: false }) tableView?: ElementRef<any>;
+    // @ViewChild('isEnabledButton') isEnabledButton?: ElementRef<any>;
     @Input() titleButtonAdd?: string = 'button'
     @Input() titleScreen?: string = 'Quản lí Sản phẩm'
     @Input('tableData') tableDataProps = [
@@ -43,6 +45,7 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit {
 
         }
     ]
+    routeService = inject(Router)
     constructor() {
         // this.tableData = this.tableDataProps
     }
@@ -62,5 +65,6 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit {
             // collection.style.width = '30px'
 
         }
+
     }
 }
