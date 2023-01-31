@@ -1,5 +1,6 @@
+import { EventEmitter } from 'stream';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { IonButtons, IonicModule } from '@ionic/angular';
 
 @Component({
@@ -12,7 +13,11 @@ import { IonButtons, IonicModule } from '@ionic/angular';
 export class ButtonComponent {
 
     constructor() { }
-    loggingButton() {
+    @Input() customClass = "testing"
+    @Output() clickEvent?: EventEmitter
+    loggingButton(e: any) {
+
+        this.clickEvent?.emit(e)
         console.log('button click ')
     }
 }

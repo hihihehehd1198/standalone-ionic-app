@@ -1,6 +1,6 @@
-<div class="flex flex-row ">
-    <div> <input placeholder="input ..." type="text"></div>
-    <div>
+<div class="flex flex-row  border-[1px] border-[black] rounded-[5px] p-[5px]">
+    <div> <input [placeholder]="inputName" type="text" (keydown)="enterEvent($event)"></div>
+    <div class="rounded-r-[5px]">
         icon
     </div>
 </div>

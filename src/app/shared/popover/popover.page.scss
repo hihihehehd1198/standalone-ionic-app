@@ -1,0 +1,8 @@
+.popover-content {
+    background: #222;
+  }
+  
+  /* Works - pass "my-custom-class" in cssClass to increase specificity */
+  .my-custom-class .popover-content {
+    background: #222;
+  }

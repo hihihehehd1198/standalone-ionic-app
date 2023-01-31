@@ -23,6 +23,8 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit {
 
 
     @ViewChild('tableView', { static: false }) tableView?: ElementRef<any>;
+    @Input() titleButtonAdd?: string = 'button'
+    @Input() titleScreen?: string = 'Quản lí Sản phẩm'
     @Input('tableData') tableDataProps = [
         {
             col1: '1',
@@ -56,8 +58,8 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit {
         if (this.tableView) {
             const collection = this.tableView.nativeElement.querySelectorAll("tr td:first-child");
             console.log(collection);
-            collection.style.maxWidth = '30px'
-            collection.style.width = '30px'
+            // collection.style.maxWidth = '30px'
+            // collection.style.width = '30px'
 
         }
     }
