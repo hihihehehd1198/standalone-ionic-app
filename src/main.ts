@@ -21,4 +21,4 @@ bootstrapApplication(AppComponent, {
       IonicModule.forRoot()
     )
   ]
-})
+})  

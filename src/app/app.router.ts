@@ -52,10 +52,15 @@ const Router: Routes = [
             },
         ]
     },
+    // {
+    //     path: 'my-cv',
+    //     loadComponent: () => import('./pages/cv/cv.page').then(c => c.CvComponent)
+    // },
     {
         path: '',
         redirectTo: 'Pages/dashboard',
-        pathMatch: 'full'
+        pathMatch: 'full',
+
     }
 
 ]

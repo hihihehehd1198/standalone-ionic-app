@@ -78,7 +78,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
         console.log(fakeData)
         setTimeout(() => {
             fakeData.map((x, index) => {
-                x.url = index !== 1 ? '/Pages/' + this.listUrl[index].path : x.url
+                x.url = '/Pages/' + this.listUrl[index].path
                 return x;
             })
             obs.next(fakeData)
