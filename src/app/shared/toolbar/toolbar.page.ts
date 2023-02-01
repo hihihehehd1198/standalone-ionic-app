@@ -21,5 +21,5 @@ export class ToolbarComponent {
     presentPopover(e: Event) {
         this.popover.event = e;
         this.isOpen = true;
-    }
+    }   
 }

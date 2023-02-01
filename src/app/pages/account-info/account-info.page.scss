@@ -1,0 +1,15 @@
+table {
+    margin-left: 30px;
+    tr td{
+
+    padding:10px;
+    &:first-child{
+        width:150px;
+    }
+    &:last-child{
+        width: calc(100% - 150px);
+        input{
+            width: 100%;    
+        }
+    }
+}}

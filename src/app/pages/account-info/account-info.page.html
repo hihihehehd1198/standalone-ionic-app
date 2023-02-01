@@ -1,18 +1,16 @@
 <div class="flex flex-col w-[100%] p-[15px] border-[1px]">
     <div class="flex flex-row w-full justify-between border-b-[1px] py-[15px]">
         <h1 class="text-[30px]"><b>Thông tin tài khoản</b> </h1>
-
     </div>
-    <div class="flex flex-row p-[15px] justify-between min-w-[max-content]">
+    <div class="flex flex-row p-[15px] justify-start min-w-[max-content]">
         <div class="flex flex-col items-center  text-center width-[30%] whitespace-nowrap">
-            <img width="100" class="rounded-[50%]" alt="Không tải được ảnh "
-                src="../../../assets/icon/QZlC61BznJJtnoRzxlE2_63569caf1a90d_cvtpl.jpg" />
-            <div class="my-[15px] p-[5px] border-[1px] w-[max-content]" for="imgAvatar">Chọn ảnh </div>
-            <input class="hidden" type="file" id="imgAvatar" />
-
-            <span> Định dạng : JPEG, PNG</span>
+            <img width="100" class="rounded-[50%]" [class]="'whitespace-pre-wrap'" alt="Không tải được ảnh "
+                [src]="myUrlImage" />
+            <label class="my-[15px] p-[5px] border-[1px] w-[max-content]" for="imgAvatar">Chọn ảnh </label>
+            <input class="hidden" type="file" id="imgAvatar" (change)="testingSelectfile($event)" />
+            <h3>Định dạng : JPEG , PNG</h3>
         </div>
-        <div class="flex flex-row w-[100%] px-[30px]">
+        <!-- <div class="flex flex-row w-[100%] px-[30px]">
             <div class="flex flex-col">
                 <div class="py-[10px]">Tên nhân viên</div>
                 <div class="py-[10px]">Mã nhân viên</div>
@@ -27,8 +25,35 @@
                 <div class="py-[10px]"><input type="text" formControlName="phoneNumber" /></div>
                 <div class="py-[10px]"><input type="text" formControlName="Email" /></div>
                 <div class="py-[10px]"><input type="text" formControlName="accountId" /></div>
-                <div class="py-[10px]"><button (click)="changePassword()">Change Password</button></div>
+                <div class="py-[10px]"><button class="px-[0] py-[20px] bg-[orange] " (click)="changePassword()">Change Password</button></div>
             </div>
-        </div>
+        </div> -->
+        <table class="w-[70%]">
+            <tr class="flex flex-row">
+                <td>Tên nhân viên</td>
+                <td><input type="text" formControlName="userName" placeholder="text..." /> </td>
+            </tr>
+            <tr class="flex flex-row">
+                <td>Mã nhân viên</td>
+                <td><input type="text" formControlName="userID" placeholder="text..." /> </td>
+            </tr>
+            <tr class="flex flex-row">
+                <td>Số điện thoại</td>
+                <td><input type="text" formControlName="phoneNumber" placeholder="text..." /> </td>
+            </tr>
+            <tr class="flex flex-row">
+                <td>Email</td>
+                <td><input type="text" formControlName="email" placeholder="text..." /> </td>
+            </tr>
+            <tr class="flex flex-row">
+                <td>Tài khoản</td>
+                <td><input type="text" formControlName="accountId" placeholder="text..." /> </td>
+            </tr>
+            <tr class="flex flex-row">
+                <td>Mật khẩu</td>
+                <td><button class="px-[15px] py-[5px] rounded-[5px] bg-[orange]" (click)="changePassword">Đổi mật
+                        khẩu</button></td>
+            </tr>
+        </table>
     </div>
 </div>
