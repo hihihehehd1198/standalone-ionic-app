@@ -1,34 +1,77 @@
 <div class="flex flex-col w-[100%] p-[15px] border-[1px]">
-    <div class="flex flex-row w-full justify-between border-b-[1px] py-[15px]">
-        <h1 class="text-[30px]"><b>Thông tin tài khoản</b> </h1>
+  <div class="flex flex-row w-full justify-between border-b-[1px] py-[15px]">
+    <h1 class="text-[30px]"><b>Thông tin tài khoản</b></h1>
+  </div>
+  <div class="flex flex-row p-[15px] justify-between min-w-[max-content]">
+    <div
+      class="flex flex-col items-center text-center width-[30%] whitespace-nowrap"
+    >
+      <img
+        width="100"
+        class="rounded-[50%]"
+        alt="Không tải được ảnh "
+        src="../../../assets/icon/QZlC61BznJJtnoRzxlE2_63569caf1a90d_cvtpl.jpg"
+      />
+      <div
+        class="my-[15px] p-[5px] border-[1px] w-[max-content]"
+        for="imgAvatar"
+      >
+        Chọn ảnh
+      </div>
+      <input class="hidden" type="file" id="imgAvatar" />
 
+      <span> Định dạng : JPEG, PNG</span>
     </div>
-    <div class="flex flex-row p-[15px] justify-between min-w-[max-content]">
-        <div class="flex flex-col items-center  text-center width-[30%] whitespace-nowrap">
-            <img width="100" class="rounded-[50%]" alt="Không tải được ảnh "
-                src="../../../assets/icon/QZlC61BznJJtnoRzxlE2_63569caf1a90d_cvtpl.jpg" />
-            <div class="my-[15px] p-[5px] border-[1px] w-[max-content]" for="imgAvatar">Chọn ảnh </div>
-            <input class="hidden" type="file" id="imgAvatar" />
+    <div class="flex flex-row w-[100%] px-[30px]">
+      <div class="flex flex-col">
+        <div class="py-[10px]">Tên nhân viên</div>
+        <div class="py-[10px]">Mã nhân viên</div>
+        <div class="py-[10px]">Số điện thoại</div>
+        <div class="py-[10px]">Email</div>
+        <div class="py-[10px]">Tài khoản</div>
+        <div class="py-[10px]">Mật khẩu</div>
+      </div>
+      <div class="flex flex-col">
+        <form [formGroup]="passwordForm">
+          <div class="py-[10px]">
+            <input type="text" formControlName="name" />
+          </div>
+          <div class="py-[10px]">
+            <input type="text" formControlName="id" />
+          </div>
+          <div class="py-[10px]">
+            <input type="text" formControlName="phoneNumber" />
+          </div>
+          <div class="py-[10px]">
+            <input type="text" formControlName="Email" />
+          </div>
+          <div class="py-[10px]">
+            <input type="text" formControlName="accountId" />
+          </div>
+          <div class="py-[10px]">
+            <!-- <button (click)="changePassword()">Đổi mật khẩu</button> -->
+            <!-- <input
+              type="button"
+              [disabled]="passwordForm.invalid"
+              value="Đổi mật khẩu "
+              (click)="changePassword()"
+            /> -->
+            <app-button
+              [buttonId]="'changePasswordDialog'"
+              (clickEvent)="changePassword(passwordForm)"
+              >change password
+            </app-button>
 
-            <span> Định dạng : JPEG, PNG</span>
-        </div>
-        <div class="flex flex-row w-[100%] px-[30px]">
-            <div class="flex flex-col">
-                <div class="py-[10px]">Tên nhân viên</div>
-                <div class="py-[10px]">Mã nhân viên</div>
-                <div class="py-[10px]">Số điện thoại</div>
-                <div class="py-[10px]">Email</div>
-                <div class="py-[10px]">Tài khoản</div>
-                <div class="py-[10px]">Mật khẩu</div>
-            </div>
-            <div class="flex flex-col">
-                <div class="py-[10px]"><input type="text" formControlName="name" /></div>
-                <div class="py-[10px]"><input type="text" formControlName="id" /></div>
-                <div class="py-[10px]"><input type="text" formControlName="phoneNumber" /></div>
-                <div class="py-[10px]"><input type="text" formControlName="Email" /></div>
-                <div class="py-[10px]"><input type="text" formControlName="accountId" /></div>
-                <div class="py-[10px]"><button (click)="changePassword()">Change Password</button></div>
-            </div>
-        </div>
+            <app-dialog
+              [dialogName]="'changePasswordDialog'"
+              [formDialogParam]="passwordForm"
+              [dialogTitle]="'Thêm nhân viên '"
+            >
+            </app-dialog>
+            <!-- <app-formInput [formControlName]="sampleObjectFormControlName"></app-formInput> -->
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
