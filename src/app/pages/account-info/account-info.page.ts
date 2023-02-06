@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -10,20 +16,29 @@ import { IonicModule } from '@ionic/angular';
     imports: [IonicModule, CommonModule]
 })
 export class AccountinfoComponent {
-    myUrlImage?: ArrayBuffer | string
-    constructor() { }
-    changePassword(): void {
-        console.log('changePassword Work!')
-    }
-    testingSelectfile(e: any) {
-        const file = e.target.files[0]
-        const reader = new FileReader()
-        reader.onload = () => {
-            if (reader.result) {
-                this.myUrlImage = reader.result
-            }
-        }
-        reader.readAsDataURL(file)
-    }
+  fb = inject(FormBuilder);
+  constructor() {}
+  passwordForm = this.fb.group({
+    name: [null, Validators.required],
+    id: [null, Validators.required],
+    phoneNumber: [null, Validators.required],
+    Email: [null, Validators.required],
+    accountId: [null, Validators.required],
+  });
+  listformControlName = {
     
+  };
+  sampleObjectFormControlName = {
+    formControl: new FormControl(),
+    inputName: 'name',
+    defaultValue: '123',
+    eventOnchange: () => {
+      console.log('testing form input ');
+    },
+    type: 'text',
+  };
+  changePassword(e: any) {
+    console.log('changePassword Work!', e);
+    // console.log(this.passwordForm.value);
+  }
 }
