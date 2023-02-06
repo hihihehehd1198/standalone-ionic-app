@@ -7,26 +7,36 @@ import {
   OnChanges,
   SimpleChanges,
   OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { CustomInputDirective } from '../../directives/custom-input.directive';
+import { FormLabelPipe } from '../../pipes/form-label.pipe';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: 'formDialog.pages.html',
   styleUrls: ['formDialog.pages.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule],
+  encapsulation: ViewEncapsulation.None,
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, FormLabelPipe, CustomInputDirective],
 })
-export class DialogComponent implements OnChanges, OnInit {
+export class DialogComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() formDialogParam!: FormGroup;
-  @Input() listTitleInput?: string[] = ['1', '2', '3'];
-  @Input() dialogName? = 'changePasswordDialog';
+  @Input() listTitleInput?: any;
+  @Input() dialogName?= 'changePasswordDialog';
   @Input() dialogTitle?: string;
   @Output() formClick!: EventEmitter<any>;
 
-  listFormControlName: string[] = [];
-  constructor() {}
+  @ViewChild('modal') formTemplate?: TemplateRef<any>;
+  @Input('listFormControlName') listFormControlName?: object
+  listControlName?: string[]
+  constructor() { }
   list = [1, 2, 3];
 
   /**
@@ -34,14 +44,27 @@ export class DialogComponent implements OnChanges, OnInit {
    * @param e  modal name
    */
   ngOnChanges(change: SimpleChanges) {
+    this.listControlName = Object.keys(this.listFormControlName!) || []
+    console.log(this.listControlName)
     // console.log(this.formDialogParam.getRawValue());
-  }
-  ngOnInit(): void {
     if (this.formDialogParam.getRawValue()) {
       const listFormName = this.formDialogParam.getRawValue();
-      console.log('list form control name : ', listFormName);
-      this.listFormControlName = Object.keys(listFormName);
+      // console.log('list form control name : ', listFormName);
+      this.listControlName = Object.keys(listFormName);
     }
+  }
+  ngOnInit(): void {
+
+  }
+  resetForm(): void {
+    this.formDialogParam.reset()
+  }
+  submitForm(): void {
+    console.log(this.formDialogParam.getRawValue())
+  }
+  ngAfterViewInit(): void {
+    console.log(this.formTemplate)
+
   }
   closeModal(e: any) {
     e.dismiss();
