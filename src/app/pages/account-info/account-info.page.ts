@@ -37,15 +37,25 @@ export class AccountinfoComponent {
     password: [null, Validators.required],
     address: [null, Validators.required],
   });
+  passwordForm1 = this.fb.group({
+    currentPassword: [null, Validators.required],
+    newPassword: [null, Validators.required],
+    reNewPassword: [null, Validators.required]
+  })
   listformControlName = {
-    name: 'Mã khách hàng',
-    id: 'Tên khách hàng',
-    phoneNumber: 'Số điện thoại',
-    email: 'Email',
-    accountName: 'Tài khoản',
-    password: 'Mật khẩu',
-    address: 'Địa chỉ'
-  };
+    currentPassword: '123',
+    newPassword: '123',
+    reNewPassword: '123',
+  }
+  // listformControlName = {
+  //   name: 'Mã khách hàng',
+  //   id: 'Tên khách hàng',
+  //   phoneNumber: 'Số điện thoại',
+  //   email: 'Email',
+  //   accountName: 'Tài khoản',
+  //   password: 'Mật khẩu',
+  //   address: 'Địa chỉ'
+  // };
   sampleObjectFormControlName = {
     formControl: new FormControl(),
     inputName: 'name',

@@ -1,31 +1,40 @@
 <ion-modal isOpen="true" #modal [trigger]="dialogName">
   <ng-template>
-    <div *ngIf="listControlName?.length">
-      <div class="relative w-full flex justify-center items-center py-[20px] text-[30px]">
-        <strong>{{dialogTitle}}</strong>
-        <!-- <ion-buttons "> -->
-        <button class="absolute top-[15px] right-[20px]" (click)="closeModal(modal)">
-          x
-        </button>
-        <!-- </ion-buttons> -->
+    <div [ngSwitch]="dialogName">
+      <!-- <div *ngSwitchCase="'formPassword'">
+
       </div>
-      <form [formGroup]="formDialogParam" class="flex flex-row flex-wrap">
-        <div [appCustomInput]="item" class="w-[calc(50%_-_20px)] p-[10px] mx-[10px] my-[10px] flex flex-col"
-          *ngFor="let item of  listControlName ; let i = index">
-          <label *ngIf="listFormControlName && listControlName![i]" [for]="item">{{ listControlName![i] |
-            formLabel: listFormControlName}}</label>
-          <input [formControlName]="item" class="border-[gray] border-[1px] rounded-[10px] pl-[10px] h-[40px]" />
+      <div *ngSwitchDefault> -->
+
+        <div *ngIf="listControlName?.length">
+          <div class="relative w-full flex justify-center items-center py-[20px] text-[30px]">
+            <strong>{{dialogTitle}}</strong>
+            <!-- <ion-buttons "> -->
+            <button class="absolute top-[15px] right-[20px]" (click)="closeModal(modal)">
+              x
+            </button>
+            <!-- </ion-buttons> -->
+          </div>
+          <form [formGroup]="formDialogParam" class="flex flex-row flex-wrap">
+            <div [appCustomInput]="item" class="w-[calc(50%_-_20px)] p-[10px] mx-[10px] my-[10px] flex flex-col"
+              *ngFor="let item of  listControlName ; let i = index">
+              <label *ngIf="listFormControlName && listControlName![i]" [for]="item">{{ listControlName![i] |
+                formLabel: listFormControlName}}</label>
+              <input [formControlName]="item" class="border-[gray] border-[1px] rounded-[10px] pl-[10px] h-[40px]" />
+            </div>
+          </form>
+          <div class="flex flex-row justify-center  h-[40px] items-center">
+            <button class="h-full w-[100px] mx-[20px] rounded-[5px] border-solid border-[1px] border-[black]"
+              (click)="resetForm()">
+              reset
+            </button>
+            <button class="h-full w-[100px] mx-[20px] rounded-[5px] bg-[yellowgreen]" (click)="submitForm()">
+              cancel
+            </button>
+          </div>
         </div>
-      </form>
-      <div class="flex flex-row justify-center  h-[40px] items-center">
-        <button class="h-full w-[100px] mx-[20px] rounded-[5px] border-solid border-[1px] border-[black]"
-          (click)="resetForm()">
-          reset
-        </button>
-        <button class="h-full w-[100px] mx-[20px] rounded-[5px] bg-[yellowgreen]" (click)="submitForm()">
-          cancel
-        </button>
+
       </div>
-    </div>
+    <!-- </div> -->
   </ng-template>
 </ion-modal>

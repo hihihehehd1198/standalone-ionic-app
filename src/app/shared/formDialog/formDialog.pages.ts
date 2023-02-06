@@ -29,7 +29,7 @@ import { FormLabelPipe } from '../../pipes/form-label.pipe';
 export class DialogComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() formDialogParam!: FormGroup;
   @Input() listTitleInput?: any;
-  @Input() dialogName?= 'changePasswordDialog';
+  @Input() dialogName?= '';
   @Input() dialogTitle?: string;
   @Output() formClick!: EventEmitter<any>;
 
