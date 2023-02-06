@@ -1,0 +1,10 @@
+<div>
+  <label [for]="formControlName!.inputName"></label>
+  <input
+    type="text"
+    [id]="formControlName?.inputName || ''"
+    [formControlName]="formControlName?.inputName || ''"
+    placeholder="testing"
+    (change)="formControlName?.eventOnchange || ''"
+  />
+</div>
