@@ -1,35 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonModal } from '@ionic/angular';
 // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { ButtonComponent } from '../button/button.page';
+
+
 
 @Component({
-    selector: 'app-product',
+    selector: 'app-dialog',
     templateUrl: 'dialog.page.html',
     styleUrls: ['dialog.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, ButtonComponent]
 })
-export class DialogComponent implements OnInit {
-    form: FormGroup;
-    @Input() formControlsConfig: object = {
-        name: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required]
-    }
-    modalController = inject(ModalController)
-    formbuilder = inject(FormBuilder)
-    constructor() { }
+export class DialogComponent implements OnInit, OnChanges {
+
+    @Input() dialogName?: string;
+    @Input() dataParam?: any
+    @Input() dialogTitle?: string;
+    @Output() submitClick?: EventEmitter<any>
+
     ngOnInit(): void {
-        this.form = this.formbuilder.group(this.formControlsConfig)
-    }
-    async submitForm() {
 
-        console.log(this.form)
-        // await this.modalController.dismiss({
-
-        // })
     }
+    ngOnChanges(changes: SimpleChanges): void {
+
+    }
+    cancelForm(modal: IonModal): void {
+        modal.dismiss()
+    }
+    submitForm(): void {
+        this.submitClick?.emit()
+    }
+
 }

@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from 'stream';
 import { ArrayObjectPipe } from '../../pipes/array-object.pipe';
 import { ButtonComponent } from '../button/button.page';
+import { DialogComponent } from '../dialog/dialog.page';
 import { InputSearchComponent } from '../inputSearch/inputSearch.page';
 
 @Component({
@@ -12,7 +13,7 @@ import { InputSearchComponent } from '../inputSearch/inputSearch.page';
     templateUrl: 'table.page.html',
     styleUrls: ['table.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, InputSearchComponent, ArrayObjectPipe, ButtonComponent]
+    imports: [IonicModule, CommonModule, InputSearchComponent, ArrayObjectPipe, ButtonComponent, DialogComponent]
 })
 export class TableComponent implements OnChanges, OnInit, AfterViewInit {
 
@@ -55,6 +56,10 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit {
     }
     ngOnInit(): void {
         // this.tableData = this.tableDataProps
+    }
+
+    formatTableForm(): void {
+
     }
     ngAfterViewInit(): void {
         console.log('element ', this.tableView?.nativeElement)

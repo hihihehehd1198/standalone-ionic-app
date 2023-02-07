@@ -19,14 +19,14 @@ import { CustomInputDirective } from '../../directives/custom-input.directive';
 import { FormLabelPipe } from '../../pipes/form-label.pipe';
 
 @Component({
-  selector: 'app-dialog',
+  selector: 'app-form-dialog',
   templateUrl: 'formDialog.pages.html',
   styleUrls: ['formDialog.pages.scss'],
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [IonicModule, CommonModule, ReactiveFormsModule, FormLabelPipe, CustomInputDirective],
 })
-export class DialogComponent implements OnChanges, OnInit, AfterViewInit {
+export class FormDialogComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() formDialogParam!: FormGroup;
   @Input() listTitleInput?: any;
   @Input() dialogName?= '';

@@ -1,32 +1,16 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>
-            Form Dialog
-        </ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-modal #modal [trigger]="dialogName">
+    <ng-template>
+        <div>
+            <div>X</div>
+            <div>Bạn có chắc chắn muốn xóa {{dialogTitle}}</div>
+            <div><ion-buttons>
 
-<ion-content>
-    <form [formGroup]="form">
-        <ion-item>
-            <ion-label position="floating">Name</ion-label>
-            <ion-input type="text" formControlName="name"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" formControlName="email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" formControlName="password"></ion-input>
-        </ion-item>
-    </form>
-</ion-content>
-
-<ion-footer>
-    <ion-toolbar>
-        <ion-button (click)="submitForm()" [disabled]="form.invalid">
-            Submit
-        </ion-button>
-    </ion-toolbar>
-</ion-footer>
+                    <!-- <ion-button (click)="submitForm()"></ion-button> -->
+                    <app-button (clickEvent)="cancelForm(modal)">Hủy</app-button>
+                    <app-button id="confirm" (clickEvent)="submitForm()">
+                        Xác nhận
+                    </app-button>
+                </ion-buttons></div>
+        </div>
+    </ng-template>
+</ion-modal>
