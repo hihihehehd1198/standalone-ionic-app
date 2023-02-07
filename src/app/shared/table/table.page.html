@@ -5,10 +5,15 @@
 
             <h1 class="text-[red]">{{titleButtonAdd}}</h1>
         </app-button>
+        <!-- <app-form-dialog [formDialogParam]="generateFormGroup()">
+
+        </app-form-dialog> -->
     </div>
     <div class="py-[10px] flex flex-row justify-between">
         <div>
-            <h1>test</h1>
+            <app-button [id]="'delete-all'">xóa hết </app-button>
+            <app-dialog [dialogTitle]="'khách hàng'" [dialogName]="'delete-all'">
+            </app-dialog>
         </div>
         <div>
             <app-inputSearch>
@@ -48,10 +53,10 @@
 
                 </td>
                 <td>
-                    <app-button id="delete">
+                    <app-button [id]="'row'+i">
                         delete
                     </app-button>
-                    <app-dialog [dialogTitle]="'khách hàng'" [dialogName]="'delete'" [dataParam]="row">
+                    <app-dialog [dialogTitle]="'khách hàng'" [dialogName]="'row'+i" [dataParam]="row">
                     </app-dialog>
                 </td>
             </tr>

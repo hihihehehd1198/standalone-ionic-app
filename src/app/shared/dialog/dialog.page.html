@@ -1,14 +1,19 @@
 <ion-modal #modal [trigger]="dialogName">
     <ng-template>
-        <div>
-            <div>X</div>
-            <div>Bạn có chắc chắn muốn xóa {{dialogTitle}}</div>
-            <div><ion-buttons>
+        <div class="flex flex-col align-middle items-center justify-center">
+            <div class="p-[10px]">X</div>
+            <div class="p-[10px]">Bạn có chắc chắn muốn xóa {{dialogTitle}} này</div>
+            <div class="p-[10px]"><ion-buttons>
 
-                    <!-- <ion-button (click)="submitForm()"></ion-button> -->
-                    <app-button (clickEvent)="cancelForm(modal)">Hủy</app-button>
+                    <app-button (clickEvent)="cancelForm(modal)">
+                        <div class="px-[20px] py-[10px] bg-[yellowgreen]">
+                            Hủy bỏ
+                        </div>
+                    </app-button>
                     <app-button id="confirm" (clickEvent)="submitForm()">
-                        Xác nhận
+                        <div class="px-[20px] py-[10px] bg-[yellowgreen]">
+                            Xác nhận
+                        </div>
                     </app-button>
                 </ion-buttons></div>
         </div>
