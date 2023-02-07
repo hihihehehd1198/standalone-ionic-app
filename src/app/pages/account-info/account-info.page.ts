@@ -27,7 +27,7 @@ import { DialogComponent } from 'src/app/shared/formDialog/formDialog.pages';
 })
 export class AccountinfoComponent {
   fb = inject(FormBuilder);
-  constructor() { }
+  constructor() {}
   passwordForm = this.fb.group({
     name: [null, Validators.required],
     id: [null, Validators.required],
@@ -37,16 +37,25 @@ export class AccountinfoComponent {
     password: [null, Validators.required],
     address: [null, Validators.required],
   });
+  formType = {
+    name: 'text',
+    id: 'text',
+    phoneNumber: 'text',
+    email: 'text',
+    accountName: 'text',
+    password: 'text',
+    address: 'text',
+  };
   passwordForm1 = this.fb.group({
     currentPassword: [null, Validators.required],
     newPassword: [null, Validators.required],
-    reNewPassword: [null, Validators.required]
-  })
+    reNewPassword: [null, Validators.required],
+  });
   listformControlName = {
-    currentPassword: '123',
-    newPassword: '123',
-    reNewPassword: '123',
-  }
+    currentPassword: 'Nhập mật khẩu hiện tại',
+    newPassword: 'Nhập mật khẩu mới',
+    reNewPassword: 'Xác nhận mật khẩu',
+  };
   // listformControlName = {
   //   name: 'Mã khách hàng',
   //   id: 'Tên khách hàng',
