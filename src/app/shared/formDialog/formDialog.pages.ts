@@ -20,7 +20,7 @@ import { FormLabelPipe } from '../../pipes/form-label.pipe';
 import { SelectInputComponent } from '../selectInput/selectInput.page';
 
 @Component({
-  selector: 'app-dialog',
+  selector: 'app-form-dialog',
   templateUrl: 'formDialog.pages.html',
   styleUrls: ['formDialog.pages.scss'],
   standalone: true,
@@ -34,7 +34,7 @@ import { SelectInputComponent } from '../selectInput/selectInput.page';
     SelectInputComponent,
   ],
 })
-export class DialogComponent implements OnChanges, OnInit, AfterViewInit {
+export class FormDialogComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() formDialogParam!: FormGroup;
   @Input() listTitleInput?: any;
   @Input() dialogName? = '';

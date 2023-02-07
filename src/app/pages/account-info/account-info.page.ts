@@ -1,3 +1,4 @@
+import { FormDialogComponent } from './../../shared/formDialog/formDialog.pages';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
@@ -8,7 +9,7 @@ import {
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ButtonComponent } from 'src/app/shared/button/button.page';
-import { DialogComponent } from 'src/app/shared/formDialog/formDialog.pages';
+import { DialogComponent } from '../../shared/dialog/dialog.page';
 // import { FormInputComponent } from 'src/app/shared/formInput/formInput.page';
 
 @Component({
@@ -20,13 +21,15 @@ import { DialogComponent } from 'src/app/shared/formDialog/formDialog.pages';
     IonicModule,
     CommonModule,
     ReactiveFormsModule,
-    DialogComponent,
+    FormDialogComponent,
     ButtonComponent,
+    DialogComponent,
     // FormInputComponent,
   ],
 })
 export class AccountinfoComponent {
   fb = inject(FormBuilder);
+
   constructor() {}
   passwordForm = this.fb.group({
     name: [null, Validators.required],
@@ -63,8 +66,18 @@ export class AccountinfoComponent {
   //   email: 'Email',
   //   accountName: 'Tài khoản',
   //   password: 'Mật khẩu',
-  //   address: 'Địa chỉ'
+  //   address: 'Địa chỉ',
   // };
+  defaultImgLink =
+    '../../../assets/icon/QZlC61BznJJtnoRzxlE2_63569caf1a90d_cvtpl.jpg';
+  previewImg(e: any) {
+    // console.log(e.target.files[0])
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.defaultImgLink = reader.result as string;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  }
   sampleObjectFormControlName = {
     formControl: new FormControl(),
     inputName: 'name',

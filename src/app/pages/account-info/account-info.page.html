@@ -10,7 +10,7 @@
         width="100"
         class="rounded-[50%]"
         alt="Không tải được ảnh "
-        src="../../../assets/icon/QZlC61BznJJtnoRzxlE2_63569caf1a90d_cvtpl.jpg"
+        [src]="defaultImgLink"
       />
       <label
         class="my-[15px] p-[5px] border-[1px] w-[max-content]"
@@ -18,7 +18,13 @@
       >
         Chọn ảnh
       </label>
-      <input class="hidden" type="file" id="imgAvatar" />
+      <input
+        class="hidden"
+        accept="/*"
+        type="file"
+        id="imgAvatar"
+        (change)="previewImg($event)"
+      />
 
       <span> Định dạng : JPEG, PNG</span>
     </div>
@@ -62,15 +68,19 @@
               >change password
             </app-button>
 
-            <app-dialog
-              [dialogName]="'formPassword'"
+            <app-form-dialog
+              [dialogName]="'changePasswordDialog'"
               [formDialogParam]="passwordForm1"
-              
               [dialogTitle]="'Thay đổi mật khẩu '"
               [listFormControlName]="listformControlName"
             >
-            </app-dialog>
-            <!-- <app-formInput [formControlName]="sampleObjectFormControlName"></app-formInput> -->
+            </app-form-dialog>
+            <!-- <app-dialog>
+              
+            </app-dialog> -->
+            <!-- <app-formInput
+              [formControlName]="sampleObjectFormControlName"
+            ></app-formInput> -->
           </div>
         </form>
       </div>
