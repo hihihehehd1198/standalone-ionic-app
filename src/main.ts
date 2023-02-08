@@ -18,7 +18,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(Router),
     importProvidersFrom(
-      IonicModule.forRoot()
+      IonicModule.forRoot({})
     )
   ]
 })  

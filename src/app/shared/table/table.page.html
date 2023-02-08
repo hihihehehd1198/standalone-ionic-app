@@ -1,14 +1,13 @@
 <div class="flex flex-col w-[100%] p-[15px] border-[1px]">
     <div class="flex flex-row w-full justify-between">
         <h5>{{titleScreen}}</h5>
-        <app-button>
+        <app-button [id]="'form-add'">
 
             <h1 class="text-[red]">{{titleButtonAdd}}</h1>
         </app-button>
-        <!-- <app-form-dialog [formDialogParam]="generateFormGroup()">
 
-        </app-form-dialog> -->
     </div>
+
     <div class="py-[10px] flex flex-row justify-between">
         <div>
             <app-button [id]="'delete-all'">xóa hết </app-button>
@@ -47,7 +46,7 @@
                 </td>
                 <td>
 
-                    <app-button>
+                    <app-button [dataBinding]="row" (clickEvent)="openModal($event)">
                         edit
                     </app-button>
 
@@ -63,3 +62,9 @@
         </table>
     </div>
 </div>
+
+
+<app-form-dialog #formEditAdd [isOpenDialog]="openDialogModal" [listFormControlName]="formcontrolName"
+    [formDialogParam]=" this.formRender">
+
+</app-form-dialog>
