@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output, inject, EventEmitter, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule, IonModal } from '@ionic/angular';
+import { IonicModule, IonModal, ModalController } from '@ionic/angular';
 import { ArrayObjectPipe } from '../../pipes/array-object.pipe';
 import { ButtonComponent } from '../button/button.page';
 import { DialogComponent } from '../dialog/dialog.page';
@@ -10,6 +10,7 @@ import { FormDialogComponent } from '../formDialog/formDialog.pages';
 import { InputSearchComponent } from '../inputSearch/inputSearch.page';
 import { cloneDeep } from 'lodash';
 import * as Lodash from 'lodash';
+import { SampleModalComponent } from '../sampleModal/sampleModal.page';
 @Component({
     selector: 'app-table',
     templateUrl: 'table.page.html',
@@ -27,6 +28,7 @@ import * as Lodash from 'lodash';
 })
 export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterViewChecked {
     fb = inject(FormBuilder)
+    modalController = inject(ModalController)
     formRender!: FormGroup
     formcontrolName: any = {}
     openDialogModal = false
@@ -44,44 +46,45 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     @ViewChild('formEditAdd') formEditAdd!: IonModal
     @Input('tableData') tableDataProps = [
         {
-            col1: '1',
-            col2: '2',
-            col3: '3',
-            col4: '4',
-            col5: '5',
+            col1: '12',
+            col2: '22',
+            col3: '32',
+            col4: '42',
+            col5: '52',
 
         }
         , {
-            col1: '1',
-            col2: '2',
-            col3: '3',
-            col4: '4',
-            col5: '5',
+            col1: '11',
+            col2: '21',
+            col3: '31',
+            col4: '41',
+            col5: '51',
 
         }, {
-            col1: '1',
-            col2: '2',
-            col3: '3',
-            col4: '4',
-            col5: '5',
+            col1: '13',
+            col2: '23',
+            col3: '33',
+            col4: '43',
+            col5: '53',
 
         }, {
-            col1: '1',
-            col2: '2',
-            col3: '3',
-            col4: '4',
-            col5: '5',
+            col1: '14',
+            col2: '24',
+            col3: '34',
+            col4: '44',
+            col5: '54',
 
         }, {
-            col1: '1',
-            col2: '2',
-            col3: '3',
-            col4: '4',
-            col5: '5',
+            col1: '15',
+            col2: '25',
+            col3: '35',
+            col4: '45',
+            col5: '55',
 
         }
     ]
     routeService = inject(Router)
+    dataSelect: any[] = []
     formCreateEdit?: FormGroup
     constructor() {
         // this.tableData = this.tableDataProps
@@ -91,9 +94,9 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         this.tableData = this.tableDataProps
 
     }
-    generateFormGroup(): FormGroup {
+    generateFormGroup(data?: any): FormGroup {
         const listKey = this.tableDataProps[0]
-        // console.log('key , ', listKey)
+        console.log('key , ', listKey, data)
         // const newObj = Object.keys(listKey).reduce((current: any, item: any): any => {
         //     debugger;
         //     const newItemObject: any = {}
@@ -102,8 +105,16 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         //     Object.assign({ ...(current as any) }, newItemObject)
         // }, {})
         let newObjetForm: any = {}
-        Object.keys(listKey).forEach((item) => {
-            (newObjetForm as any)[`${item}`] = ['testing', Validators.required]
+        // if (!data) {
+        //     debugger
+        console.log(this.formcontrolName)
+
+        //     return this.fb.group({})
+        // }
+
+
+        Object.keys(this.formcontrolName).forEach((item) => {
+            (newObjetForm as any)[`${item}`] = [(data ? (data as any)[`${item}`] : ''), Validators.required]
         })
         console.log(newObjetForm)
         const form = this.fb.group(newObjetForm)
@@ -135,14 +146,60 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
             // collection.style.width = '30px'
 
         }
-        this.formRender = this.generateFormGroup()
+
         this.formatTableFormControl()
         // this.openModal()
     }
     openModal(data?: any) {
-        console.log('_____________modal_______________________')
-        this.openDialogModal = true
+        // console.log('_____________modal_______________________')
+        // this.openDialogModal = true
 
     }
+    async createEditAddForm(data?: any) {
+        // console.log('data', data)
+        console.log(this.formcontrolName);
 
+        this.formRender = this.generateFormGroup(data)
+
+        const formTemplate = await this.modalController.create({
+            component: SampleModalComponent,
+            componentProps: {
+                formDialogParam: this.formRender,
+                formSubmit: () => {
+                    this.submitForm()
+                },
+                dialogTitle: 'testing',
+                dialogName: 'testing',
+                // listTitleInput: formControlNameObj,
+                listFormControlName: this.formcontrolName,
+                listControlName: this.formcontrolName,
+            },
+            showBackdrop: true,
+            backdropDismiss: true,
+            cssClass: ''
+        })
+        return await formTemplate.present()
+    }
+    submitForm(): void {
+        console.log(this.formRender.getRawValue())
+    }
+
+    //open modal delete 
+    async openModalDelete() {
+        const formDelete = await this.modalController.create({
+            component: DialogComponent,
+            componentProps: {
+                dialogName: 'test',
+                dataParam: this.dataSelect,// form
+                dialogTitle: 'test',
+                submitClick: () => {
+                    this.deleteData()
+                }
+            }
+        })
+        return await formDelete.present()
+    }
+    deleteData() {
+        console.log(this.dataSelect)
+    }
 }

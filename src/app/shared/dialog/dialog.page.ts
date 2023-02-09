@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges, AfterViewInit, ViewChild, ViewChildren, AfterViewChecked, AfterContentChecked, DoCheck } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, IonModal } from '@ionic/angular';
+import { IonicModule, IonModal, ModalController } from '@ionic/angular';
 // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
 import { ButtonComponent } from '../button/button.page';
 
 
@@ -18,11 +17,16 @@ import { ButtonComponent } from '../button/button.page';
 })
 export class DialogComponent implements OnInit, OnChanges, AfterViewChecked {
 
-    @Input() dialogName?: string;
-    @Input() dataParam?: any
-    @Input() dialogTitle?: string;
-    @Output() submitClick?: EventEmitter<any>;
-    @ViewChild('modal', { static: false }) confirmModal?: IonModal;
+    // @Input() dialogName?: string;
+    // @Input() dataParam?: any
+    // @Input() dialogTitle?: string;
+    // @Output() submitClick?: EventEmitter<any>;
+
+    // @ViewChild('modal', { static: false }) confirmModal?: IonModal;
+    dialogName?: string;
+    dataParam?: any;
+    dialogTitle?: string;
+    submitClick?: any; //void
 
     ngOnInit(): void {
 
@@ -34,8 +38,8 @@ export class DialogComponent implements OnInit, OnChanges, AfterViewChecked {
         // console.log(this.confirmModal?.htmlAttributes)
     }
 
-    cancelForm(modal: IonModal): void {
-        modal.dismiss()
+    cancelForm(): void {
+        inject(ModalController).dismiss()
     }
     submitForm(): void {
         this.submitClick?.emit()

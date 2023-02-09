@@ -1,5 +1,5 @@
 import { IonicModule } from '@ionic/angular';
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, NgZone } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { provideRouter } from '@angular/router';
@@ -15,10 +15,15 @@ if (environment.production) {
 
 
 bootstrapApplication(AppComponent, {
+
   providers: [
     provideRouter(Router),
     importProvidersFrom(
       IonicModule.forRoot({})
-    )
+    ),
+    // {
+    //   provide: NgZone,
+    //   useValue: new NgZone({ shouldCoalesceEventChangeDetection: false })
+    // }
   ]
 })  

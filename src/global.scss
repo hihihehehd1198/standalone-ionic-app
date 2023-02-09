@@ -32,3 +32,8 @@
 
 @import "tailwindcss/utilities";
 // @import "./custom-utilities.css";
+
+ion-modal, ion-popover,ion-content{
+    
+    --height: max-content;
+}

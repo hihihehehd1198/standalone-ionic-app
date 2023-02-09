@@ -1,21 +1,28 @@
-<ion-modal #modal [trigger]="dialogName">
+<!-- <ion-modal #modal [trigger]="dialogName">
     <ng-template>
-        <div class="flex flex-col align-middle items-center justify-center">
-            <div class="p-[10px]">X</div>
-            <div class="p-[10px]">Bạn có chắc chắn muốn xóa {{dialogTitle}} này</div>
-            <div class="p-[10px]"><ion-buttons>
 
-                    <app-button (clickEvent)="cancelForm(modal)">
-                        <div class="px-[20px] py-[10px] bg-[yellowgreen]">
-                            Hủy bỏ
-                        </div>
-                    </app-button>
-                    <app-button id="confirm" (clickEvent)="submitForm()">
-                        <div class="px-[20px] py-[10px] bg-[yellowgreen]">
-                            Xác nhận
-                        </div>
-                    </app-button>
-                </ion-buttons></div>
-        </div>
     </ng-template>
-</ion-modal>
+</ion-modal> -->
+
+
+
+
+
+
+<div class="flex flex-col align-middle items-center justify-center">
+    <div class="p-[10px]">X</div>
+    <div class="p-[10px]">Bạn có chắc chắn muốn xóa {{dialogTitle}} này</div>
+    <div class="p-[10px]"><ion-buttons>
+
+            <app-button (clickEvent)="cancelForm()">
+                <div class="px-[20px] py-[10px] bg-[yellowgreen]">
+                    Hủy bỏ
+                </div>
+            </app-button>
+            <app-button id="confirm" (clickEvent)="submitForm()">
+                <div class="px-[20px] py-[10px] bg-[yellowgreen]">
+                    Xác nhận
+                </div>
+            </app-button>
+        </ion-buttons></div>
+</div>

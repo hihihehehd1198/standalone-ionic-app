@@ -63,7 +63,7 @@ const Router: Routes = [
     // },
     {
         path: '**',
-        redirectTo: 'Pages/dashboard',
+        redirectTo: 'Pages/Account-detail3',
         pathMatch: 'full',
 
     }
