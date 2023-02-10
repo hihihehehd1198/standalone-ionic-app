@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output, inject, EventEmitter, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output, inject, EventEmitter, AfterViewChecked, ChangeDetectorRef, DoCheck, AfterContentChecked, ChangeDetectionStrategy, ViewChildren, NgModule } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule, IonModal, ModalController } from '@ionic/angular';
+import { IonCheckbox, IonicModule, IonModal, ModalController } from '@ionic/angular';
 import { ArrayObjectPipe } from '../../pipes/array-object.pipe';
 import { ButtonComponent } from '../button/button.page';
 import { DialogComponent } from '../dialog/dialog.page';
@@ -11,6 +11,7 @@ import { InputSearchComponent } from '../inputSearch/inputSearch.page';
 import { cloneDeep } from 'lodash';
 import * as Lodash from 'lodash';
 import { SampleModalComponent } from '../sampleModal/sampleModal.page';
+import { map, of, tap, take } from 'rxjs';
 @Component({
     selector: 'app-table',
     templateUrl: 'table.page.html',
@@ -23,19 +24,25 @@ import { SampleModalComponent } from '../sampleModal/sampleModal.page';
         ArrayObjectPipe,
         ButtonComponent,
         DialogComponent,
+        FormsModule,
         FormDialogComponent,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterViewChecked {
     fb = inject(FormBuilder)
     modalController = inject(ModalController)
     formRender!: FormGroup
     formcontrolName: any = {}
+    masterSelected: boolean = false;
     openDialogModal = false
     @Output('buttonAddEvent') buttonAddEvent?: EventEmitter<any>
     @Output('buttonEditEvent') buttonEditEvent?: EventEmitter<any>
     @Output('buttonDeleteEvent') buttonDeleteEvent?: EventEmitter<any>
     // @Output('deleteAllEvent') deleteAllEvent?: EventEmitter
+    listItemCheckBox: boolean[] = [
+        false, false, false, false, false
+    ]
     cdf = inject(ChangeDetectorRef)
 
 
@@ -43,6 +50,9 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     // @ViewChild('isEnabledButton') isEnabledButton?: ElementRef<any>;
     @Input() titleButtonAdd?: string = 'button'
     @Input() titleScreen?: string = 'Quản lí Sản phẩm'
+
+    @ViewChild('ionCheckBoxALL') ionCheckBoxALL!: IonCheckbox
+    @ViewChildren('checkboxChild') checkboxChild!: IonCheckbox[]
     @ViewChild('formEditAdd') formEditAdd!: IonModal
     @Input('tableData') tableDataProps = [
         {
@@ -126,9 +136,24 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     ngOnInit(): void {
         // this.tableData = this.tableDataProps
         // this.generateFormGroup()
+        // this.repoduceOfRxjs()
     }
-    ngAfterViewChecked(): void {
 
+    // repoduceOfRxjs() {
+    //     of(2, 3, 4).pipe(
+
+    //         tap((x: any) => console.log(x as any)),
+
+    //         map((y: any) => y * 2),
+
+    //         map((t: any) => t - 3),
+    //         tap((z: any) => console.log(z as any)),
+
+    //     ).subscribe()
+    // }
+
+    ngAfterViewChecked(): void {
+        // console.log(('checked'))
     }
 
     formatTableFormControl(): void {
@@ -138,10 +163,10 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         console.log('object keys ', this.formcontrolName)
     }
     ngAfterViewInit() {
-        console.log('element ', this.tableView?.nativeElement)
+        // console.log('element ', this.tableView?.nativeElement)
         if (this.tableView) {
-            const collection = this.tableView.nativeElement.querySelectorAll("tr td:first-child");
-            console.log(collection);
+            // const collection = this.tableView.nativeElement.querySelectorAll("tr td:first-child");
+            // console.log(collection);
             // collection.style.maxWidth = '30px'
             // collection.style.width = '30px'
 
@@ -185,21 +210,32 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     }
 
     //open modal delete 
-    async openModalDelete() {
+    async openModalDelete(data?: any) {
+        let dataDelete = [...this.dataSelect]
+        if (data) {
+            dataDelete = [{ ...data }]
+        }
         const formDelete = await this.modalController.create({
             component: DialogComponent,
             componentProps: {
                 dialogName: 'test',
-                dataParam: this.dataSelect,// form
+                dataParam: data,// form
                 dialogTitle: 'test',
-                submitClick: () => {
-                    this.deleteData()
+                submitClick: (data: any) => {
+                    this.deleteData(data)
                 }
             }
         })
         return await formDelete.present()
     }
-    deleteData() {
+    deleteData(e?: any) {
         console.log(this.dataSelect)
+    }
+    changeEvent(e?: IonCheckbox) {
+        console.log('testttttttttttttt');
+        this.listItemCheckBox = [...this.listItemCheckBox as any].map((x: boolean) => {
+            return e?.checked || false
+        })
+        console.log(this.listItemCheckBox)
     }
 }

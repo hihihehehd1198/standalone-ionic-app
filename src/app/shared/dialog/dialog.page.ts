@@ -21,7 +21,7 @@ export class DialogComponent implements OnInit, OnChanges, AfterViewChecked {
     // @Input() dataParam?: any
     // @Input() dialogTitle?: string;
     // @Output() submitClick?: EventEmitter<any>;
-
+    modalController = inject(ModalController)
     // @ViewChild('modal', { static: false }) confirmModal?: IonModal;
     dialogName?: string;
     dataParam?: any;
@@ -39,10 +39,10 @@ export class DialogComponent implements OnInit, OnChanges, AfterViewChecked {
     }
 
     cancelForm(): void {
-        inject(ModalController).dismiss()
+        this.modalController.dismiss()
     }
     submitForm(): void {
-        this.submitClick?.emit()
+        this.submitClick()
     }
 
 }

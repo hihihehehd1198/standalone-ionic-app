@@ -9,7 +9,7 @@
 
     <div class="py-[10px] flex flex-row justify-between">
         <div>
-            <app-button [id]="'delete-all'" (clickEvent)="openModalDelete()">xóa hết </app-button>
+            <app-button [id]="'delete-all'" (clickEvent)="openModalDelete()">xóa theo check </app-button>
             <!-- <app-dialog>
             </app-dialog> -->
         </div>
@@ -23,8 +23,8 @@
         <table #tableView class="border-collapse border-[1px] w-[100%]" *ngIf="tableData.length">
             <tr class="bg-[yellowgreen]">
                 <td>
-                    <ion-checkbox>
-                        <input type="checkbox" />
+                    <ion-checkbox #ionCheckBoxALL [(ngModel)]="masterSelected" (ionChange)="changeEvent()">
+                        <input data-checkALL type="checkbox" />
                     </ion-checkbox>
                 </td>
                 <td *ngFor="let items of tableData[0] | arrayObject:true">
@@ -36,8 +36,8 @@
             </tr>
             <tr *ngFor="let row of tableData ;  let i = index">
                 <td>
-                    <ion-checkbox>
-                        <input type="checkbox" />
+                    <ion-checkbox #checkboxChild [(ngModel)]="listItemCheckBox[i]">
+                        <input data-checkChild type="checkbox" />
                     </ion-checkbox>
                 </td>
                 <td *ngFor="let item  of row | arrayObject">
@@ -45,13 +45,13 @@
                 </td>
                 <td>
 
-                    <app-button [dataBinding]="row" (clickEvent)="createEditAddForm($event)">
+                    <app-button (clickEvent)="createEditAddForm($event)">
                         edit
                     </app-button>
 
                 </td>
                 <td>
-                    <app-button [id]="'row'+i">
+                    <app-button [id]="'row'+i" (clickEvent)="openModalDelete(row)">
                         delete
                     </app-button>
                     <!-- <app-dialog [dialogTitle]="'khách hàng'" [dialogName]="'row'+i" [dataParam]="row">
