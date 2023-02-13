@@ -17,7 +17,11 @@ import {
   withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { withDebugTracing, withRouterConfig, ROUTER_CONFIGURATION } from "@angular/router"
+import {
+  withDebugTracing,
+  withRouterConfig,
+  ROUTER_CONFIGURATION,
+} from '@angular/router';
 import { HeaderInterceptor } from './app/interceptor/header/header.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
@@ -26,9 +30,11 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-
   providers: [
-    provideRouter(Router, withRouterConfig({ paramsInheritanceStrategy: 'always' })),
+    provideRouter(
+      Router,
+      withRouterConfig({ paramsInheritanceStrategy: 'always' })
+    ),
     // importProvidersFrom(HttpClientModule),
     provideHttpClient(withInterceptors([HeaderInterceptor])),
     // importProvidersFrom(HttpClientModule) ,
@@ -41,7 +47,9 @@ bootstrapApplication(AppComponent, {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {
         return {
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache({
+            addTypename: false,
+          }),
           link: httpLink.create({
             uri: 'http://localhost:4000/graphql',
           }),

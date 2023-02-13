@@ -5,7 +5,6 @@ const Router: Routes = [
   {
     path: 'Pages',
     children: [
-
       {
         path: 'Account-detail',
         loadComponent: () =>
@@ -93,8 +92,9 @@ const Router: Routes = [
   // },
   {
     path: '**',
-    redirectTo: 'Pages/dashboard',
+    // redirectTo: 'Pages/dashboard',
     // redirectTo: 'not-found',
+    redirectTo: 'Pages/article',
     pathMatch: 'full',
   },
 

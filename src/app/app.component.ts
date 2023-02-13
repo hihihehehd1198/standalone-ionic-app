@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   apollo = inject(Apollo);
 
   ngOnInit() {
-    this.initAPI();
+    // this.initAPI();
 
     // this.checkRouteApp();
     // console.log(this.routeService.url)
