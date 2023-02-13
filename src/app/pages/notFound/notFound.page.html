@@ -1,0 +1,17 @@
+<h1>Not Found Component work</h1>
+
+<div class="col-md-6">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1"
+                (change)="checkUncheckAll()" /> <strong>Select/ Unselect All</strong>
+        </li>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let item of checklist, let i = index">
+            <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}"
+                (change)="isAllSelected()" />
+            {{i}}
+        </li>
+    </ul>
+</div>

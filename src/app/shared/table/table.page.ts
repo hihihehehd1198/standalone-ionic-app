@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output, inject, EventEmitter, AfterViewChecked, ChangeDetectorRef, DoCheck, AfterContentChecked, ChangeDetectionStrategy, ViewChildren, NgModule } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, AfterViewInit, ViewChild, ElementRef, Output, inject, EventEmitter, AfterViewChecked, ChangeDetectorRef, DoCheck, AfterContentChecked, ChangeDetectionStrategy, ViewChildren, NgModule, ɵɵsetComponentScope, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonCheckbox, IonicModule, IonModal, ModalController } from '@ionic/angular';
@@ -8,7 +8,7 @@ import { ButtonComponent } from '../button/button.page';
 import { DialogComponent } from '../dialog/dialog.page';
 import { FormDialogComponent } from '../formDialog/formDialog.pages';
 import { InputSearchComponent } from '../inputSearch/inputSearch.page';
-import { cloneDeep } from 'lodash';
+// import { cloneDeep } from 'lodash';
 import * as Lodash from 'lodash';
 import { SampleModalComponent } from '../sampleModal/sampleModal.page';
 import { map, of, tap, take } from 'rxjs';
@@ -29,32 +29,35 @@ import { map, of, tap, take } from 'rxjs';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterViewChecked {
+export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
     fb = inject(FormBuilder)
     modalController = inject(ModalController)
     formRender!: FormGroup
     formcontrolName: any = {}
     masterSelected: boolean = false;
     openDialogModal = false
-    @Output('buttonAddEvent') buttonAddEvent?: EventEmitter<any>
-    @Output('buttonEditEvent') buttonEditEvent?: EventEmitter<any>
-    @Output('buttonDeleteEvent') buttonDeleteEvent?: EventEmitter<any>
-    // @Output('deleteAllEvent') deleteAllEvent?: EventEmitter
+
     listItemCheckBox: boolean[] = [
         false, false, false, false, false
+
     ]
+    checkList: any = [
+    ]
+
     cdf = inject(ChangeDetectorRef)
-
-
-    @ViewChild('tableView', { static: false }) tableView?: ElementRef<any>;
-    // @ViewChild('isEnabledButton') isEnabledButton?: ElementRef<any>;
-    @Input() titleButtonAdd?: string = 'button'
-    @Input() titleScreen?: string = 'Quản lí Sản phẩm'
 
     @ViewChild('ionCheckBoxALL') ionCheckBoxALL!: IonCheckbox
     @ViewChildren('checkboxChild') checkboxChild!: IonCheckbox[]
     @ViewChild('formEditAdd') formEditAdd!: IonModal
-    @Input('tableData') tableDataProps = [
+    @ViewChild('tableView', { static: false }) tableView?: ElementRef<any>;
+    // @ViewChild('isEnabledButton') isEnabledButton?: ElementRef<any>;
+    @Input() titleButtonAdd?: string = 'button'
+    @Input() titleScreen?: string = 'Quản lí Sản phẩm'
+    @Output('buttonAddEvent') buttonAddEvent: EventEmitter<any> = new EventEmitter()
+    @Output('buttonEditEvent') buttonEditEvent: EventEmitter<any> = new EventEmitter()
+    @Output('buttonDeleteEvent') buttonDeleteEvent: EventEmitter<any> = new EventEmitter()
+    @Input() ListformControlGroup?: FormGroup
+    @Input('tableData') tableDataProps: any[] = [
         {
             col1: '12',
             col2: '22',
@@ -96,17 +99,25 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     routeService = inject(Router)
     dataSelect: any[] = []
     formCreateEdit?: FormGroup
-    constructor() {
-        // this.tableData = this.tableDataProps
-    }
+
     tableData: any[] = this.tableDataProps
     ngOnChanges(): void {
         this.tableData = this.tableDataProps
-
+        this.createCheckBoxDefaultStatus()
+    }
+    createCheckBoxDefaultStatus() {
+        this.checkList = Lodash.cloneDeep(this.tableDataProps).map(x => {
+            var key = Object.keys(x)[0]
+            var values = Object.values(x)[0]
+            var newItem = Object.create({}) as any
+            (newItem as any)[`${key}`] = values || ''
+            newItem['isSelected'] = false
+            return newItem
+        })
     }
     generateFormGroup(data?: any): FormGroup {
         const listKey = this.tableDataProps[0]
-        console.log('key , ', listKey, data)
+        // console.log('key , ', listKey, data)
         // const newObj = Object.keys(listKey).reduce((current: any, item: any): any => {
         //     debugger;
         //     const newItemObject: any = {}
@@ -117,7 +128,7 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         let newObjetForm: any = {}
         // if (!data) {
         //     debugger
-        console.log(this.formcontrolName)
+        // console.log(this.formcontrolName)
 
         //     return this.fb.group({})
         // }
@@ -137,6 +148,7 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         // this.tableData = this.tableDataProps
         // this.generateFormGroup()
         // this.repoduceOfRxjs()
+
     }
 
     // repoduceOfRxjs() {
@@ -153,7 +165,6 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     // }
 
     ngAfterViewChecked(): void {
-        // console.log(('checked'))
     }
 
     formatTableFormControl(): void {
@@ -173,13 +184,8 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         }
 
         this.formatTableFormControl()
-        // this.openModal()
     }
-    openModal(data?: any) {
-        // console.log('_____________modal_______________________')
-        // this.openDialogModal = true
 
-    }
     async createEditAddForm(data?: any) {
         // console.log('data', data)
         console.log(this.formcontrolName);
@@ -191,7 +197,7 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
             componentProps: {
                 formDialogParam: this.formRender,
                 formSubmit: () => {
-                    this.submitForm()
+                    this.submitFormEdit(data)
                 },
                 dialogTitle: 'testing',
                 dialogName: 'testing',
@@ -205,21 +211,31 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         })
         return await formTemplate.present()
     }
-    submitForm(): void {
-        console.log(this.formRender.getRawValue())
+    submitFormEdit(data?: any): void {
+        // console.log(this.formRender.getRawValue())
+        data ? this.buttonEditEvent.emit(this.formRender.getRawValue()) : this.buttonAddEvent.emit(this.formRender.getRawValue())
     }
 
     //open modal delete 
     async openModalDelete(data?: any) {
-        let dataDelete = [...this.dataSelect]
+        // let dataDelete = [...this.dataSelect]
         if (data) {
-            dataDelete = [{ ...data }]
+            this.dataSelect = [{ ...data }]
+        } else {
+            // console.log(this.checkList.length)
+            const isDeleteAll = [...this.checkList].filter(x => x.isSelected === true)
+            console.log('isDeleteAll', isDeleteAll);
+            this.dataSelect = [...isDeleteAll].map(x => {
+                const childItem = this.tableDataProps.find(y => x['col1'] === y['col1'])
+                return childItem
+            })
         }
+        console.log(this.dataSelect)
         const formDelete = await this.modalController.create({
             component: DialogComponent,
             componentProps: {
                 dialogName: 'test',
-                dataParam: data,// form
+                dataParam: this.dataSelect,// form
                 dialogTitle: 'test',
                 submitClick: (data: any) => {
                     this.deleteData(data)
@@ -229,13 +245,20 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
         return await formDelete.present()
     }
     deleteData(e?: any) {
-        console.log(this.dataSelect)
+        this.buttonDeleteEvent.emit(this.dataSelect)
     }
-    changeEvent(e?: IonCheckbox) {
-        console.log('testttttttttttttt');
-        this.listItemCheckBox = [...this.listItemCheckBox as any].map((x: boolean) => {
-            return e?.checked || false
+
+    checkUncheckAll(e?: any) {
+        for (var i = 0; i < this.checkList.length; i++) {
+            this.checkList[i].isSelected = this.masterSelected
+        }
+    }
+    isAllSelected() {
+        this.masterSelected = this.checkList.every((item: any) => {
+            return item.isSelected == true
         })
-        console.log(this.listItemCheckBox)
+    }
+    ngOnDestroy(): void {
+        console.log('destroyed !')
     }
 }

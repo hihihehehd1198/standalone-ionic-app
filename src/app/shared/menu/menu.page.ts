@@ -47,9 +47,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
             path: 'Account-detail7',
         },
         {
-            path: 'Account-detail8',
-        },
-        {
             path: 'dashboard',
         },
         {
@@ -60,7 +57,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
     listMenu: Observable<any> = new Observable(obs => {
         const fakeData = [
-            { name: 'Thống kê', url: '/Pages/Account-detail' },
+            // 
+            { name: 'Thống kê', url: '' },
             { name: 'Quản lí khách hàng', url: '' },
             { name: 'Quản lí sản phẩm', url: '' },
             { name: 'Quản lí danh mục', url: '' },

@@ -13,13 +13,15 @@ import { interval, Observable, of, timeout } from 'rxjs';
 export class SelectInputComponent implements OnChanges {
   @Input() selectControlName?: string;
   @Input() listItem?: Observable<string[]>;
-  constructor() {}
+  @Input() customClass: string = 'border-[gray] border-[1px] rounded-[10px] pl-[10px] h-[40px] w-[100%]'
+
+  constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.selectControlName) {
       setTimeout(() => {
         this.listItem = of(['1', '2', '3']);
-      }, 3000);
+      }, 0);
     }
   }
 }

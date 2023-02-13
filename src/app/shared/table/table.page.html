@@ -11,7 +11,7 @@
         <div>
             <app-button [id]="'delete-all'" (clickEvent)="openModalDelete()">xóa theo check </app-button>
             <!-- <app-dialog>
-            </app-dialog> -->
+                </app-dialog> -->
         </div>
         <div>
             <app-inputSearch>
@@ -19,45 +19,52 @@
             </app-inputSearch>
         </div>
     </div>
+
+
     <div class="py-[15px]">
-        <table #tableView class="border-collapse border-[1px] w-[100%]" *ngIf="tableData.length">
-            <tr class="bg-[yellowgreen]">
-                <td>
-                    <ion-checkbox #ionCheckBoxALL [(ngModel)]="masterSelected" (ionChange)="changeEvent()">
-                        <input data-checkALL type="checkbox" />
-                    </ion-checkbox>
-                </td>
-                <td *ngFor="let items of tableData[0] | arrayObject:true">
-                    {{items}}
-                </td>
-                <td colspan="2">
-                    test
-                </td>
-            </tr>
-            <tr *ngFor="let row of tableData ;  let i = index">
-                <td>
-                    <ion-checkbox #checkboxChild [(ngModel)]="listItemCheckBox[i]">
-                        <input data-checkChild type="checkbox" />
-                    </ion-checkbox>
-                </td>
-                <td *ngFor="let item  of row | arrayObject">
-                    {{item}}
-                </td>
-                <td>
+        <ng-container *ngIf="checkList.length; else noDataTemplate">
+            <table #tableView class="border-collapse border-[1px] w-[100%]" *ngIf="tableData?.length">
+                <tr class="bg-[yellowgreen]">
+                    <td>
+                        <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1"
+                            (change)="checkUncheckAll()" />
+                    </td>
+                    <td *ngFor="let items of tableData[0] | arrayObject:true">
+                        {{items}}
+                    </td>
+                    <td colspan="2">
+                        test
+                    </td>
+                </tr>
+                <tr *ngFor="let row of tableData ;  let i = index">
+                    <td>
+                        <input type="checkbox" [(ngModel)]="checkList[i].isSelected" name="list_name" value="{{i}}"
+                            (change)="isAllSelected()" />
+                    </td>
+                    <td *ngFor="let item  of row | arrayObject">
+                        {{item}}
+                    </td>
+                    <td>
 
-                    <app-button (clickEvent)="createEditAddForm($event)">
-                        edit
-                    </app-button>
+                        <app-button (clickEvent)="createEditAddForm($event)">
+                            edit
+                        </app-button>
 
-                </td>
-                <td>
-                    <app-button [id]="'row'+i" (clickEvent)="openModalDelete(row)">
-                        delete
-                    </app-button>
-                    <!-- <app-dialog [dialogTitle]="'khách hàng'" [dialogName]="'row'+i" [dataParam]="row">
-                    </app-dialog> -->
-                </td>
-            </tr>
-        </table>
+                    </td>
+                    <td>
+                        <app-button [id]="'row'+i" (clickEvent)="openModalDelete(row)">
+                            delete
+                        </app-button>
+                    </td>
+                </tr>
+            </table>
+        </ng-container>
     </div>
+
 </div>
+<!-- </ng-container> -->
+
+
+<ng-template #noDataTemplate>
+    <div> no data in table</div>
+</ng-template>
