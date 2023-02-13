@@ -52,9 +52,10 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
-
+# /.package
 # Miscellaneous
 /.angular
+
 /.angular/cache
 .sass-cache/
 /connect.lock

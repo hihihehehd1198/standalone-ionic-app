@@ -1,9 +1,9 @@
 import { Apollo, gql } from 'apollo-angular';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TableComponent } from '../../shared/table/table.page';
-import { map, Observable, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subscription, tap } from 'rxjs';
 
 interface Article {
   stt?: Number;
@@ -16,16 +16,18 @@ interface Article {
   templateUrl: 'article.page.html',
   styleUrls: ['article.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TableComponent],
+  imports: [IonicModule, CommonModule, TableComponent, NgFor],
 })
 export class ArticleComponent implements OnInit, OnDestroy {
   tableDataProps: Article[] = [];
   titleScreen = 'Quản lí bài viết ';
   apollo = inject(Apollo);
-  listArticle?: Subscription;
+  listArticleSubscription?: Subscription;
+  listArticleData = new BehaviorSubject([]);
   ngOnInit(): void {
     this.fakeListArticleApi();
     this.getListArticleDefault();
+    // this.listArticleData.subscribe();
   }
   fakeListArticleApi() {
     for (let i = 0; i < 10; i++) {
@@ -49,7 +51,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     console.log('buttonDeleteData', data);
   }
   getListArticleDefault() {
-    this.listArticle = this.apollo
+    this.listArticleSubscription = this.apollo
       .watchQuery({
         query: gql`
           query {
@@ -64,14 +66,16 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(
         map((x) => x.data || {}),
         map((y: any) => Object.values(y)[0] || []),
-        tap((res) => {
-          console.log('response !', res);
+        tap((res: any) => {
+          this.listArticleData.next(res);
+        //   console.log(res[0]['jkahsdjkahkdjahjk']);
+        //   console.log(res[0].jkahsdjkahkdjahjk);
         })
       )
       .subscribe();
   }
   ngOnDestroy(): void {
     console.log('article component has destroyed ! ');
-    this.listArticle?.unsubscribe();
+    this.listArticleSubscription?.unsubscribe();
   }
 }

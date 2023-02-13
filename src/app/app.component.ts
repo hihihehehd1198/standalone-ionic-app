@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // this.initAPI();
-
     // this.checkRouteApp();
     // console.log(this.routeService.url)
     // this.routeService.url === '/' && this.routeService.navigateByUrl('/Pages/dashboard')
