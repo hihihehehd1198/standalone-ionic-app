@@ -24,6 +24,11 @@ import {
 } from '@angular/router';
 import { HeaderInterceptor } from './app/interceptor/header/header.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './app/pages/article/store/article.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { GetArticleEffect } from './app/pages/article/store/article.effect';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 if (environment.production) {
   enableProdMode();
@@ -31,18 +36,25 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+
     provideRouter(
       Router,
       withRouterConfig({ paramsInheritanceStrategy: 'always' })
     ),
-    // importProvidersFrom(HttpClientModule),
     provideHttpClient(withInterceptors([HeaderInterceptor])),
-    // importProvidersFrom(HttpClientModule) ,
-    importProvidersFrom(IonicModule.forRoot({})),
-    // {
-    //   provide: LocationStrategy,
-    //   useClass: HashLocationStrategy
-    // },
+    importProvidersFrom(IonicModule.forRoot({}),
+      StoreModule.forFeature('article', reducer),
+      EffectsModule.forFeature([GetArticleEffect]),
+      StoreModule.forRoot({}), EffectsModule.forRoot([]),
+      StoreDevtoolsModule.instrument({
+        maxAge: 25,
+        logOnly: environment.production
+      })
+    ),
+    {
+      provide: NgZone,
+      useValue: new NgZone({ shouldCoalesceEventChangeDetection: false })
+    },
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {

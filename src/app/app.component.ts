@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EnvironmentInjector, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EnvironmentInjector, inject, OnInit, AfterViewInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
@@ -16,6 +16,7 @@ import { InMemoryCache } from '@apollo/client';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IonicModule,
     CommonModule,
@@ -27,13 +28,14 @@ import { InMemoryCache } from '@apollo/client';
   ],
   providers: [],
 })
-export class AppComponent implements OnInit {
-  isPageApp = new BehaviorSubject(true);
+export class AppComponent implements OnInit, AfterViewInit {
+  isPageApp = new BehaviorSubject(false);
   routeService = inject(Router);
   environmentInjector = inject(EnvironmentInjector);
   // constructor(public environmentInjector: EnvironmentInjector  ) {}
   apollo = inject(Apollo);
-
+  ngZone = inject(NgZone)
+  cdf = inject(ChangeDetectorRef)
   ngOnInit() {
     // this.initAPI();
     // this.checkRouteApp();
@@ -43,6 +45,14 @@ export class AppComponent implements OnInit {
   checkRouteApp() {
     // const routeLink = this.routeService.url;
     // this.isPageApp.next(!routeLink.toString().includes('my-cv'));
+  }
+  ngAfterViewInit(): void {
+    this.ngZone.runOutsideAngular(() => {
+      // this.cdf.detach()
+
+      this.isPageApp.next(true)
+      this.cdf.detectChanges()
+    })
   }
   initAPI() {
     this.apollo

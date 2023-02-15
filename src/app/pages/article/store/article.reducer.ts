@@ -5,10 +5,10 @@ import {
 } from './article.action';
 import { createReducer, on } from '@ngrx/store';
 
-interface ArticleItem {}
-interface ArticleStore {
+interface ArticleItem { }
+export interface ArticleStore {
   error: string | null;
-  listArticle: ArticleItem[];
+  listArticle: ArticleItem[] | any;
   loading: boolean;
 }
 export const initState: ArticleStore = {
@@ -16,7 +16,7 @@ export const initState: ArticleStore = {
   listArticle: [],
   loading: false,
 };
-const reducer = createReducer(
+const articleReducer = createReducer(
   initState,
   on(getArticleActionVoid, (state, action) => {
     return {
@@ -40,5 +40,6 @@ const reducer = createReducer(
   })
 );
 
-
-// export const ArticleReducer = feature
+export function reducer(state: any, action: any) {
+  return articleReducer(state, action)
+}

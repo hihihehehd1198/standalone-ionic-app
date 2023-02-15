@@ -1,10 +1,14 @@
+import { getArticleActionVoid } from './store/article.action';
 import { Apollo, gql } from 'apollo-angular';
 import { CommonModule, NgFor } from '@angular/common';
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TableComponent } from '../../shared/table/table.page';
 import { BehaviorSubject, map, Observable, Subscription, tap } from 'rxjs';
-
+import listArticleFake from '../article/fakeApi/index'
+import { select, Store, StoreModule } from '@ngrx/store';
+import { ArticleStore, reducer } from './store/article.reducer';
+import { articleSelector } from './store/article.selector';
 interface Article {
   stt?: Number;
   id?: String;
@@ -16,18 +20,38 @@ interface Article {
   templateUrl: 'article.page.html',
   styleUrls: ['article.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TableComponent, NgFor],
+  imports: [IonicModule, CommonModule, TableComponent, NgFor,
+    // StoreModule.forFeature('article', reducer)
+  ],
+
 })
-export class ArticleComponent implements OnInit, OnDestroy {
+export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
   tableDataProps: Article[] = [];
   titleScreen = 'Quản lí bài viết ';
-  apollo = inject(Apollo);
+  private apollo = inject(Apollo);
+  private store = inject(Store)
+  cdf = inject(ChangeDetectorRef)
   listArticleSubscription?: Subscription;
   listArticleData = new BehaviorSubject([]);
   ngOnInit(): void {
-    this.fakeListArticleApi();
+
     this.getListArticleDefault();
     // this.listArticleData.subscribe();
+    // listArticleFake.then()
+    this.store.dispatch(getArticleActionVoid())
+    // console.log(this.listArticleStore)
+    this.store.pipe(select(articleSelector)).pipe(tap((x) => {
+      // console.log(x)
+    })).subscribe()
+    // this.cdf.detectChanges()
+    // this.store.select(articleSelector).subscribe(x => console.log('render ', x))
+  }
+  // constructor(private apollo: Apollo, private store: Store) {
+
+  // }
+  ngAfterViewInit(): void {
+    this.fakeListArticleApi();
+    this.cdf.detectChanges();
   }
   fakeListArticleApi() {
     for (let i = 0; i < 10; i++) {
@@ -68,8 +92,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         map((y: any) => Object.values(y)[0] || []),
         tap((res: any) => {
           this.listArticleData.next(res);
-        //   console.log(res[0]['jkahsdjkahkdjahjk']);
-        //   console.log(res[0].jkahsdjkahkdjahjk);
+          //   console.log(res[0]['jkahsdjkahkdjahjk']);
+          //   console.log(res[0].jkahsdjkahkdjahjk);
         })
       )
       .subscribe();

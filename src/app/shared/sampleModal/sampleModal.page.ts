@@ -21,7 +21,7 @@ type modalType = 'form' | 'dialog-confirm' | 'submit';
         FormLabelPipe,
         CustomInputDirective,
         SelectInputComponent,]
-})
+})//asdasd
 
 export class SampleModalComponent implements OnInit {
     formDialogParam!: FormGroup

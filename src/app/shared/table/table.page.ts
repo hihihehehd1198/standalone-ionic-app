@@ -27,9 +27,9 @@ import { map, of, tap, take } from 'rxjs';
         FormsModule,
         FormDialogComponent,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterViewChecked, OnDestroy, DoCheck {
     fb = inject(FormBuilder)
     modalController = inject(ModalController)
     formRender!: FormGroup
@@ -103,8 +103,15 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     tableData: any[] = this.tableDataProps
     ngOnChanges(): void {
         this.tableData = this.tableDataProps
+        console.log('this.tableDataProps', this.tableDataProps)
+        this.formatTableFormControl()
         this.createCheckBoxDefaultStatus()
+        this.cdf.detectChanges()
     }
+    ngDoCheck(): void {
+        this.cdf.markForCheck()
+    }
+
     createCheckBoxDefaultStatus() {
         this.checkList = Lodash.cloneDeep(this.tableDataProps).map(x => {
             var key = Object.keys(x)[0]
@@ -168,10 +175,12 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
     }
 
     formatTableFormControl(): void {
-        Object.keys(this.tableDataProps[0]).forEach(
-            (item: any) => { (this.formcontrolName as any)[`${item}`] = item }
-        )
-        console.log('object keys ', this.formcontrolName)
+        if (this.tableDataProps.length) {
+            Object.keys(this.tableDataProps[0]).forEach(
+                (item: any) => { (this.formcontrolName as any)[`${item}`] = item }
+            )
+            console.log('object keys ', this.formcontrolName)
+        }
     }
     ngAfterViewInit() {
         // console.log('element ', this.tableView?.nativeElement)
@@ -183,7 +192,7 @@ export class TableComponent implements OnChanges, OnInit, AfterViewInit, AfterVi
 
         }
 
-        this.formatTableFormControl()
+
     }
 
     async createEditAddForm(data?: any) {
