@@ -33,7 +33,7 @@ export const getArticleActionVoid = createAction(GET_ARTICLE_ACTION);
 export const getArticleActionSuccess = createAction(
   GET_ARTICLE_ACTION_SUCCESS,
   props<{ listArticle: any }>()
-);
+  );
 export const getArticleActionFailure = createAction(
   GET_ARTICLE_ACTION_FAILURE,
   props<{ error: any }>()

@@ -1,11 +1,18 @@
 import { getArticleActionVoid } from './store/article.action';
 import { Apollo, gql } from 'apollo-angular';
 import { CommonModule, NgFor } from '@angular/common';
-import { Component, inject, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TableComponent } from '../../shared/table/table.page';
 import { BehaviorSubject, map, Observable, Subscription, tap } from 'rxjs';
-import listArticleFake from '../article/fakeApi/index'
+import listArticleFake from '../article/fakeApi/index';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ArticleStore, reducer } from './store/article.reducer';
 import { articleSelector } from './store/article.selector';
@@ -20,29 +27,36 @@ interface Article {
   templateUrl: 'article.page.html',
   styleUrls: ['article.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, TableComponent, NgFor,
+  imports: [
+    IonicModule,
+    CommonModule,
+    TableComponent,
+    NgFor,
     // StoreModule.forFeature('article', reducer)
   ],
-
 })
 export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
   tableDataProps: Article[] = [];
   titleScreen = 'Quản lí bài viết ';
   private apollo = inject(Apollo);
-  private store = inject(Store)
-  cdf = inject(ChangeDetectorRef)
+  private store = inject(Store);
+  cdf = inject(ChangeDetectorRef);
   listArticleSubscription?: Subscription;
   listArticleData = new BehaviorSubject([]);
   ngOnInit(): void {
-
     this.getListArticleDefault();
     // this.listArticleData.subscribe();
     // listArticleFake.then()
-    this.store.dispatch(getArticleActionVoid())
+    this.store.dispatch(getArticleActionVoid());
     // console.log(this.listArticleStore)
-    this.store.pipe(select(articleSelector)).pipe(tap((x) => {
-      // console.log(x)
-    })).subscribe()
+    this.store
+      .pipe(select(articleSelector))
+      .pipe(
+        tap((x) => {
+          // console.log(x)
+        })
+      )
+      .subscribe();
     // this.cdf.detectChanges()
     // this.store.select(articleSelector).subscribe(x => console.log('render ', x))
   }

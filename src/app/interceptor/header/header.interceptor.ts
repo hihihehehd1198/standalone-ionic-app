@@ -15,7 +15,7 @@ export const HeaderInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
   const defaultTolken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibmVtQGdtYWlsLmNvbSIsImlhdCI6MTY3NjMxMTYxMSwiZXhwIjoxNjc2MzEyNTExfQ.b0MfwgSBVmGk7LpSo1Bk8npxgU_KRDijBRYNnc0E0-U';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibmVtQGdtYWlsLmNvbSIsImlhdCI6MTY3NjQ4NTI5NywiZXhwIjoxNjc2NTcxNjk3fQ.gFZXTrriAU8PiYJdQSZZen7ug_bgat4_4ompdq9jp2w';
   const token = localStorage.getItem('accessToken') || defaultTolken;
   const newHeader = new HttpHeaders({
     'Content-Type': 'application/json',

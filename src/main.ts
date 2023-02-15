@@ -7,7 +7,7 @@ import { AppComponent } from './app/app.component';
 
 import { environment } from './environments/environment';
 import Router from './app/app.router';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
 import {
@@ -28,7 +28,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducer } from './app/pages/article/store/article.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { GetArticleEffect } from './app/pages/article/store/article.effect';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 if (environment.production) {
   enableProdMode();
@@ -36,24 +36,26 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-
     provideRouter(
       Router,
       withRouterConfig({ paramsInheritanceStrategy: 'always' })
     ),
     provideHttpClient(withInterceptors([HeaderInterceptor])),
-    importProvidersFrom(IonicModule.forRoot({}),
+    importProvidersFrom(
+      IonicModule.forRoot({}),
       StoreModule.forFeature('article', reducer),
       EffectsModule.forFeature([GetArticleEffect]),
-      StoreModule.forRoot({}), EffectsModule.forRoot([]),
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
+      ApolloModule,
       StoreDevtoolsModule.instrument({
         maxAge: 25,
-        logOnly: environment.production
+        logOnly: environment.production,
       })
     ),
     {
       provide: NgZone,
-      useValue: new NgZone({ shouldCoalesceEventChangeDetection: false })
+      useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
     },
     {
       provide: APOLLO_OPTIONS,

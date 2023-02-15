@@ -68,8 +68,7 @@ export class AccountinfoComponent {
   //   password: 'Mật khẩu',
   //   address: 'Địa chỉ',
   // };
-  defaultImgLink =
-    '../../../assets/icon/QZlC61BznJJtnoRzxlE2_63569caf1a90d_cvtpl.jpg';
+  defaultImgLink = '../../../assets/icon/favicon.png';
   previewImg(e: any) {
     // console.log(e.target.files[0])
     const reader = new FileReader();

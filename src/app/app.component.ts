@@ -10,6 +10,7 @@ import { Apollo, gql, ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
+import { ArticleService } from './servies/article.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,7 @@ import { InMemoryCache } from '@apollo/client';
     HttpClientModule,
     // APOLLO_OPTIONS
   ],
-  providers: [],
+  providers: [ArticleService],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   isPageApp = new BehaviorSubject(false);
@@ -54,15 +55,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.cdf.detectChanges()
     })
   }
-  initAPI() {
-    this.apollo
-      .watchQuery({
-        query: gql`
-          {
-            hello2
-          }
-        `,
-      })
-      .valueChanges.subscribe((res) => console.log(res));
-  }
+  // initAPI() {
+  //   this.apollo
+  //     .watchQuery({
+  //       query: gql`
+  //         {
+  //           hello2
+  //         }
+  //       `,
+  //     })
+  //     .valueChanges.subscribe((res) => console.log(res));
+  // }
 }

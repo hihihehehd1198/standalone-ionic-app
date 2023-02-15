@@ -1,5 +1,8 @@
+import { ApolloModule } from 'apollo-angular';
 import { AppComponent } from './app.component';
 import { Routes } from '@angular/router';
+import { ArticleService } from './servies/article.service';
+import { importProvidersFrom } from '@angular/core';
 
 const Router: Routes = [
   {
@@ -65,6 +68,8 @@ const Router: Routes = [
 
       {
         path: 'article',
+        // providers: [ArticleService, importProvidersFrom(ApolloModule)],
+        // providers:[ApolloModule],
         loadComponent: () =>
           import('./pages/article/article.page').then(
             (c) => c.ArticleComponent
@@ -95,6 +100,7 @@ const Router: Routes = [
     // redirectTo: 'Pages/dashboard',
     // redirectTo: 'not-found',
     redirectTo: 'Pages/article',
+
     pathMatch: 'full',
   },
 
