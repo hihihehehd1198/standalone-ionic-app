@@ -29,6 +29,7 @@
     "@ionic/angular": "^6.1.9",
     "@ngrx/effects": "^15.2.1",
     "@ngrx/store": "^15.2.1",
+    "@ngrx/store-devtools": "^15.2.1",
     "apollo-angular": "^4.2.1",
     "ionicons": "^6.0.3",
     "lodash": "^4.17.21",
