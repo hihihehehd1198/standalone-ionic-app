@@ -30,7 +30,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { GetArticleEffect } from './app/pages/article/store/article.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NhapComponent } from './app/pages/nhap/nhap.page';
-
+import { initializeApp } from 'firebase/app';
+import { AngularFireModule } from '@angular/fire/compat';
+initializeApp(environment.firebaseConfig)
+// import { initializeApp } from 'firebase/app';
 if (environment.production) {
   enableProdMode();
 }
@@ -77,6 +80,10 @@ if (environment.production) {
 
 bootstrapApplication(NhapComponent, {
   providers: [
-    importProvidersFrom(IonicModule.forRoot({}))
-  ]
-})
+    importProvidersFrom(
+      IonicModule.forRoot({}),
+      AngularFireModule
+      // AngularFireModule.initializeApp(environment.firebaseConfig)
+    ),
+  ],
+});
