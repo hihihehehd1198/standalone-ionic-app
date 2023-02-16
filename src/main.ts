@@ -29,47 +29,54 @@ import { reducer } from './app/pages/article/store/article.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { GetArticleEffect } from './app/pages/article/store/article.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NhapComponent } from './app/pages/nhap/nhap.page';
 
 if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, {
+// bootstrapApplication(AppComponent, {
+//   providers: [
+//     provideRouter(
+//       Router,
+//       withRouterConfig({ paramsInheritanceStrategy: 'always' })
+//     ),
+//     provideHttpClient(withInterceptors([HeaderInterceptor])),
+//     importProvidersFrom(
+//       IonicModule.forRoot({}),
+//       StoreModule.forFeature('article', reducer),
+//       EffectsModule.forFeature([GetArticleEffect]),
+//       StoreModule.forRoot({}),
+//       EffectsModule.forRoot([]),
+//       ApolloModule,
+//       StoreDevtoolsModule.instrument({
+//         maxAge: 25,
+//         logOnly: environment.production,
+//       })
+//     ),
+//     {
+//       provide: NgZone,
+//       useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
+//     },
+//     {
+//       provide: APOLLO_OPTIONS,
+//       useFactory(httpLink: HttpLink) {
+//         return {
+//           cache: new InMemoryCache({
+//             addTypename: false,
+//           }),
+//           link: httpLink.create({
+//             uri: 'http://localhost:4000/graphql',
+//           }),
+//         };
+//       },
+//       deps: [HttpLink],
+//     },
+//   ],
+// });
+
+bootstrapApplication(NhapComponent, {
   providers: [
-    provideRouter(
-      Router,
-      withRouterConfig({ paramsInheritanceStrategy: 'always' })
-    ),
-    provideHttpClient(withInterceptors([HeaderInterceptor])),
-    importProvidersFrom(
-      IonicModule.forRoot({}),
-      StoreModule.forFeature('article', reducer),
-      EffectsModule.forFeature([GetArticleEffect]),
-      StoreModule.forRoot({}),
-      EffectsModule.forRoot([]),
-      ApolloModule,
-      StoreDevtoolsModule.instrument({
-        maxAge: 25,
-        logOnly: environment.production,
-      })
-    ),
-    {
-      provide: NgZone,
-      useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
-    },
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory(httpLink: HttpLink) {
-        return {
-          cache: new InMemoryCache({
-            addTypename: false,
-          }),
-          link: httpLink.create({
-            uri: 'http://localhost:4000/graphql',
-          }),
-        };
-      },
-      deps: [HttpLink],
-    },
-  ],
-});
+    importProvidersFrom(IonicModule.forRoot({}))
+  ]
+})

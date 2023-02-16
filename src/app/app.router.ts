@@ -95,14 +95,14 @@ const Router: Routes = [
   //     path: 'my-cv',
   //     loadComponent: () => import('./pages/cv/cv.page').then(c => c.CvComponent)
   // },
-  {
-    path: '**',
-    // redirectTo: 'Pages/dashboard',
-    // redirectTo: 'not-found',
-    redirectTo: 'Pages/article',
+  // {
+  //   path: '**',
+  //   // redirectTo: 'Pages/dashboard',
+  //   // redirectTo: 'not-found',
+  //   redirectTo: 'Pages/article',
 
-    pathMatch: 'full',
-  },
+  //   pathMatch: 'full',
+  // },
 
   {
     path: 'not-found',
