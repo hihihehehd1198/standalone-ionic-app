@@ -61,17 +61,16 @@ import { map, of, tap, take } from 'rxjs';
     FormsModule,
     FormDialogComponent,
   ],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent
   implements
-    OnChanges,
-    OnInit,
-    AfterViewInit,
-    AfterViewChecked,
-    OnDestroy,
-    DoCheck
-{
+  OnChanges,
+  OnInit,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy,
+  DoCheck {
   fb = inject(FormBuilder);
   modalController = inject(ModalController);
   formRender!: FormGroup;
@@ -145,10 +144,14 @@ export class TableComponent
     console.log('this.tableDataProps', this.tableDataProps);
     this.formatTableFormControl();
     this.createCheckBoxDefaultStatus();
-    this.cdf.detectChanges();
+    console.log('formcontrolgroup', this.ListformControlGroup)
+    // this.cdf.markForCheck()
+    // this.cdf.detach()
   }
   ngDoCheck(): void {
-    this.cdf.markForCheck();
+
+    // this.cdf.detectChanges();
+    // this.cdf.markForCheck()
   }
 
   createCheckBoxDefaultStatus() {
@@ -211,7 +214,7 @@ export class TableComponent
   //     ).subscribe()
   // }
 
-  ngAfterViewChecked(): void {}
+  ngAfterViewChecked(): void { }
 
   formatTableFormControl(): void {
     if (this.tableDataProps.length) {

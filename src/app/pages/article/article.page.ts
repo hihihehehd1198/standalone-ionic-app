@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { getArticleActionVoid } from './store/article.action';
 import { Apollo, gql } from 'apollo-angular';
 import { CommonModule, NgFor } from '@angular/common';
@@ -8,6 +9,8 @@ import {
   OnDestroy,
   AfterViewInit,
   ChangeDetectorRef,
+  AfterContentInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { TableComponent } from '../../shared/table/table.page';
@@ -27,6 +30,7 @@ interface Article {
   templateUrl: 'article.page.html',
   styleUrls: ['article.page.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IonicModule,
     CommonModule,
@@ -35,7 +39,7 @@ interface Article {
     // StoreModule.forFeature('article', reducer)
   ],
 })
-export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ArticleComponent implements OnDestroy, AfterViewInit {
   tableDataProps: Article[] = [];
   titleScreen = 'Quản lí bài viết ';
   private apollo = inject(Apollo);
@@ -43,7 +47,8 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
   cdf = inject(ChangeDetectorRef);
   listArticleSubscription?: Subscription;
   listArticleData = new BehaviorSubject([]);
-  ngOnInit(): void {
+
+  ngAfterViewInit(): void {
     this.getListArticleDefault();
     // this.listArticleData.subscribe();
     // listArticleFake.then()
@@ -57,17 +62,19 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         })
       )
       .subscribe();
-    // this.cdf.detectChanges()
-    // this.store.select(articleSelector).subscribe(x => console.log('render ', x))
+    this.fakeListArticleApi(); // bug ExpressionChangedAfterItHasBeenCheckedError: Expression has changed 
+    this.cdf.detectChanges() // fix bug NG0100/*  */
   }
-  // constructor(private apollo: Apollo, private store: Store) {
+  updateDom() {
+
+  }
+
+  // generateFormControlGroup(): FormGroup {
 
   // }
-  ngAfterViewInit(): void {
-    this.fakeListArticleApi();
-    this.cdf.detectChanges();
-  }
+
   fakeListArticleApi() {
+    const listItem = []
     for (let i = 0; i < 10; i++) {
       const item: Article = {
         stt: i,
@@ -75,9 +82,9 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         title: `tieu de ${i}`,
         body: `content ${i}`,
       };
-      this.tableDataProps.push(item);
+      listItem.push(item);
     }
-    console.log(this.tableDataProps);
+    this.tableDataProps = [...listItem]
   }
   buttonAddArticleEvent(data?: any) {
     console.log('buttonAddData', data);

@@ -17,7 +17,7 @@ import { ArticleService } from './servies/article.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IonicModule,
     CommonModule,

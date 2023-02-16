@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { Observable, timeout } from 'rxjs';
 
@@ -8,7 +8,8 @@ import { Observable, timeout } from 'rxjs';
     templateUrl: 'account-detail.page.html',
     styleUrls: ['account-detail.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule]
+    imports: [IonicModule, CommonModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountDetailComponent implements OnInit {
 

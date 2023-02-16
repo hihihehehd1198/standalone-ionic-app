@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
     templateUrl: 'booking.page.html',
     styleUrls: ['booking.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule]
+    imports: [IonicModule, CommonModule],  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingComponent {
 

@@ -1,17 +1,14 @@
 <ng-container *ngIf="tableDataProps">
-  <app-table
-    [tableData]="tableDataProps"
-    [titleScreen]="titleScreen"
-    (buttonAddEvent)="buttonAddArticleEvent($event)"
-    (buttonDeleteEvent)="buttonDeleteArticleEvent($event)"
-    (buttonEditEvent)="buttonEditArticleEvent($event)"
-  >
+  <app-table [tableData]="tableDataProps" [titleScreen]="titleScreen" (buttonAddEvent)="buttonAddArticleEvent($event)"
+    (buttonDeleteEvent)="buttonDeleteArticleEvent($event)" (buttonEditEvent)="buttonEditArticleEvent($event)">
   </app-table>
+
 </ng-container>
 <hr />
 <!-- <ng-container *ngIf="listArticleData| async"> -->
 <div>
   <ul *ngIf="listArticleData">
+    <button (click)="updateDom()">updateDom</button>
     <li *ngFor="let item of listArticleData | async">{{null}}</li>
   </ul>
 </div>
