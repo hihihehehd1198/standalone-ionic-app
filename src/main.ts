@@ -22,6 +22,7 @@ import {
   withRouterConfig,
   ROUTER_CONFIGURATION,
 } from '@angular/router';
+// import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app'
 import { HeaderInterceptor } from './app/interceptor/header/header.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
@@ -30,13 +31,36 @@ import { EffectsModule } from '@ngrx/effects';
 import { GetArticleEffect } from './app/pages/article/store/article.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NhapComponent } from './app/pages/nhap/nhap.page';
-import { initializeApp } from 'firebase/app';
-import { AngularFireModule } from '@angular/fire/compat';
-initializeApp(environment.firebaseConfig)
 // import { initializeApp } from 'firebase/app';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
+import * as firebase from 'firebase/app';
+import 'firebase/messaging';
+import { SwPush } from '@angular/service-worker';
+
+firebase.initializeApp(environment.firebaseConfig)
+
+import { AngularFireModule } from '@angular/fire/compat';
 if (environment.production) {
   enableProdMode();
+
 }
+
+// initializeApp(environment.firebaseConfig)
+
+bootstrapApplication(NhapComponent, {
+  providers: [
+    importProvidersFrom(
+      IonicModule.forRoot({}),
+      // AngularFireModule.initializeApp(environment.firebaseConfig),
+      // ServiceWorkerModule.register('./firebase-messaging-sw.js', {
+      //   enabled: environment.production,
+      //   registrationStrategy: 'registerImmediately'
+      // }),
+    ),
+  ],
+});
+
 
 // bootstrapApplication(AppComponent, {
 //   providers: [
@@ -77,13 +101,3 @@ if (environment.production) {
 //     },
 //   ],
 // });
-
-bootstrapApplication(NhapComponent, {
-  providers: [
-    importProvidersFrom(
-      IonicModule.forRoot({}),
-      AngularFireModule
-      // AngularFireModule.initializeApp(environment.firebaseConfig)
-    ),
-  ],
-});

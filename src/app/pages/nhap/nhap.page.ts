@@ -18,6 +18,7 @@ import {
 } from 'rxjs';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 // import { environment } from '../environment';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'nhap.page.html',
@@ -67,6 +68,8 @@ export class NhapComponent implements AfterViewInit {
         token
           ? console.log('got token', token)
           : console.log('cannot find token');
+
+
       })
       .catch((err) => {
         console.log('bug when get token ', err);
@@ -78,5 +81,8 @@ export class NhapComponent implements AfterViewInit {
       console.log('message received ', payload);
       this.message = payload;
     });
+  }
+  sendMessage() { 
+
   }
 }

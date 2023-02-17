@@ -11,7 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
 import { ArticleService } from './servies/article.service';
+import { getMessaging, onMessage } from "firebase/messaging";
+const messaging = getMessaging();
 
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload);
+  // ...
+});
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -53,6 +59,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.isPageApp.next(true)
       this.cdf.detectChanges()
+
     })
   }
   // initAPI() {
