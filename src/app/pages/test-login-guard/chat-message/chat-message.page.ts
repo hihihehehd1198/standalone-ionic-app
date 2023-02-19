@@ -6,13 +6,13 @@ import { IonicModule } from '@ionic/angular';
 import { head } from 'lodash';
 
 @Component({
-  selector: 'app-service',
-  templateUrl: 'service.page.html',
-  styleUrls: ['service.page.scss'],
+  selector: 'app-chat-message',
+  templateUrl: 'chat-message.page.html',
+  styleUrls: ['chat-message.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ServiceComponent {
+export class ChatMessageComponent {
   constructor() {}
 }

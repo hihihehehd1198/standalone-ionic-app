@@ -12,7 +12,11 @@
     </h1>
 
     <!-- phan nay de code push notification firebase  -->
-    <input type="text" (keydown)="sendMessage();" placeholder="enter a message ..." />
+    <input
+      type="text"
+      (keydown)="sendMessage($event);"
+      placeholder="enter a message ..."
+    />
     <div></div>
   </div>
   <!-- </div> -->

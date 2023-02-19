@@ -1,0 +1,64 @@
+<ion-app>
+  <ion-content>
+    <p>login works!</p>
+
+    <div class="flex flex-col items-start">
+      <div class="flex flex-row w-full h-[30px]">
+        <a
+          [routerLink]="['/login/pages1']"
+          class="border-[1px] border-black border-solid px-[20px]"
+        >
+          click page 3
+        </a>
+        <a
+          [routerLink]="['/login/pages2']"
+          class="border-[1px] border-black border-solid px-[20px]"
+        >
+          click page 2
+        </a>
+        <a
+          [routerLink]="['/login/pages3']"
+          class="border-[1px] border-black border-solid px-[20px]"
+        >
+          click page 1
+        </a>
+        <div class="mx-[20px]">page as click: {{pageClick | async }}</div>
+      </div>
+    </div>
+    <div class="h-[100px] flex flex-col justify-start">
+      <h1>
+        form group<button (click)="submitForm()" class="bg-yellow-300 p-3">
+          login
+        </button>
+      </h1>
+
+      <form [formGroup]="formLogin" class="flex flex-col bg-[yellowgreen]">
+        <div>
+          <label for="username">username : </label>
+          <input id="username" formControlName="userName" />
+        </div>
+        <div>
+          <label for="password">password : </label>
+          <input id="password" formControlName="passWord" />
+        </div>
+      </form>
+    </div>
+    <div class="w-[300px] h-[300px] p-2 m-2 border-black border-[1px]">
+      <ion-content class="ion-padding">
+        <!-- <ng-template> -->
+        <div class="ion-page" id="main-content"></div>
+        <ion-router-outlet [environmentInjector]="envInject" [animated]="false">
+        </ion-router-outlet>
+        <!-- </ng-template> -->
+      </ion-content>
+    </div>
+  </ion-content>
+  <iframe
+    width="300"
+    height="300"
+    style="position: fixed; bottom: 0; right: 0; background-color: red"
+    src="http://localhost:5000"
+    [frameBorder]="0"
+  >
+  </iframe>
+</ion-app>

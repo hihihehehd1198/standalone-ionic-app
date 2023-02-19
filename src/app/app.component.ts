@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EnvironmentInjector, inject, OnInit, AfterViewInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EnvironmentInjector,
+  inject,
+  OnInit,
+  AfterViewInit,
+  NgZone,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
@@ -11,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
 import { ArticleService } from './servies/article.service';
-import { getMessaging, onMessage } from "firebase/messaging";
+import { getMessaging, onMessage } from 'firebase/messaging';
 const messaging = getMessaging();
 
 onMessage(messaging, (payload) => {
@@ -41,8 +50,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   environmentInjector = inject(EnvironmentInjector);
   // constructor(public environmentInjector: EnvironmentInjector  ) {}
   apollo = inject(Apollo);
-  ngZone = inject(NgZone)
-  cdf = inject(ChangeDetectorRef)
+  ngZone = inject(NgZone);
+  cdf = inject(ChangeDetectorRef);
   ngOnInit() {
     // this.initAPI();
     // this.checkRouteApp();
@@ -57,10 +66,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
       // this.cdf.detach()
 
-      this.isPageApp.next(true)
-      this.cdf.detectChanges()
-
-    })
+      this.isPageApp.next(true);
+      this.cdf.detectChanges();
+    });
   }
   // initAPI() {
   //   this.apollo

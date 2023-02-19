@@ -3,8 +3,42 @@ import { AppComponent } from './app.component';
 import { Routes } from '@angular/router';
 import { ArticleService } from './servies/article.service';
 import { importProvidersFrom } from '@angular/core';
+import { LoginComponent } from './pages/test-login-guard/pages-guard/login/login.page';
+import { LoginGuard } from './login.guard';
 
 const Router: Routes = [
+  {
+    path: 'login',
+    // component: LoginComponent,
+    // loadComponent: () =>
+    //   import('./pages/test-login-guard/pages-guard/login/login.page').then(
+    //     (c) => c.LoginComponent
+    //   ),
+    children: [
+      {
+        path: 'pages1',
+        loadComponent: () =>
+          import(
+            './pages/test-login-guard/pages-guard/pages1/pages1.page'
+          ).then((c) => c.Pages1Component),
+        canActivate: [LoginGuard],
+      },
+      {
+        path: 'pages2',
+        loadComponent: () =>
+          import(
+            './pages/test-login-guard/pages-guard/pages2/pages2.page'
+          ).then((c) => c.Pages2Component),
+      },
+      {
+        path: 'pages3',
+        loadComponent: () =>
+          import(
+            './pages/test-login-guard/pages-guard/pages3/pages3.page'
+          ).then((c) => c.Pages3Component),
+      },
+    ],
+  },
   {
     path: 'Pages',
     children: [
@@ -104,6 +138,11 @@ const Router: Routes = [
   //   pathMatch: 'full',
   // },
 
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
   {
     path: 'not-found',
     loadComponent: () =>

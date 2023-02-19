@@ -1,8 +1,9 @@
+import { LoginComponent } from './app/pages/test-login-guard/pages-guard/login/login.page';
 import { IonicModule } from '@ionic/angular';
 import { enableProdMode, importProvidersFrom, NgZone } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterModule } from '@angular/router';
 import { AppComponent } from './app/app.component';
 
 import { environment } from './environments/environment';
@@ -32,35 +33,63 @@ import { GetArticleEffect } from './app/pages/article/store/article.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NhapComponent } from './app/pages/nhap/nhap.page';
 // import { initializeApp } from 'firebase/app';
-import { ServiceWorkerModule } from '@angular/service-worker';
-
-import * as firebase from 'firebase/app';
-import 'firebase/messaging';
-import { SwPush } from '@angular/service-worker';
-
-firebase.initializeApp(environment.firebaseConfig)
 
 import { AngularFireModule } from '@angular/fire/compat';
 if (environment.production) {
   enableProdMode();
-
 }
 
+const firebaseConfig = {
+  apiKey: 'AIzaSyDkZSndxYuL_T_BuI3mJjXYc_woBcL2uDM',
+  authDomain: 'thoikhoabieu-a5075.firebaseapp.com',
+  projectId: 'thoikhoabieu-a5075',
+  storageBucket: 'thoikhoabieu-a5075.appspot.com',
+  messagingSenderId: '296430630672',
+  appId: '1:296430630672:web:548df9d6b28bfbc9e75795',
+  // vapidKey:
+  //   'BEkh9Z6npt9j4OQAu0X3On_-b-w1jtry0l8xW2FJSuECFBMVblUAbrKoq2vhF04LWLd6k7oby2apta6aAQRilSs',
+};
+import * as firebase from 'firebase/app';
+import 'firebase/messaging';
+firebase.initializeApp(firebaseConfig);
 // initializeApp(environment.firebaseConfig)
 
-bootstrapApplication(NhapComponent, {
+// bootstrapApplication(NhapComponent, {
+//   providers: [
+//     importProvidersFrom(
+//       IonicModule.forRoot({}),
+//       AngularFireModule.initializeApp(firebaseConfig)
+//       // ServiceWorkerModule.register('./firebase-messaging-sw.js', {
+//       //   enabled: environment.production,
+//       //   registrationStrategy: 'registerImmediately'
+//       // }),
+//     ),
+//   ],
+// });
+
+bootstrapApplication(LoginComponent, {
   providers: [
-    importProvidersFrom(
-      IonicModule.forRoot({}),
-      // AngularFireModule.initializeApp(environment.firebaseConfig),
-      // ServiceWorkerModule.register('./firebase-messaging-sw.js', {
-      //   enabled: environment.production,
-      //   registrationStrategy: 'registerImmediately'
-      // }),
+    provideRouter(
+      Router,
+      withRouterConfig({ paramsInheritanceStrategy: 'always' })
     ),
+    importProvidersFrom(IonicModule.forRoot(), ApolloModule, HttpClientModule),
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache({
+            addTypename: false,
+          }),
+          link: httpLink.create({
+            uri: 'http://localhost:4000/graphql',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
   ],
 });
-
 
 // bootstrapApplication(AppComponent, {
 //   providers: [
