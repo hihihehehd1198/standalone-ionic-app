@@ -15,6 +15,7 @@ export class InfinityScrollComponent implements AfterViewInit {
     cdf = inject(ChangeDetectorRef)
     ngAfterViewInit(): void {
         this.generateItem()
+        this.testingSubject()
         this.cdf.detectChanges()
     }
 
@@ -26,6 +27,11 @@ export class InfinityScrollComponent implements AfterViewInit {
         }
         console.log(this.items.length)
         this.cdf.detectChanges()
+    }
+
+
+    testingSubject() {
+
     }
 
     onIonInfinite(e: any) {
