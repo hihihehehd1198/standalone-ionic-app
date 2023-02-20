@@ -10,6 +10,7 @@ import Router from './app/app.router';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
+// import { MatTableModule, MatSortModule, MatProgressSpinnerModule } from '@angular/material';
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -35,48 +36,48 @@ if (environment.production) {
   enableProdMode();
 }
 
-// bootstrapApplication(AppComponent, {
-//   providers: [
-//     provideRouter(
-//       Router,
-//       withRouterConfig({ paramsInheritanceStrategy: 'always' })
-//     ),
-//     provideHttpClient(withInterceptors([HeaderInterceptor])),
-//     importProvidersFrom(
-//       IonicModule.forRoot({}),
-//       StoreModule.forFeature('article', reducer),
-//       EffectsModule.forFeature([GetArticleEffect]),
-//       StoreModule.forRoot({}),
-//       EffectsModule.forRoot([]),
-//       ApolloModule,
-//       StoreDevtoolsModule.instrument({
-//         maxAge: 25,
-//         logOnly: environment.production,
-//       })
-//     ),
-//     {
-//       provide: NgZone,
-//       useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
-//     },
-//     {
-//       provide: APOLLO_OPTIONS,
-//       useFactory(httpLink: HttpLink) {
-//         return {
-//           cache: new InMemoryCache({
-//             addTypename: false,
-//           }),
-//           link: httpLink.create({
-//             uri: 'http://localhost:4000/graphql',
-//           }),
-//         };
-//       },
-//       deps: [HttpLink],
-//     },
-//   ],
-// });
-
-bootstrapApplication(NhapComponent, {
+bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(IonicModule.forRoot({}))
-  ]
-})
+    provideRouter(
+      Router,
+      withRouterConfig({ paramsInheritanceStrategy: 'always' })
+    ),
+    provideHttpClient(withInterceptors([HeaderInterceptor])),
+    importProvidersFrom(
+      IonicModule.forRoot({}),
+      StoreModule.forFeature('article', reducer),
+      EffectsModule.forFeature([GetArticleEffect]),
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
+      ApolloModule,
+      StoreDevtoolsModule.instrument({
+        maxAge: 25,
+        logOnly: environment.production,
+      })
+    ),
+    {
+      provide: NgZone,
+      useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
+    },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache({
+            addTypename: false,
+          }),
+          link: httpLink.create({
+            uri: 'http://localhost:4000/graphql',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
+});
+
+// bootstrapApplication(NhapComponent, {
+//   providers: [
+//     importProvidersFrom(IonicModule.forRoot({}))
+//   ]
+// })

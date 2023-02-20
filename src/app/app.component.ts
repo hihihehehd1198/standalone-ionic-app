@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
 import { ArticleService } from './servies/article.service';
+import { InfinityScrollComponent } from './pages/infinity-scroll/infinity-scroll.page';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ import { ArticleService } from './servies/article.service';
     ToolbarComponent,
     ApolloModule,
     HttpClientModule,
+    InfinityScrollComponent
     // APOLLO_OPTIONS
   ],
   providers: [ArticleService],
