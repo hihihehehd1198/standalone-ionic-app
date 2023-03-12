@@ -17,6 +17,7 @@ export class ButtonComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() customClass = 'testing';
   @Input() buttonId = '';
   @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>()
+
   // @Input() dataBinding: any;
   cdf = inject(ChangeDetectorRef)
   loggingButton(e?: any) {

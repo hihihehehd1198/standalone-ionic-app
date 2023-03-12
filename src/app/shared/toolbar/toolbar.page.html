@@ -1,44 +1,47 @@
 <!-- <div class="ion-page" id="main-content"> -->
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <div class="border-[1px] px-[20px] ">
-            <div class=" float-right">
-                <div class="flex items-center">
-                    <div>noti</div>
-                    <div class="flex flex-row items-center">
-                        <div class="rounded">
-                            h1
-                        </div>
-                        <div class="p-[10px] relative">
-                            <h1>Quang ninh</h1>
-                            <h2>Admin</h2>
-                        </div>
-                        <div>
-
-                            <button (click)="presentPopover($event)">Click Me</button>
-                            <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
-                                <ng-template>
-                                    <ion-content class="ion-padding">
-                                        <div class="flex px-[10px] flex-col">
-                                            <div class="py-[10px]" [routerLink]="['Pages','account-detail']" routerLinkActive="router-link-active" >Thông tin tài khoản</div>
-                                            <div class="py-[10px]">Đăng xuất </div>
-                                        </div>
-                                    </ion-content>
-                                </ng-template>
-                            </ion-popover>
-                        </div>
-                    </div>
-                </div>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="border-[1px] px-[20px]">
+      <div class="float-right">
+        <div class="flex items-center">
+          <div>noti</div>
+          <div class="flex flex-row items-center">
+            <div class="rounded">h1</div>
+            <div class="p-[10px] relative">
+              <h1>Quang ninh</h1>
+              <h2>Admin</h2>
             </div>
+            <div>
+              <ion-buttons id="button-popover">
+                <button (click)="presentPopover($event)">Click Me</button>
+              </ion-buttons>
+
+              <ion-popover [trigger]="'button-popover'" #popover>
+                <ng-template>
+                  <ion-content class="ion-padding">
+                    <div class="flex px-[10px] flex-col">
+                      <div
+                        class="py-[10px]"
+                        [routerLink]="['account-detail']"
+                        routerLinkActive="router-link-active"
+                      >
+                        Thông tin tài khoản
+                      </div>
+                      <div class="py-[10px]" (click)="logOut()">Đăng xuất</div>
+                    </div>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </div>
+          </div>
         </div>
-    </ion-toolbar>
+      </div>
+    </div>
+  </ion-toolbar>
 </ion-header>
 <!-- </div> -->
 
-
-<ng-template #counterTmpl *ngIf="true">
-
-</ng-template>
+<ng-template #counterTmpl *ngIf="true"> </ng-template>

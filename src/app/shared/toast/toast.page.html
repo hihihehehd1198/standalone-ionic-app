@@ -1,0 +1,10 @@
+<div class="grid_container" *ngIf="inputData">
+  <div class="toast-icon">{{inputData.iconType}}</div>
+  <!-- <app-button [customClass]="customClass">X</app-button> -->
+  <div class="flex flex-col relative">
+    <h1>{{inputData.title}}</h1>
+    <span class="min-h-max">{{inputData.body}}</span>
+    <!-- <ng-template ToastDirective></ng-template> -->
+  </div>
+</div>
+<!-- <ng-content select="*"></ng-content> -->

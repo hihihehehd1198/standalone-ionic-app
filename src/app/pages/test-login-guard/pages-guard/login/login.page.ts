@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EnvironmentInjector, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -23,7 +29,7 @@ import {
   tap,
   timeout,
 } from 'rxjs';
-import { ArticleService } from 'src/app/servies/article.service';
+import { ArticleService } from 'src/app/services/article.service';
 
 // selector: 'app-pages1',
 // templateUrl: './pages1.page.html',
@@ -35,7 +41,7 @@ import { ArticleService } from 'src/app/servies/article.service';
   standalone: true,
   imports: [IonicModule, CommonModule, RouterLink, ReactiveFormsModule],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   envInject = inject(EnvironmentInjector);
   pageClick = new Subject();
   // formLogin = new FormGroup({
@@ -49,10 +55,21 @@ export class LoginComponent implements OnInit {
     passWord: ['', Validators.required],
   });
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
-    this.getLastItemofSub();
+    // this.initEventWindow();
+    // this.getLastItemofSub();
+  }
+  initEventWindow() {
+    window.addEventListener(
+      'message',
+      (ev) => {
+        if (ev.origin !== 'http://localhost:5000') return;
+        console.log('received message from child ', ev);
+      },
+      false
+    );
   }
 
   getLastItemofSub() {
@@ -96,5 +113,8 @@ export class LoginComponent implements OnInit {
     //   .pipe(tap((x) => x++))
     //   .subscribe(console.log);
     console.log(this.formLogin.getRawValue());
+  }
+  ngOnDestroy(): void {
+    window.removeEventListener('message', () => { }, false);
   }
 }

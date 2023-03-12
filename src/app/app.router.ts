@@ -1,46 +1,53 @@
 import { ApolloModule } from 'apollo-angular';
 import { AppComponent } from './app.component';
 import { Routes } from '@angular/router';
-import { ArticleService } from './servies/article.service';
+import { ArticleService } from './services/article.service';
 import { importProvidersFrom } from '@angular/core';
 import { LoginComponent } from './pages/test-login-guard/pages-guard/login/login.page';
 import { LoginGuard } from './login.guard';
-
+import { MainPageComponent } from './pages/main-page.page';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { GetArticleEffect } from './pages/article/store/article.effect';
+import { reducer as articleReducer } from './pages/article/store/article.reducer';
+import { reducer as UserReducer } from './pages/LoginPage/UserStore/user.reducer'
+import { UserLoginEffect } from './pages/LoginPage/UserStore/user.effect';
 const Router: Routes = [
-  {
-    path: 'login',
-    // component: LoginComponent,
-    // loadComponent: () =>
-    //   import('./pages/test-login-guard/pages-guard/login/login.page').then(
-    //     (c) => c.LoginComponent
-    //   ),
-    children: [
-      {
-        path: 'pages1',
-        loadComponent: () =>
-          import(
-            './pages/test-login-guard/pages-guard/pages1/pages1.page'
-          ).then((c) => c.Pages1Component),
-        canActivate: [LoginGuard],
-      },
-      {
-        path: 'pages2',
-        loadComponent: () =>
-          import(
-            './pages/test-login-guard/pages-guard/pages2/pages2.page'
-          ).then((c) => c.Pages2Component),
-      },
-      {
-        path: 'pages3',
-        loadComponent: () =>
-          import(
-            './pages/test-login-guard/pages-guard/pages3/pages3.page'
-          ).then((c) => c.Pages3Component),
-      },
-    ],
-  },
+  // {
+  //   path: 'login',
+  //   // component: LoginComponent,
+  //   // loadComponent: () =>
+  //   //   import('./pages/test-login-guard/pages-guard/login/login.page').then(
+  //   //     (c) => c.LoginComponent
+  //   //   ),
+  //   children: [
+  //     {
+  //       path: 'pages1',
+  //       loadComponent: () =>
+  //         import(
+  //           './pages/test-login-guard/pages-guard/pages1/pages1.page'
+  //         ).then((c) => c.Pages1Component),
+  //       canActivate: [LoginGuard],
+  //     },
+  //     {
+  //       path: 'pages2',
+  //       loadComponent: () =>
+  //         import(
+  //           './pages/test-login-guard/pages-guard/pages2/pages2.page'
+  //         ).then((c) => c.Pages2Component),
+  //     },
+  //     {
+  //       path: 'pages3',
+  //       loadComponent: () =>
+  //         import(
+  //           './pages/test-login-guard/pages-guard/pages3/pages3.page'
+  //         ).then((c) => c.Pages3Component),
+  //     },
+  //   ],
+  // },
   {
     path: 'Pages',
+    component: MainPageComponent,
     children: [
       {
         path: 'Account-detail',
@@ -102,8 +109,9 @@ const Router: Routes = [
 
       {
         path: 'article',
-        // providers: [ArticleService, importProvidersFrom(ApolloModule)],
-        // providers:[ApolloModule],
+        providers: [ArticleService, importProvidersFrom(ApolloModule,
+          StoreModule.forFeature('article', articleReducer),
+          EffectsModule.forFeature([GetArticleEffect]),)],
         loadComponent: () =>
           import('./pages/article/article.page').then(
             (c) => c.ArticleComponent
@@ -122,7 +130,13 @@ const Router: Routes = [
           import('./pages/dashboard/dashboard.page').then(
             (c) => c.DashboardComponent
           ),
+
+        // children: [
+        //   {
+        //   }
+        // ]
       },
+
     ],
   },
   // {
@@ -137,12 +151,24 @@ const Router: Routes = [
 
   //   pathMatch: 'full',
   // },
-
   {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    path: 'login-page',
+    providers: [
+      importProvidersFrom(
+        EffectsModule.forFeature([UserLoginEffect]),
+        StoreModule.forFeature('userLogin', UserReducer)
+      )
+    ],
+    loadComponent: () =>
+      import('./pages/LoginPage/login-page.page').then(
+        (c) => c.LoginPageComponent
+      ),
   },
+  // {
+  //   path: '**',
+  //   redirectTo: 'login-page',
+  //   pathMatch: 'full',
+  // },
   {
     path: 'not-found',
     loadComponent: () =>

@@ -1,70 +1,79 @@
 <div class="flex flex-col w-[100%] p-[15px] border-[1px]">
-    <div class="flex flex-row w-full justify-between">
-        <h5>{{titleScreen}}</h5>
-        <app-button [id]="'form-add'" (clickEvent)="createEditAddForm()">
-            <h1 class="text-[red]">{{titleButtonAdd}}</h1>
-        </app-button>
+  <div class="flex flex-row w-full justify-between">
+    <h5>{{titleScreen}}</h5>
+    <app-button [id]="'form-add'" (clickEvent)="createEditAddForm()">
+      <h1 class="text-[red]">{{titleButtonAdd}}</h1>
+    </app-button>
+  </div>
 
-    </div>
-
+  <ng-container>
     <div class="py-[10px] flex flex-row justify-between">
-        <div>
-            <app-button [id]="'delete-all'" (clickEvent)="openModalDelete()">xóa theo check </app-button>
-            <!-- <app-dialog>
+      <div>
+        <app-button [id]="'delete-all'" (clickEvent)="openModalDelete()"
+          >xóa theo check
+        </app-button>
+        <!-- <app-dialog>
                 </app-dialog> -->
-        </div>
-        <div>
-            <app-inputSearch>
-
-            </app-inputSearch>
-        </div>
+      </div>
+      <div>
+        <app-inputSearch (eventClick)="eventSearchTable($event)">
+        </app-inputSearch>
+      </div>
     </div>
-
 
     <div class="py-[15px]">
-        <ng-container *ngIf="checkList.length; else noDataTemplate">
-            <table #tableView class="border-collapse border-[1px] w-[100%]" *ngIf="tableData?.length">
-                <tr class="bg-[yellowgreen]">
-                    <td>
-                        <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1"
-                            (change)="checkUncheckAll()" />
-                    </td>
-                    <td *ngFor="let items of tableData[0] | arrayObject:true">
-                        {{items}}
-                    </td>
-                    <td colspan="2">
-                        test
-                    </td>
-                </tr>
-                <tr *ngFor="let row of tableData ;  let i = index">
-                    <td>
-                        <input type="checkbox" [(ngModel)]="checkList[i].isSelected" name="list_name" value="{{i}}"
-                            (change)="isAllSelected()" />
-                    </td>
-                    <td *ngFor="let item  of row | arrayObject">
-                        {{item}}
-                    </td>
-                    <td>
-
-                        <app-button (clickEvent)="createEditAddForm($event)">
-                            edit
-                        </app-button>
-
-                    </td>
-                    <td>
-                        <app-button [id]="'row'+i" (clickEvent)="openModalDelete(row)">
-                            delete
-                        </app-button>
-                    </td>
-                </tr>
-            </table>
-        </ng-container>
+      <ng-container
+        *ngIf="tableData && tableData.length && checkList , else noDataTemplate"
+      >
+        <table
+          #tableView
+          class="border-collapse border-[1px] w-[100%]"
+          *ngIf="tableData?.length"
+        >
+          <tr class="bg-[yellowgreen]">
+            <td>
+              <input
+                type="checkbox"
+                [(ngModel)]="masterSelected"
+                name="list_name"
+                value="m1"
+                (change)="checkUncheckAll()"
+              />
+            </td>
+            <td *ngFor="let items of tableData[0] | arrayObject:true">
+              {{items}}
+            </td>
+            <td colspan="2">test</td>
+          </tr>
+          <tr *ngFor="let row of tableData ;  let i = index">
+            <td>
+              <input
+                type="checkbox"
+                [(ngModel)]="checkList[i].isSelected"
+                name="list_name"
+                value="{{i}}"
+                (change)="isAllSelected()"
+              />
+            </td>
+            <td *ngFor="let item  of row | arrayObject">{{item}}</td>
+            <td>
+              <app-button (clickEvent)="createEditAddForm(row)">
+                edit
+              </app-button>
+            </td>
+            <td>
+              <app-button [id]="'row'+i" (clickEvent)="openModalDelete(row)">
+                delete
+              </app-button>
+            </td>
+          </tr>
+        </table>
+      </ng-container>
     </div>
-
+  </ng-container>
 </div>
 <!-- </ng-container> -->
 
-
 <ng-template #noDataTemplate>
-    <div> no data in table</div>
+  <div>no data in table</div>
 </ng-template>

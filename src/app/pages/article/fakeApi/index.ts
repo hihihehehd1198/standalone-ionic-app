@@ -20,7 +20,7 @@ const listArticleFake = new Promise((resolve: any, reject: any) => {
     }
     // console.log('listArticle', listArticle)
     resolve(listArticle);
-  }, 3000);
+  }, 5000);
 });
 
 export default listArticleFake;

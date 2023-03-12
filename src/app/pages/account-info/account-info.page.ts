@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ButtonComponent } from 'src/app/shared/button/button.page';
-import { DialogComponent } from '../../shared/dialog/dialog.page';
+import { DialogComponent } from '../../shared/dialog-confirm/dialog.page';
 // import { FormInputComponent } from 'src/app/shared/formInput/formInput.page';
 
 @Component({

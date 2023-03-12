@@ -39,7 +39,7 @@ import {
 } from '@ionic/angular';
 import { ArrayObjectPipe } from '../../pipes/array-object.pipe';
 import { ButtonComponent } from '../button/button.page';
-import { DialogComponent } from '../dialog/dialog.page';
+import { DialogComponent } from '../dialog-confirm/dialog.page';
 import { FormDialogComponent } from '../formDialog/formDialog.pages';
 import { InputSearchComponent } from '../inputSearch/inputSearch.page';
 // import { cloneDeep } from 'lodash';
@@ -87,15 +87,23 @@ export class TableComponent
   @ViewChildren('checkboxChild') checkboxChild!: IonCheckbox[];
   @ViewChild('formEditAdd') formEditAdd!: IonModal;
   @ViewChild('tableView', { static: false }) tableView?: ElementRef<any>;
-  // @ViewChild('isEnabledButton') isEnabledButton?: ElementRef<any>;
-  @Input() titleButtonAdd?: string = 'button';
-  @Input() titleScreen?: string = 'Quản lí Sản phẩm';
+
+
+
   @Output('buttonAddEvent') buttonAddEvent: EventEmitter<any> =
     new EventEmitter();
+
+  @Output() searchingEvent: EventEmitter<any> = new EventEmitter()
+
   @Output('buttonEditEvent') buttonEditEvent: EventEmitter<any> =
     new EventEmitter();
   @Output('buttonDeleteEvent') buttonDeleteEvent: EventEmitter<any> =
     new EventEmitter();
+
+
+  @Input() inputHolderName?: string;
+  @Input() titleButtonAdd?: string = 'button';
+  @Input() titleScreen?: string = 'Quản lí Sản phẩm';
   @Input() ListformControlGroup?: FormGroup;
   @Input('tableData') tableDataProps: any[] = [
     {
@@ -135,17 +143,19 @@ export class TableComponent
     },
   ];
   routeService = inject(Router);
-  dataSelect: any[] = [];
+
   formCreateEdit?: FormGroup;
 
   tableData: any[] = this.tableDataProps;
   ngOnChanges(): void {
     this.tableData = this.tableDataProps;
-    console.log('this.tableDataProps', this.tableDataProps);
-    this.formatTableFormControl();
-    this.createCheckBoxDefaultStatus();
-    console.log('formcontrolgroup', this.ListformControlGroup)
-    // this.cdf.markForCheck()
+    if (this.tableDataProps && this.tableDataProps.length) {
+      console.log('this.tableDataProps', this.tableDataProps);
+      this.formatTableFormControl();
+      this.createCheckBoxDefaultStatus();
+      console.log('formcontrolgroup', this.ListformControlGroup)
+    }
+    this.cdf.markForCheck()
     // this.cdf.detach()
   }
   ngDoCheck(): void {
@@ -165,22 +175,8 @@ export class TableComponent
     });
   }
   generateFormGroup(data?: any): FormGroup {
-    const listKey = this.tableDataProps[0];
-    // console.log('key , ', listKey, data)
-    // const newObj = Object.keys(listKey).reduce((current: any, item: any): any => {
-    //     debugger;
-    //     const newItemObject: any = {}
-    //     newItemObject[item] = (listKey as any)[`${item}`]
-    //     console.log(newItemObject)
-    //     Object.assign({ ...(current as any) }, newItemObject)
-    // }, {})
-    let newObjetForm: any = {};
-    // if (!data) {
-    //     debugger
-    // console.log(this.formcontrolName)
 
-    //     return this.fb.group({})
-    // }
+    let newObjetForm: any = {};
 
     Object.keys(this.formcontrolName).forEach((item) => {
       (newObjetForm as any)[`${item}`] = [
@@ -232,10 +228,13 @@ export class TableComponent
       // collection.style.maxWidth = '30px'
       // collection.style.width = '30px'
     }
+
   }
 
+
+
   async createEditAddForm(data?: any) {
-    // console.log('data', data)
+    console.log('data', data)
     console.log(this.formcontrolName);
 
     this.formRender = this.generateFormGroup(data);
@@ -245,7 +244,7 @@ export class TableComponent
       componentProps: {
         formDialogParam: this.formRender,
         formSubmit: () => {
-          this.submitFormEdit(data);
+          data ? this.submitFormEdit('update', formTemplate) : this.submitFormEdit(undefined, formTemplate)
         },
         dialogTitle: 'testing',
         dialogName: 'testing',
@@ -259,47 +258,47 @@ export class TableComponent
     });
     return await formTemplate.present();
   }
-  submitFormEdit(data?: any): void {
+  submitFormEdit(data?: string, dialog?: HTMLIonModalElement): void {
+    console.log('data update: ', data)
     // console.log(this.formRender.getRawValue())
-    data
+    dialog?.dismiss()
+    data?.length
       ? this.buttonEditEvent.emit(this.formRender.getRawValue())
       : this.buttonAddEvent.emit(this.formRender.getRawValue());
+
   }
 
   //open modal delete
   async openModalDelete(data?: any) {
-    // let dataDelete = [...this.dataSelect]
-    if (data) {
-      this.dataSelect = [{ ...data }];
-    } else {
-      // console.log(this.checkList.length)
-      const isDeleteAll = [...this.checkList].filter(
-        (x) => x.isSelected === true
-      );
-      console.log('isDeleteAll', isDeleteAll);
-      this.dataSelect = [...isDeleteAll].map((x) => {
-        const childItem = this.tableDataProps.find(
-          (y) => x['col1'] === y['col1']
-        );
-        return childItem;
-      });
-    }
-    console.log(this.dataSelect);
+    debugger
+    const isDeleteAll = data ? data : [...this.checkList].filter(
+      (x) => x.isSelected === true
+    );
+    console.log('rowData ,........', data)
+    const isDeleteId = data ? [data.id] : [...isDeleteAll].map(x => +x['id'])
+
+
+
+
+
     const formDelete = await this.modalController.create({
       component: DialogComponent,
       componentProps: {
         dialogName: 'test',
-        dataParam: this.dataSelect, // form
+        // dataParam: isDeleteAll, // form
         dialogTitle: 'test',
-        submitClick: (data: any) => {
-          this.deleteData(data);
+        submitClick: () => {
+          this.deleteData(isDeleteId, formDelete);
         },
       },
     });
+
     return await formDelete.present();
   }
-  deleteData(e?: any) {
-    this.buttonDeleteEvent.emit(this.dataSelect);
+  deleteData(e?: any, dialog?: HTMLIonModalElement) {
+    console.log(e)
+    dialog?.dismiss()
+    this.buttonDeleteEvent.emit(e);
   }
 
   checkUncheckAll(e?: any) {
@@ -314,5 +313,8 @@ export class TableComponent
   }
   ngOnDestroy(): void {
     console.log('destroyed !');
+  }
+  eventSearchTable(event: string) {
+    this.searchingEvent?.emit(event)
   }
 }

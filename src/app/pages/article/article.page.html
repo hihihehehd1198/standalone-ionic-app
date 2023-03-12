@@ -1,15 +1,24 @@
-<ng-container *ngIf="tableDataProps">
-  <app-table [tableData]="tableDataProps" [titleScreen]="titleScreen" (buttonAddEvent)="buttonAddArticleEvent($event)"
-    (buttonDeleteEvent)="buttonDeleteArticleEvent($event)" (buttonEditEvent)="buttonEditArticleEvent($event)">
+<ng-container>
+  <app-table
+    [tableData]="listArticleSubscription | async"
+    [titleScreen]="titleScreen"
+    (searchingEvent)="searchEvent($event)"
+    (buttonAddEvent)="buttonAddArticleEvent($event)"
+    (buttonDeleteEvent)="buttonDeleteArticleEvent($event)"
+    (buttonEditEvent)="buttonEditArticleEvent($event)"
+  >
   </app-table>
-
+  <!-- <app-toast> <h1>test</h1></app-toast>
+  <app-toast><h2>test</h2> </app-toast> -->
+  <div ToastDirective></div>
 </ng-container>
 <hr />
 <!-- <ng-container *ngIf="listArticleData| async"> -->
-<div>
+<!-- <div>
   <ul *ngIf="listArticleData">
     <button (click)="updateDom()">updateDom</button>
     <li *ngFor="let item of listArticleData | async">{{null}}</li>
   </ul>
-</div>
+</div> -->
 <!-- </ng-container> -->
+<!-- <ng-template *ngIf="true"> <div>testinggggg</div> </ng-template> -->

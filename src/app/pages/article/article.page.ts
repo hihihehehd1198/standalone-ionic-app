@@ -1,6 +1,20 @@
-import { FormGroup } from '@angular/forms';
-import { getArticleActionVoid } from './store/article.action';
-import { Apollo, gql } from 'apollo-angular';
+import {
+  getArticleActionVoid,
+  createArticleAction,
+  deleteArticleAction,
+  updateArticleAction,
+  updateArticleActionSuccess,
+  getArticleActionSuccess,
+  getArticleActionFailure,
+  GET_ARTICLE_ACTION_FAILURE,
+  GET_ARTICLE_ACTION_SUCCESS,
+  updateArticleActionFailure,
+  createArticleActionSuccess,
+  createArticleActionFailure,
+  deleteArticleActionSuccess,
+  deleteArticleActionFailure,
+} from './store/article.action';
+import { Apollo } from 'apollo-angular';
 import { CommonModule, NgFor } from '@angular/common';
 import {
   Component,
@@ -11,14 +25,49 @@ import {
   ChangeDetectorRef,
   AfterContentInit,
   ChangeDetectionStrategy,
+  importProvidersFrom,
+  DoCheck,
+  AfterContentChecked,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonicModule,
+  ViewDidEnter,
+  ViewDidLeave,
+  ViewWillEnter,
+} from '@ionic/angular';
 import { TableComponent } from '../../shared/table/table.page';
-import { BehaviorSubject, map, Observable, Subscription, tap } from 'rxjs';
-import listArticleFake from '../article/fakeApi/index';
-import { select, Store, StoreModule } from '@ngrx/store';
-import { ArticleStore, reducer } from './store/article.reducer';
-import { articleSelector } from './store/article.selector';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  combineLatestWith,
+  filter,
+  map,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+  switchMap,
+  takeUntil,
+  tap,
+  timeout,
+  timer,
+} from 'rxjs';
+import { Store } from '@ngrx/store';
+import { ArticleItem, ArticleStore, reducer } from './store/article.reducer';
+import { AppStateType, articleSelector } from './store/article.selector';
+import { ArticleService } from 'src/app/services/article.service';
+import { Actions, ofType } from '@ngrx/effects';
+import { LIST_MODULE } from './store/article.type';
+import { ToastComponent } from 'src/app/shared/toast/toast.page';
+import { ToastDirective } from 'src/app/shared/toast/toast.directive';
+import { ToastInput } from 'src/app/shared/toast/toastInput.type';
+import { ToastService } from 'src/app/services/toast.service';
+import { cloneDeep } from 'lodash';
 interface Article {
   stt?: Number;
   id?: String;
@@ -31,96 +80,132 @@ interface Article {
   styleUrls: ['article.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IonicModule,
-    CommonModule,
-    TableComponent,
-    NgFor,
-    // StoreModule.forFeature('article', reducer)
-  ],
+  imports: [IonicModule, CommonModule, TableComponent, NgFor, ToastComponent, ToastDirective],
 })
 export class ArticleComponent implements OnDestroy, AfterViewInit {
   tableDataProps: Article[] = [];
   titleScreen = 'Quản lí bài viết ';
-  private apollo = inject(Apollo);
   private store = inject(Store);
+  private toastService = inject(ToastService)
   cdf = inject(ChangeDetectorRef);
-  listArticleSubscription?: Subscription;
+  action = inject(Actions)
+  getArticleResponse = new Subject<void>()
+  editArticleResponse = new Subject<void>()
+  deleteArticleResponse = new Subject<void>()
+  createArticleResponse = new Subject<void>()
+
+
+  searchingText = new BehaviorSubject<string>('')
+
+  listArticleSubscription?: Observable<any>;
   listArticleData = new BehaviorSubject([]);
+  articleService = inject(ArticleService);
+  @ViewChild(ToastDirective, { static: false }) host?: ToastDirective
+
+
+
 
   ngAfterViewInit(): void {
-    this.getListArticleDefault();
-    // this.listArticleData.subscribe();
-    // listArticleFake.then()
-    this.store.dispatch(getArticleActionVoid());
-    // console.log(this.listArticleStore)
-    this.store
-      .pipe(select(articleSelector))
-      .pipe(
-        tap((x) => {
-          // console.log(x)
-        })
-      )
-      .subscribe();
-    this.fakeListArticleApi(); // bug ExpressionChangedAfterItHasBeenCheckedError: Expression has changed 
-    this.cdf.detectChanges() // fix bug NG0100/*  */
-  }
-  updateDom() {
-
-  }
-
-  // generateFormControlGroup(): FormGroup {
-
-  // }
-
-  fakeListArticleApi() {
-    const listItem = []
-    for (let i = 0; i < 10; i++) {
-      const item: Article = {
-        stt: i,
-        id: `Article_${i}`,
-        title: `tieu de ${i}`,
-        body: `content ${i}`,
-      };
-      listItem.push(item);
-    }
-    this.tableDataProps = [...listItem]
-  }
-  buttonAddArticleEvent(data?: any) {
-    console.log('buttonAddData', data);
-  }
-  buttonEditArticleEvent(data?: any) {
-    console.log('buttonEdit', data);
-  }
-  buttonDeleteArticleEvent(data?: any) {
-    console.log('buttonDeleteData', data);
-  }
-  getListArticleDefault() {
-    this.listArticleSubscription = this.apollo
-      .watchQuery({
-        query: gql`
-          query {
-            getArticle(id: null) {
-              id
-              body
-              title
-            }
-          }
-        `,
+    console.log('rerender');
+    this.listArticleSubscription = this.store.pipe(
+      map((x: AppStateType) => {
+        return x?.article?.listArticle;
+      }),
+      switchMap((x: ArticleItem[]) => {
+        return this.searchingText.pipe(map((y) => {
+          console.log(y)
+          const newlistArticle = [...x].filter(x => x.id.toString().includes(y))
+          console.log(newlistArticle)
+          return newlistArticle
+        }))
       })
-      .valueChanges.pipe(
-        map((x) => x.data || {}),
-        map((y: any) => Object.values(y)[0] || []),
-        tap((res: any) => {
-          this.listArticleData.next(res);
-          //   console.log(res[0]['jkahsdjkahkdjahjk']);
-          //   console.log(res[0].jkahsdjkahkdjahjk);
-        })
-      )
-      .subscribe();
+
+
+      // combineLatestWith(this.searchingText),
+      // map(([list, text]: [AppStateType, string]) => {
+      //   return (list.article.listArticle as ArticleItem[]).filter(x => {
+      //     return x.id.toString().includes(text)
+      //   })
+      // })
+    );
+
+
+    this.watchAPIResponseToast()
+
+    this.store.dispatch(getArticleActionVoid());
+    // this.getArticleResponse.subscribe()
+    // this.fakeListArticleApi(); // bug ExpressionChangedAfterItHasBeenCheckedError: Expression has changed
+    this.cdf.detectChanges(); // fix bug NG0100/*  */
+
   }
+
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log('checked testing');
+  }
+
+  buttonAddArticleEvent(data: ArticleItem) {
+    console.log('buttonAddData', data);
+    this.store.dispatch(
+      createArticleAction({
+        article: data,
+      })
+    );
+    // this.articleService.createArticle(data).subscribe(res => console.log(res))
+  }
+  buttonEditArticleEvent(data?: ArticleItem) {
+    console.log('buttonEdit', data);
+    if (data) {
+      this.store.dispatch(updateArticleAction({ articleItem: data }));
+    }
+  }
+  buttonDeleteArticleEvent(data?: number[]) {
+    console.log('buttonDeleteData', data);
+    if (data && data.length) {
+      // this.articleService.deleteArticle(data).subscribe(console.log)
+      this.store.dispatch(deleteArticleAction({ id: data }));
+    }
+  }
+
   ngOnDestroy(): void {
     console.log('article component has destroyed ! ');
-    this.listArticleSubscription?.unsubscribe();
+    this.getArticleResponse.next()
+    this.getArticleResponse.complete()
+
+    this.editArticleResponse.next()
+    this.editArticleResponse.complete()
+
+    this.deleteArticleResponse.next()
+    this.deleteArticleResponse.complete()
+
+    this.createArticleResponse.next()
+    this.createArticleResponse.complete()
+
+    this.searchingText.unsubscribe()
+  }
+
+
+  watchAPIResponseToast() {
+    this.action.pipe(takeUntil(this.getArticleResponse), ofType(getArticleActionFailure, getArticleActionSuccess)).subscribe((res) => {
+      this.toastService.generateToast(res, this.host?.viewContainerRef)
+    })
+    this.action.pipe(takeUntil(this.editArticleResponse), ofType(updateArticleActionSuccess, updateArticleActionFailure)).subscribe((res) => {
+      this.toastService.generateToast(res, this.host?.viewContainerRef)
+    })
+    this.action.pipe(takeUntil(this.deleteArticleResponse), ofType(deleteArticleActionSuccess, deleteArticleActionFailure)).subscribe((res) => {
+      this.toastService.generateToast(res, this.host?.viewContainerRef)
+    })
+    this.action.pipe(takeUntil(this.createArticleResponse), ofType(createArticleActionSuccess, createArticleActionSuccess)).subscribe((res) => {
+
+      this.toastService.generateToast(res, this.host?.viewContainerRef)
+    })
+  }
+
+  searchEvent(text: string) {
+    this.searchingText.next(text)
   }
 }
+
+
+

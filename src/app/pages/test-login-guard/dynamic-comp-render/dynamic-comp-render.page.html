@@ -1,0 +1,27 @@
+<h1>dynamic component background work !</h1>
+<div class="flex flex-row border-black border-[1px]">
+  <button class="p-2 m-2 bg-[yellowgreen]" (click)="addDynamicCompOne()">
+    add comp1
+  </button>
+
+  <button class="p-2 m-2 bg-[yellowgreen]" (click)="addDynamicCompTwo()">
+    add comp2
+  </button>
+</div>
+
+<ng-template></ng-template>
+
+<form [formGroup]="formGroup">
+  <div class="flex flex-row">
+    <label for="username">username : </label>
+    <input type="text" formControlName="username" />
+    
+  </div>
+  <div class="flex flex-row">
+    <label for="password"> password :</label>
+    <input id="password" type="text" formControlName="password" />
+  </div>
+  <div>
+    <input type="submit" />
+  </div>
+</form>

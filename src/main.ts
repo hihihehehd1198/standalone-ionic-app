@@ -26,7 +26,7 @@ import {
 // import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app'
 import { HeaderInterceptor } from './app/interceptor/header/header.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { reducer } from './app/pages/article/store/article.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { GetArticleEffect } from './app/pages/article/store/article.effect';
@@ -38,7 +38,12 @@ import { AngularFireModule } from '@angular/fire/compat';
 if (environment.production) {
   enableProdMode();
 }
-
+import * as firebase from 'firebase/app';
+import 'firebase/messaging';
+import { initializeApp } from 'firebase/app';
+import { AppStateType } from './app/pages/article/store/article.selector';
+import { metaReducers } from './app/pages/LoginPage/UserStore/meta.reducer';
+// import { DynamicCompRenderComponent } from './app/pages/test-login-guard/dynamic-comp-render/dynamic-comp-render.page';
 const firebaseConfig = {
   apiKey: 'AIzaSyDkZSndxYuL_T_BuI3mJjXYc_woBcL2uDM',
   authDomain: 'thoikhoabieu-a5075.firebaseapp.com',
@@ -49,10 +54,11 @@ const firebaseConfig = {
   // vapidKey:
   //   'BEkh9Z6npt9j4OQAu0X3On_-b-w1jtry0l8xW2FJSuECFBMVblUAbrKoq2vhF04LWLd6k7oby2apta6aAQRilSs',
 };
-import * as firebase from 'firebase/app';
-import 'firebase/messaging';
+
+const defaultStoreApp: ActionReducerMap<AppStateType | undefined> = undefined
+
 firebase.initializeApp(firebaseConfig);
-// initializeApp(environment.firebaseConfig)
+// initializeApp(firebaseConfig)
 
 // bootstrapApplication(NhapComponent, {
 //   providers: [
@@ -67,53 +73,13 @@ firebase.initializeApp(firebaseConfig);
 //   ],
 // });
 
-bootstrapApplication(LoginComponent, {
-  providers: [
-    provideRouter(
-      Router,
-      withRouterConfig({ paramsInheritanceStrategy: 'always' })
-    ),
-    importProvidersFrom(IonicModule.forRoot(), ApolloModule, HttpClientModule),
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory(httpLink: HttpLink) {
-        return {
-          cache: new InMemoryCache({
-            addTypename: false,
-          }),
-          link: httpLink.create({
-            uri: 'http://localhost:4000/graphql',
-          }),
-        };
-      },
-      deps: [HttpLink],
-    },
-  ],
-});
-
-// bootstrapApplication(AppComponent, {
+// bootstrapApplication(DynamicCompRenderComponent, {
 //   providers: [
 //     provideRouter(
 //       Router,
 //       withRouterConfig({ paramsInheritanceStrategy: 'always' })
 //     ),
-//     provideHttpClient(withInterceptors([HeaderInterceptor])),
-//     importProvidersFrom(
-//       IonicModule.forRoot({}),
-//       StoreModule.forFeature('article', reducer),
-//       EffectsModule.forFeature([GetArticleEffect]),
-//       StoreModule.forRoot({}),
-//       EffectsModule.forRoot([]),
-//       ApolloModule,
-//       StoreDevtoolsModule.instrument({
-//         maxAge: 25,
-//         logOnly: environment.production,
-//       })
-//     ),
-//     {
-//       provide: NgZone,
-//       useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
-//     },
+//     importProvidersFrom(IonicModule.forRoot(), ApolloModule, HttpClientModule),
 //     {
 //       provide: APOLLO_OPTIONS,
 //       useFactory(httpLink: HttpLink) {
@@ -130,3 +96,50 @@ bootstrapApplication(LoginComponent, {
 //     },
 //   ],
 // });
+
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(
+      Router,
+      withRouterConfig({ paramsInheritanceStrategy: 'always' })
+    ),
+    provideHttpClient(withInterceptors([HeaderInterceptor])),
+    importProvidersFrom(
+      IonicModule.forRoot({}),
+      // StoreModule.forFeature('article', reducer),
+      // StoreModule.forFeature('userLogin',reducer)
+      // EffectsModule.forFeature([GetArticleEffect]),
+      AngularFireModule.initializeApp(firebaseConfig),
+      StoreModule.forRoot(defaultStoreApp, { metaReducers: metaReducers }),
+      EffectsModule.forRoot([]),
+      ApolloModule,
+      HttpClientModule,
+      StoreDevtoolsModule.instrument({
+        maxAge: 25,
+        logOnly: environment.production,
+      })
+    ),
+    // {
+    //   provide: NgZone,
+    //   useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
+    // },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache({
+            addTypename: false,
+          }),
+          link: httpLink.create({
+            uri: 'https://192.168.43.133:4000/graphql',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
+});
+
+
+// ionic serve -c --ssl --address=192.168.43.133

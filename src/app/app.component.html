@@ -4,27 +4,5 @@
 
 <!-- <h1>test {{isPageApp |async }}</h1> -->
 
-<ion-app>
-
-  <ng-container *ngIf="isPageApp | async ">
-    <app-menu>
-
-    </app-menu>
-
-
-    <div class="ion-page" id="main-content">
-      <app-toolbar>
-
-      </app-toolbar>
-
-      <ion-content class="ion-padding">
-        <div class="ion-page" id="main-content"></div>
-        <ion-router-outlet [environmentInjector]="environmentInjector" [animated]="false">
-
-        </ion-router-outlet>
-      </ion-content>
-
-    </div>
-  </ng-container>
-
-</ion-app>
+<ion-router-outlet [environmentInjector]="environmentInjector">
+</ion-router-outlet>

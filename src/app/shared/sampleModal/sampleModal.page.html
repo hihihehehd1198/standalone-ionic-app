@@ -13,8 +13,8 @@
         <label *ngIf="listFormControlName && listControlName![i]" [for]="item">{{ listControlName![i] |
             formLabel:
             listFormControlName}}</label>
-        <app-selectInput [selectControlName]="item"> </app-selectInput>
-        <!-- <input class="border-[gray] border-[1px] rounded-[10px] pl-[10px] h-[40px]" [formControlName]="item" /> -->
+        <!-- <app-selectInput [selectControlName]="item"> </app-selectInput> -->
+        <input class="border-[gray] border-[1px] rounded-[10px] pl-[10px] h-[40px]" [formControlName]="item" />
     </div>
 </form>
 <div class="mb-[20px] flex flex-row justify-center h-[40px] items-center">

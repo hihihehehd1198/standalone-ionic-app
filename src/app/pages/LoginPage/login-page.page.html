@@ -1,0 +1,41 @@
+<ion-content>
+  <ion-header>
+    <h1>Đăng nhập</h1>
+  </ion-header>
+  <ion-content class="relative">
+    <form
+      [formGroup]="formLogin"
+      class="justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] w-[50vw]"
+    >
+      <div class="flex flex-row my-[10px]">
+        <!-- <label for=""> email </label> -->
+        <input
+          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-[50%]"
+          type="email"
+          formControlName="email"
+          placeholder=" nhap email hoac sdt"
+        />
+      </div>
+      <div class="flex flex-row my-[10px]">
+        <!-- <label for=""> password </label> -->
+        <input
+          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-[50%]"
+          type="email"
+          formControlName="password"
+          placeholder=" nhap password"
+        />
+      </div>
+      <div class="flex flex-row my-[10px]">
+        <!-- <label for=""> password </label> -->
+        <button
+          class="bg-[yellowgreen] rounded-[10px] py-[10px] px-[20px] min-w-[100%]"
+          (click)="loginSubmit()"
+        >
+          login
+        </button>
+      </div>
+
+      <a (click)="navigateForgotPassword()">quên mật khẩu ? </a>
+    </form>
+  </ion-content>
+</ion-content>
