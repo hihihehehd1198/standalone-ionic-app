@@ -1,0 +1,55 @@
+
+
+
+const ADD_CUSTOMER = "ADD_CUSTOMER"
+const ADD_CUSTOMER_SUCCESS = "ADD_CUSTOMER_SUCCESS"
+const ADD_CUSTOMER_FAILURE = "ADD_CUSTOMER_FAILURE"
+
+const GET_CUSTOMER = "GET_CUSTOMER"
+const GET_CUSTOMER_SUCCESS = "GET_CUSTOMER_SUCCESS"
+const GET_CUSTOMER_FAILURE = "GET_CUSTOMER_FAILURE"
+
+const UPDATE_CUSTOMER = "UPDATE_CUSTOMER"
+const UPDATE_CUSTOMER_SUCCESS = "UPDATE_CUSTOMER_SUCCESS"
+const UPDATE_CUSTOMER_FAILURE = "UPDATE_CUSTOMER_FAILURE"
+
+const DELETE_CUSTOMER = "DELETE_CUSTOMER"
+const DELETE_CUSTOMER_SUCCESS = "DELETE_CUSTOMER_SUCCESS"
+const DELETE_CUSTOMER_FAILURE = "DELETE_CUSTOMER_FAILURE"
+
+interface CustomerItem {
+    id: Number,
+    accountName: string,
+    name: string,
+    email: string,
+    hashedPassword: string,
+    address: string,
+    PhoneNumber: string,
+}
+
+interface CustomerState {
+    loading: boolean,
+    listCustomer: CustomerItem[],
+    error: string,
+}
+
+export {
+    ADD_CUSTOMER,
+    ADD_CUSTOMER_FAILURE,
+    ADD_CUSTOMER_SUCCESS,
+
+    UPDATE_CUSTOMER,
+    UPDATE_CUSTOMER_SUCCESS,
+    UPDATE_CUSTOMER_FAILURE,
+
+    GET_CUSTOMER,
+    GET_CUSTOMER_FAILURE,
+    GET_CUSTOMER_SUCCESS,
+
+    DELETE_CUSTOMER,
+    DELETE_CUSTOMER_FAILURE,
+    DELETE_CUSTOMER_SUCCESS,
+
+    CustomerItem,
+    CustomerState
+}

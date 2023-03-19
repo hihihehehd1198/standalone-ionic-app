@@ -1,0 +1,57 @@
+
+
+
+
+const EDIT_ACCOUNT = "EDIT_ACCOUNT"
+const EDIT_ACCOUNT_SUCCESS = "EDIT_ACCOUNT_SUCCESS"
+const EDIT_ACCOUNT_FAILURE = "EDIT_ACCOUNT_FAILURE"
+
+const DELETE_ACCOUNT = "DELETE_ACCOUNT"
+const DELETE_ACCOUNT_SUCCESS = "DELETE_ACCOUNT_SUCCESS"
+const DELETE_ACCOUNT_FAILURE = "DELETE_ACCOUNT_FAILURE"
+
+const CREATE_ACCOUNT = "CREATE_ACCOUNT"
+const CREATE_ACCOUNT_SUCCESS = "CREATE_ACCOUNT_SUCCESS"
+const CREATE_ACCOUNT_FAILURE = "CREATE_ACCOUNT_FAILURE"
+
+const GET_LIST_ACCOUNT = "GET_LIST_ACCOUNT"
+const GET_LIST_ACCOUNT_SUCCESS = "GET_LIST_ACCOUNT_SUCCESS"
+const GET_LIST_ACCOUNT_FAILURE = "GET_LIST_ACCOUNT_FAILURE"
+
+interface AccountItem {
+    accountName: string,
+    name: string,
+    email: string,
+    role: string,
+    hashedPassword: string,
+    address: string
+    PhoneNumber: string,
+}
+
+interface AccountState {
+    loading: boolean,
+    listAccount: AccountItem[],
+    error: string,
+}
+
+
+export {
+    GET_LIST_ACCOUNT,
+    GET_LIST_ACCOUNT_FAILURE,
+    GET_LIST_ACCOUNT_SUCCESS,
+
+    EDIT_ACCOUNT,
+    EDIT_ACCOUNT_FAILURE,
+    EDIT_ACCOUNT_SUCCESS,
+
+    DELETE_ACCOUNT,
+    DELETE_ACCOUNT_FAILURE,
+    DELETE_ACCOUNT_SUCCESS,
+
+    CREATE_ACCOUNT,
+    CREATE_ACCOUNT_FAILURE,
+    CREATE_ACCOUNT_SUCCESS,
+
+    AccountItem,
+    AccountState
+}
