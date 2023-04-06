@@ -1,9 +1,12 @@
-<!-- <h1>list customer work</h1> -->
-
-<!-- 
-<div>
-
-    <app-table>
-
-    </app-table>
-</div> -->
+<ng-container>
+  <app-table
+    [tableData]="listCustomerSubscription | async"
+    [titleScreen]="titleScreen"
+    (searchingEvent)="searchEvent($event)"
+    (buttonAddEvent)="buttonAddCustomerEvent($event)"
+    (buttonDeleteEvent)="buttonDeleteCustomerEvent($event)"
+    (buttonEditEvent)="buttonEditCustomerEvent($event)"
+  >
+  </app-table>
+  <div ToastDirective></div>
+</ng-container>

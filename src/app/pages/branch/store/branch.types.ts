@@ -15,7 +15,7 @@ const DELETE_BRANCH_SUCCESS = "DELETE_BRANCH_SUCCESS"
 const DELETE_BRANCH_FAILURE = "DELETE_BRANCH_FAILURE"
 
 interface BranchItem {
-    id: string | number;
+    id: number;
     name: string;
     status: boolean
 }

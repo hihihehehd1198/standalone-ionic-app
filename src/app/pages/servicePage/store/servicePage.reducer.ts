@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { cloneDeep } from 'lodash'
 import {
     createServiceAction,
     createServiceActionFailure,
@@ -13,7 +14,7 @@ import {
     updateServicePageActionFailure,
     updateServicePageActionSuccess,
 } from './servicePage.action';
-import { ServiceState } from './servicePage.types';
+import { ServiceItem, ServiceState } from './servicePage.types';
 
 const initState: ServiceState = {
     loading: false,
@@ -47,14 +48,21 @@ const serviceReducer = createReducer(
         return { ...state, loading: false, error: action.error };
     }),
     on(createServiceActionSuccess, (state, action) => {
-        return { ...state, loading: false };
+        return { ...state, loading: false, listService: [...state.listService, action.serviceItem] };
     }),
 
     on(updateServicePageAction, (state, action) => {
         return { ...state, loading: true };
     }),
     on(updateServicePageActionSuccess, (state, action) => {
-        return { ...state, loading: false };
+        let newListService = cloneDeep(state.listService)
+        newListService = [...newListService].map((x: ServiceItem) => {
+            if (x.id === action.serivceItem.id) {
+                x = action.serivceItem
+            }
+            return x
+        })
+        return { ...state, loading: false, listService: newListService };
     }),
     on(updateServicePageActionFailure, (state, action) => {
         return { ...state, loading: false, error: action.error };
@@ -64,7 +72,10 @@ const serviceReducer = createReducer(
         return { ...state, loading: true };
     }),
     on(deleteServiceActionSuccess, (state, action) => {
-        return { ...state, loading: false, };
+        const filter = [...state.listService].filter((value) => {
+            return [...action.serviceId].indexOf(+value['id']) == -1
+        })
+        return { ...state, loading: false, listService: [...filter] };
     }),
     on(deleteServiceActionFailure, (state, action) => {
         return { ...state, loading: false, error: action.error };

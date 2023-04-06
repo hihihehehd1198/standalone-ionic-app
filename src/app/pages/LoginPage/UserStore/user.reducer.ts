@@ -39,7 +39,7 @@ const userLoginReducer = createReducer(
             ...state,
 
         }
-    })
+    }),
 )
 export function reducer(state: any, action: any) {
     return userLoginReducer(state, action)

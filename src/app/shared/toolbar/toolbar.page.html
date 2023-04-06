@@ -25,8 +25,7 @@
                     <div class="flex px-[10px] flex-col">
                       <div
                         class="py-[10px]"
-                        [routerLink]="['account-detail']"
-                        routerLinkActive="router-link-active"
+                        (click)="checkRoute()"
                       >
                         Thông tin tài khoản
                       </div>

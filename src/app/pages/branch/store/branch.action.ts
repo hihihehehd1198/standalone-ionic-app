@@ -26,10 +26,10 @@ const updateBranchActionSuccess = createAction(UPDATE_BRANCH_SUCCESS, props<{
 
 const updateBranchActionFailure = createAction(UPDATE_BRANCH_FAILURE, props<{ error: string }>())
 
-const deleteBranchAction = createAction(DELETE_BRANCH, props<{ branchId: string[] | number[] }>())
+const deleteBranchAction = createAction(DELETE_BRANCH, props<{ branchId: number[] }>())
 
 const deleteBranchActionSuccess = createAction(DELETE_BRANCH_SUCCESS, props<{
-    message: string
+    branchId: number[]
 }>())
 
 const deleteBranchActionFailure = createAction(DELETE_BRANCH_FAILURE, props<{ error: string }>())

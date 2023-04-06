@@ -1,24 +1,22 @@
 <ng-container>
-  <!-- <app-table
-    [tableData]="listArticleSubscription | async"
+  <app-table
+    [tableData]="listBrandSubscription | async"
     [titleScreen]="titleScreen"
     (searchingEvent)="searchEvent($event)"
-    (buttonAddEvent)="buttonAddArticleEvent($event)"
-    (buttonDeleteEvent)="buttonDeleteArticleEvent($event)"
-    (buttonEditEvent)="buttonEditArticleEvent($event)"
+    (buttonAddEvent)="createdBrandEvent($event)"
+    (buttonDeleteEvent)="deleteBrandEvent($event)"
+    (buttonEditEvent)="updateBrandEvent($event)"
   >
-  </app-table> -->
-  <!-- <app-toast> <h1>test</h1></app-toast>
-    <app-toast><h2>test</h2> </app-toast> -->
+  </app-table>
   <div ToastDirective></div>
 </ng-container>
 <hr />
-<!-- <ng-container *ngIf="listArticleData| async"> -->
+<!-- <ng-container *ngIf="listBrandData| async"> -->
 <!-- <div>
-    <ul *ngIf="listArticleData">
+    <ul *ngIf="listBrandData">
       <button (click)="updateDom()">updateDom</button>
-      <li *ngFor="let item of listArticleData | async">{{null}}</li>
+      <li *ngFor="let item of listBrandData | async">{{null}}</li>
     </ul>
   </div> -->
 <!-- </ng-container> -->
-<ng-template *ngIf="true"> <div>testinggggg</div> </ng-template>
+<!-- <ng-template *ngIf="true"> <div>testinggggg</div> </ng-template> -->

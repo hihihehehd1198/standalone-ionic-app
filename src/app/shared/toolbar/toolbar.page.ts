@@ -33,4 +33,8 @@ export class ToolbarComponent {
         this.store.dispatch(logOutAction())
         this.router.navigateByUrl('/login-page', { replaceUrl: true })
     }
+    checkRoute(): void {
+        console.log('click ')
+        this.router.navigateByUrl('Pages/account-detail', { replaceUrl: true })
+    }
 }

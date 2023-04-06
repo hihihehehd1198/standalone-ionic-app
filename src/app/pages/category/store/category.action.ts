@@ -11,7 +11,7 @@ const getCategoryAction = createAction(GET_CATEGORY)
 
 const getCategoryActionSuccess = createAction(GET_CATEGORY_SUCCESS, props<CategoryList>())
 
-const getCategoryActionFailure = createAction(GET_CATEGORY_FAILURE, props<ErrorMessageType>())
+const getCategoryActionFailure = createAction(GET_CATEGORY_FAILURE, props<{ error: string }>())
 
 const updateCategoryAction = createAction(UPDATE_CATEGORY, props<{ categoryItem: CategoryItem }>())
 

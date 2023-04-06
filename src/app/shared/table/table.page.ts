@@ -74,6 +74,7 @@ export class TableComponent
   fb = inject(FormBuilder);
   modalController = inject(ModalController);
   formRender!: FormGroup;
+
   formcontrolName: any = {};
   masterSelected: boolean = false;
   openDialogModal = false;
@@ -100,7 +101,7 @@ export class TableComponent
   @Output('buttonDeleteEvent') buttonDeleteEvent: EventEmitter<any> =
     new EventEmitter();
 
-
+  @Input() formEditAddProps?: FormGroup
   @Input() inputHolderName?: string;
   @Input() titleButtonAdd?: string = 'button';
   @Input() titleScreen?: string = 'Quản lí Sản phẩm';
@@ -237,7 +238,7 @@ export class TableComponent
     console.log('data', data)
     console.log(this.formcontrolName);
 
-    this.formRender = this.generateFormGroup(data);
+    this.formRender = this.formEditAddProps ? this.formEditAddProps : this.generateFormGroup(data);
 
     const formTemplate = await this.modalController.create({
       component: SampleModalComponent,

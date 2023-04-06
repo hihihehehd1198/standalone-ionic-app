@@ -26,12 +26,12 @@ const createServiceActionSuccess = createAction(CREATE_SERVICE_SUCCESS, props<{
 const createServiceActionFailure = createAction(CREATE_SERIVCE_FAILURE, props<{ error: string }>())
 
 const deleteServiceAction = createAction(DELETE_SERVICE, props<{
-    serviceId: string[] | number[]
+    serviceId: number[]
 }>())
 const deleteServiceActionFailure = createAction(DELETE_SERVICE_FAILURE, props<{ error: string }>())
 
 const deleteServiceActionSuccess = createAction(DELETE_SERVICE_SUCCESS, props<{
-    serviceId: string[] | number[]
+    serviceId: number[]
 }>())
 
 export {

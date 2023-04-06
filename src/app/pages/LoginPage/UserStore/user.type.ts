@@ -11,8 +11,9 @@ export interface UserInfo {
     username: string,
     id: string,
     email: string,
-    role: string,
-    phoneNumber: string,
+    Role: string,
+    PhoneNumber: string,
+    password?: string
 }
 export interface LoginState {
     accessToken: string,

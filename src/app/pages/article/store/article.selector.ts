@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { AccountState } from "../../account/store/account.types";
 import { BannerState } from "../../bannerPage/store/bannerPage.types";
+import { BranchState } from "../../branch/store/branch.types";
 import { CategoryState } from "../../category/store/category.types";
 import { CustomerState } from "../../customer/store/customer.types";
 import { LoginState } from "../../LoginPage/UserStore/user.type";
@@ -15,6 +16,7 @@ export interface AppStateType {
     accountState: AccountState,
     categoryState: CategoryState,
     customerState: CustomerState,
+    brandState: BranchState,
 }
 interface ArticleItem { }
 

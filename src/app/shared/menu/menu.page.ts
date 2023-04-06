@@ -32,31 +32,34 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   listUrl = [
     {
-      path: 'Account-detail',
-    },
-    {
-      path: 'Account-detail2',
-    },
-    {
-      path: 'Account-detail3',
-    },
-    {
-      path: 'Account-detail4',
-    },
-    {
-      path: 'Account-detail5',
-    },
-    {
-      path: 'Account-detail5',
-    },
-    {
-      path: 'Account-detail6',
-    },
-    {
-      path: 'Account-detail7',
-    },
-    {
       path: 'dashboard',
+    },
+    {
+      path: 'customer-manager',
+    },
+    {
+      path: 'account-manager',
+    },
+    {
+      path: 'product-manager',
+    },
+    {
+      path: 'category',
+    },
+    {
+      path: 'order-manager',
+    },
+    {
+      path: 'booking-manager',
+    },
+    {
+      path: 'service-manager',
+    },
+    {
+      path: 'Banner',
+    },
+    {
+      path: 'brand-manager',
     },
     {
       path: 'article',
@@ -68,6 +71,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
       //
       { name: 'Thống kê', url: '' },
       { name: 'Quản lí khách hàng', url: '' },
+      { name: 'Quản lí nhân viên', url: '' },
       { name: 'Quản lí sản phẩm', url: '' },
       { name: 'Quản lí danh mục', url: '' },
       { name: 'Quản lí đặt hàng', url: '' },

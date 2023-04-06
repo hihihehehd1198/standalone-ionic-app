@@ -21,7 +21,7 @@ const DELETE_SERVICE_FAILURE = "DELETE_SERVICE_FAILURE"
 interface ServiceItem {
     name: string,
     id: number | string,
-    price: string,
+    price: number | string,
 }
 
 interface ServiceState {

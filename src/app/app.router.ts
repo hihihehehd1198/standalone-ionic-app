@@ -1,3 +1,4 @@
+import { BookingComponent } from './pages/booking/booking.page';
 import { ApolloModule } from 'apollo-angular';
 import { AppComponent } from './app.component';
 import { Routes } from '@angular/router';
@@ -12,6 +13,21 @@ import { GetArticleEffect } from './pages/article/store/article.effect';
 import { reducer as articleReducer } from './pages/article/store/article.reducer';
 import { reducer as UserReducer } from './pages/LoginPage/UserStore/user.reducer'
 import { UserLoginEffect } from './pages/LoginPage/UserStore/user.effect';
+import { BrandService } from './services/brand.service';
+import { BranchEffect } from './pages/branch/store/branch.effect';
+import branchReducer from './pages/branch/store/branch.reducer';
+import { SerivceManager } from './services/service-manager.service';
+import { ServicePageEffect } from './pages/servicePage/store/servicePage.effect';
+import serviceReducer from './pages/servicePage/store/servicePage.reducer';
+import { CategoryService } from './services/category.service';
+import { CategoryEffect } from './pages/category/store/category.effect';
+import categoryReducer from './pages/category/store/category.reducer';
+import { CustomerManagerService } from './services/customerManager.service';
+import CustomerReducer from './pages/customer/store/customer.reducer';
+import { CustomerEffect } from './pages/customer/store/customer.effect';
+import { AccountEffect } from './pages/account/store/account.effect';
+import AccountReducer from './pages/account/store/account.reducer';
+import { UserManagerService } from './services/userManager.service';
 const Router: Routes = [
   // {
   //   path: 'login',
@@ -50,61 +66,104 @@ const Router: Routes = [
     component: MainPageComponent,
     children: [
       {
-        path: 'Account-detail',
-        loadComponent: () =>
-          import('./pages/account/account-detail.page').then(
-            (c) => c.AccountDetailComponent
-          ),
-      },
-      {
-        path: 'Account-detail2',
-        loadComponent: () =>
-          import('./pages/customer/customer.page').then(
-            (c) => c.CustomerComponent
-          ),
-      },
-      {
-        path: 'Account-detail3',
-        loadComponent: () =>
-          import('./pages/product/product.page').then(
-            (c) => c.ProductComponent
-          ),
-      },
-      {
-        path: 'Account-detail4',
-        loadComponent: () =>
-          import('./pages/category/category.page').then(
-            (c) => c.CategoryComponent
-          ),
-      },
-      {
-        path: 'Account-detail5',
-        loadComponent: () =>
-          import('./pages/order/order.page').then((c) => c.OrderComponent),
-      },
-      {
-        path: 'Account-detail5',
-        loadComponent: () =>
-          import('./pages/order/order.page').then((c) => c.OrderComponent),
-      },
-      {
-        path: 'Account-detail6',
-        loadComponent: () =>
-          import('./pages/servicePage/service.page').then(
-            (c) => c.ServiceComponent
-          ),
-      },
-      {
-        path: 'Account-detail7',
+        path: 'Banner',
         loadComponent: () =>
           import('./pages/bannerPage/banner.page').then(
             (c) => c.BannerComponent
           ),
       },
       {
-        path: 'Account-detail8',
+        path: "account-manager",
+        providers: [
+          UserManagerService,
+          importProvidersFrom(
+            ApolloModule,
+            StoreModule.forFeature('accountState', AccountReducer),
+            EffectsModule.forFeature([AccountEffect])
+          )
+        ],
+        loadComponent: () => import('./pages/account/account-manager.page').then((c) => c.AccountManagerComponent)
+      },
+      {
+        path: 'customer-manager',
+        providers: [
+          CustomerManagerService,
+          importProvidersFrom(
+            ApolloModule,
+            StoreModule.forFeature('customerState', CustomerReducer),
+            EffectsModule.forFeature([CustomerEffect])
+          )
+        ],
+
+        loadComponent: () =>
+          import('./pages/customer/customer.page').then(
+            (c) => c.CustomerComponent
+          ),
+      },
+      {
+        path: 'product-manager',
+        loadComponent: () =>
+          import('./pages/product/product.page').then(
+            (c) => c.ProductComponent
+          ),
+      },
+      {
+        path: 'category',
+        providers: [
+          CategoryService,
+          importProvidersFrom(
+            ApolloModule,
+            EffectsModule.forFeature([CategoryEffect]),
+            StoreModule.forFeature('categoryState', categoryReducer)
+          )
+        ],
+        loadComponent: () =>
+          import('./pages/category/category.page').then(
+            (c) => c.CategoryComponent
+          ),
+      },
+      {
+        path: 'order-manager',
+        loadComponent: () =>
+          import('./pages/order/order.page').then((c) => c.OrderComponent),
+      },
+      {
+        path: 'booking-manager',
+        loadComponent: () =>
+          import('./pages/booking/booking.page').then((c) => c.BookingComponent),
+      },
+      {
+        path: 'service-manager',
+        providers: [
+          SerivceManager,
+          importProvidersFrom(
+            ApolloModule,
+            EffectsModule.forFeature([ServicePageEffect]),
+            StoreModule.forFeature('servicePage', serviceReducer)
+          )
+        ],
+        loadComponent: () =>
+          import('./pages/servicePage/service.page').then(
+            (c) => c.ServiceComponent
+          ),
+      },
+      {
+        path: 'banner-manager',
+        loadComponent: () =>
+          import('./pages/bannerPage/banner.page').then(
+            (c) => c.BannerComponent
+          ),
+      },
+      {
+        path: 'brand-manager',
+        providers: [BrandService, importProvidersFrom(
+          ApolloModule,
+          EffectsModule.forFeature([BranchEffect]),
+          StoreModule.forFeature('brandState', branchReducer)
+        )],
         loadComponent: () =>
           import('./pages/branch/branch.page').then((c) => c.BranchComponent),
+
       },
 
       {
@@ -118,7 +177,7 @@ const Router: Routes = [
           ),
       },
       {
-        path: 'account-detail',
+        path: 'Banner',
         loadComponent: () =>
           import('./pages/account-info/account-info.page').then(
             (c) => c.AccountinfoComponent
@@ -143,14 +202,6 @@ const Router: Routes = [
   //     path: 'my-cv',
   //     loadComponent: () => import('./pages/cv/cv.page').then(c => c.CvComponent)
   // },
-  // {
-  //   path: '**',
-  //   // redirectTo: 'Pages/dashboard',
-  //   // redirectTo: 'not-found',
-  //   redirectTo: 'Pages/article',
-
-  //   pathMatch: 'full',
-  // },
   {
     path: 'login-page',
     providers: [
@@ -164,8 +215,22 @@ const Router: Routes = [
         (c) => c.LoginPageComponent
       ),
   },
+  {
+    path: '',
+    redirectTo: 'Pages',
+    pathMatch: 'prefix'
+  },
+  {
+    path: '**',
+    // redirectTo: 'Pages/dashboard',
+    redirectTo: 'not-found',
+    // redirectTo: 'Pages/article',
+
+    pathMatch: 'full',
+  },
+
   // {
-  //   path: '**',
+  //   path: '',
   //   redirectTo: 'login-page',
   //   pathMatch: 'full',
   // },

@@ -1,6 +1,7 @@
+import * as Lodash from 'lodash'
 import { createReducer, on } from "@ngrx/store";
 import { addCustomerAction, addCustomerActionFailure, addCustomerActionSuccess, deleteCustomerAction, deleteCustomerActionFailure, deleteCustomerActionSuccess, getCustomerAction, getCustomerActionFailure, getCustomerActionSuccess, updateCustomerAction, updateCustomerActionFailure, updateCustomerActionSuccess } from "./customer.action";
-import { CustomerState } from "./customer.types";
+import { CustomerItem, CustomerState } from "./customer.types";
 
 const initState: CustomerState = {
     loading: false,
@@ -37,9 +38,17 @@ const CustomerReducer = createReducer(
         }
     }),
     on(updateCustomerActionSuccess, (state, action) => {
+        let newListCustomer = Lodash.cloneDeep(state.listCustomer)
+        newListCustomer = [...newListCustomer].map((x: CustomerItem) => {
+            if (x.id === action.CustomerItem.id) {
+                x = action.CustomerItem
+            }
+            return x
+        })
         return {
             ...state,
             loading: false,
+            listCustomer: newListCustomer
         }
     }),
     on(updateCustomerActionFailure, (state, action) => {
@@ -57,9 +66,13 @@ const CustomerReducer = createReducer(
         }
     }),
     on(deleteCustomerActionSuccess, (state, action) => {
+        const filter = [...state.listCustomer].filter((value) => {
+            return [...action.CustomerId].indexOf(value['id'] as number) == -1
+        })
         return {
             ...state,
             loading: false,
+            listCustomer: filter,
         }
     }),
     on(deleteCustomerActionFailure, (state, action) => {

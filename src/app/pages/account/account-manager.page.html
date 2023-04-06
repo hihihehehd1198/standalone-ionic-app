@@ -1,0 +1,14 @@
+<ng-container>
+  <app-table
+    [tableData]="listUserAccountSubscription | async"
+    [titleScreen]="titleScreen"
+    (searchingEvent)="searchEvent($event)"
+    (buttonAddEvent)="buttonAddAccountEvent($event)"
+    (buttonDeleteEvent)="buttonDeleteAccountEvent($event)"
+    (buttonEditEvent)="buttonEditAccountEvent($event)"
+  >
+  </app-table>
+
+  <div ToastDirective></div>
+</ng-container>
+<hr />

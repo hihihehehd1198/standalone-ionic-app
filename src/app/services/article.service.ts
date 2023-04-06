@@ -25,9 +25,7 @@ mutation signin($signInInput: SignInInput!) {
 // }
 const DELETE_ARTICLE = gql`
 mutation deleteArticle($id:[Int!]!){
-  deleteArticle(id:$id){
-    response
-  }
+  deleteArticle(id:$id)
 }`
 
 const UPDATE_ARTICLE = gql`
@@ -37,7 +35,9 @@ mutation updateArticle($id:Int!,$body:String!, $title:String!){
     title:$title,
     id:$id,
   }){
-    response
+    id
+    title
+    body
   }
 }
 `
@@ -47,7 +47,9 @@ mutation createArticle($body:String!, $title:String!){
     body:$body,
     title:$title
   }){
-    response
+    id
+    title
+    body
   }
 }
 `
@@ -155,5 +157,5 @@ export class ArticleService {
 
 
 
-  
+
 }

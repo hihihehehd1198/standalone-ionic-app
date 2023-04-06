@@ -12,5 +12,5 @@ import { IonicModule } from '@ionic/angular';
 export class BannerComponent {
 
     constructor() { }
-
+    
 }

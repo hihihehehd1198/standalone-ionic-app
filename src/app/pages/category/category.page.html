@@ -1,3 +1,12 @@
-<h1>
-    category work
-</h1>
+<ng-container>
+  <app-table
+    [tableData]="listCategorySubscription | async"
+    [titleScreen]="titleScreen"
+    (searchingEvent)="searchEvent($event)"
+    (buttonAddEvent)="buttonAddCategoryEvent($event)"
+    (buttonDeleteEvent)="buttonDeleteCategoryEvent($event)"
+    (buttonEditEvent)="buttonEditCategoryEvent($event)"
+  >
+  </app-table>
+  <div ToastDirective></div>
+</ng-container>

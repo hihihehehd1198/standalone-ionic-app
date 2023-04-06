@@ -1,3 +1,4 @@
+import * as Lodash from 'lodash';
 import { createReducer, on } from '@ngrx/store';
 import {
     createBannerAction,
@@ -13,7 +14,7 @@ import {
     updateBannerActionFailure,
     updateBannerActionSuccess,
 } from './bannerPage.action';
-import { BannerState } from './bannerPage.types';
+import { BannerItem, BannerState } from './bannerPage.types';
 
 const initState: BannerState = {
     loading: false,
@@ -36,7 +37,15 @@ const bannerReducer = createReducer(
         return { ...state, loading: false };
     }),
     on(updateBannerActionSuccess, (state, action) => {
-        return { ...state, loading: false };
+        let newListBanner = Lodash.cloneDeep(state.listBanner)
+        newListBanner = [...newListBanner].map((x: BannerItem) => {
+            if (x.id === action.banner.id) {
+                x = action.banner
+            }
+            return x
+        })
+        return { ...state, loading: false, listBanner: newListBanner };
+
     }),
     on(updateBannerActionFailure, (state, action) => {
         return { ...state, loading: false, error: action.error };
@@ -45,9 +54,13 @@ const bannerReducer = createReducer(
         return { ...state, loading: true };
     }),
     on(deleteBannerActionSuccess, (state, action) => {
+        const filter = [...state.listBanner].filter((value) => {
+            return [...action.id].indexOf(+value['id']) == -1
+        })
         return {
             ...state,
             loading: false,
+            listBanner: [...filter]
         }
     }),
     on(deleteBannerActionFailure, (state, action) => {
@@ -67,6 +80,7 @@ const bannerReducer = createReducer(
         return {
             ...state,
             loading: false,
+            listBanner: [...state.listBanner, action.bannerItem]
 
         }
     }),

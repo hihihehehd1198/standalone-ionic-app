@@ -1,6 +1,7 @@
+import * as Lodash from 'lodash'
 import { createReducer, on } from "@ngrx/store";
 import { createAccountAction, createAccountActionSuccess, deleteAccountAction, deleteAccountActionFailure, deleteAccountActionSuccess, getListAccountAction, getListAccountActionFailure, getListAccountActionSuccess, updateListAccountAction, updateListAccountActionFailure, updateListAccountActionSuccess } from "./account.action";
-import { AccountState } from "./account.types";
+import { AccountItem, AccountState } from "./account.types";
 
 
 
@@ -10,7 +11,7 @@ const initState: AccountState = {
     error: ''
 }
 
-const accountReducer = createReducer(
+const AccountReducer = createReducer(
     initState, on(getListAccountAction, (state, action) => {
         return { ...state, loading: true }
     }),
@@ -18,6 +19,7 @@ const accountReducer = createReducer(
         return { ...state, loading: false, error: action.error }
     }),
     on(getListAccountActionSuccess, (state, action) => {
+        console.log('update reducer')
         return {
             ...state,
             listAccount: action.listAccount,
@@ -31,10 +33,17 @@ const accountReducer = createReducer(
         }
     }),
     on(updateListAccountActionSuccess, (state, action) => {
+        let newListAccount = Lodash.cloneDeep(state.listAccount)
+        newListAccount = [...newListAccount].map((x: AccountItem) => {
+            if (x.id === action.accountItem.id) {
+                x = action.accountItem
+            }
+            return x
+        })
         return {
             ...state,
             loading: false,
-
+            listAccount: newListAccount
         }
     }),
     on(updateListAccountActionFailure, (state, action) => {
@@ -51,9 +60,13 @@ const accountReducer = createReducer(
         }
     }),
     on(deleteAccountActionSuccess, (state, action) => {
+        const filter = [...state.listAccount].filter((value) => {
+            return [...action.accountId].indexOf(+value.id) == -1
+        })
         return {
             ...state,
             loading: false,
+            listAccount: [...filter]
         }
     }),
     on(deleteAccountActionFailure, (state, action) => {
@@ -78,4 +91,4 @@ const accountReducer = createReducer(
     })
 )
 
-export default accountReducer
+export default AccountReducer

@@ -1,7 +1,7 @@
 import { ArticleItem } from './article.reducer';
 import { inject, Injectable } from '@angular/core';
-import { createEffect } from '@ngrx/effects';
-import { Actions, ofType } from '@ngrx/effects';
+// import { } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { catchError, concatMap, map, mergeMap, of, skipWhile, switchMap, takeUntil } from 'rxjs';
 import { ArticleService } from 'src/app/services/article.service';
 

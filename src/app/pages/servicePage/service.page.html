@@ -1,3 +1,12 @@
-<h1>
-    page service work
-</h1>
+<ng-container>
+  <app-table
+    [tableData]="listServiceSubscription | async "
+    [titleScreen]="titleScreen"
+    (searchingEvent)="searchEvent($event)"
+    (buttonAddEvent)="createdServiceEvent($event)"
+    (buttonEditEvent)="updateServiceEvent($event)"
+    (buttonDeleteEvent)="deleteServiceEvent($event)"
+  >
+  </app-table>
+  <div ToastDirective></div>
+</ng-container>

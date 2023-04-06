@@ -3,8 +3,8 @@ import { BannerItem, CREATE_BANNER_ACTION, CREATE_BANNER_ACTION_FAILURE, CREATE_
 
 
 
-const createBannerAction = createAction(CREATE_BANNER_ACTION)
-const createBannerActionSuccess = createAction(CREATE_BANNER_ACTION_SUCCESS, props<{ listBanner: BannerItem[] }>())
+const createBannerAction = createAction(CREATE_BANNER_ACTION, props<{ bannerItem: BannerItem }>)
+const createBannerActionSuccess = createAction(CREATE_BANNER_ACTION_SUCCESS, props<{ bannerItem: BannerItem }>())
 
 const createBannerActionFailure = createAction(CREATE_BANNER_ACTION_FAILURE, props<{ error: string }>())
 

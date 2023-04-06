@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, AfterViewInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-    selector: 'app-booking',
+    selector: 'app-booking-manager',
     templateUrl: 'booking.page.html',
     styleUrls: ['booking.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule],  changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [IonicModule, CommonModule], changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingComponent {
+export class BookingComponent implements AfterViewInit {
 
-    constructor() { }
+    ngAfterViewInit(): void {
+
+    }
 
 }
