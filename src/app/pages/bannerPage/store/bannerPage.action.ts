@@ -3,7 +3,7 @@ import { BannerItem, CREATE_BANNER_ACTION, CREATE_BANNER_ACTION_FAILURE, CREATE_
 
 
 
-const createBannerAction = createAction(CREATE_BANNER_ACTION, props<{ bannerItem: BannerItem }>)
+const createBannerAction = createAction(CREATE_BANNER_ACTION, props<{ bannerItem: BannerItem }>())
 const createBannerActionSuccess = createAction(CREATE_BANNER_ACTION_SUCCESS, props<{ bannerItem: BannerItem }>())
 
 const createBannerActionFailure = createAction(CREATE_BANNER_ACTION_FAILURE, props<{ error: string }>())
@@ -14,9 +14,9 @@ const updateBannerAction = createAction(UPDATE_BANNER_ACTION, props<{
 const updateBannerActionSuccess = createAction(UPDATE_BANNER_ACTION_SUCCESS, props<{ banner: BannerItem }>())
 const updateBannerActionFailure = createAction(UPDATE_BANNER_ACTION_FAILURE, props<{ error: string }>())
 
-const deleteBannerAction = createAction(DELETE_BANNER_ACTION, props<{ id: number[] | string[] }>())
+const deleteBannerAction = createAction(DELETE_BANNER_ACTION, props<{ id: number[] }>())
 const deleteBannerActionFailure = createAction(DELETE_BANNER_ACTION_FAILURE, props<{ error: string }>())
-const deleteBannerActionSuccess = createAction(DELETE_BANNER_ACTION_SUCCESS, props<{ id: number[] | string[] }>())
+const deleteBannerActionSuccess = createAction(DELETE_BANNER_ACTION_SUCCESS, props<{ id: number[] }>())
 
 const getBannerAction = createAction(GET_BANNER_ACTION)
 const getBannerActionSuccess = createAction(GET_BANNER_ACTION_SUCCESS,

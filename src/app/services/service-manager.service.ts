@@ -16,7 +16,7 @@ const CREATE_SERIVCE = gql`
 
 const UPDATE_SERVICE = gql`
   mutation updateServiceShop($ServiceShopDTO: ServiceShopDTO!) {
-    createServiceShop(body: $ServiceShopDTO) {
+    updateServiceShop(body: $ServiceShopDTO) {
       id
       price
       name

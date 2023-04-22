@@ -1,6 +1,6 @@
 import { FormDialogComponent } from './../../shared/formDialog/formDialog.pages';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -26,11 +26,12 @@ import { DialogComponent } from '../../shared/dialog-confirm/dialog.page';
     DialogComponent,
     // FormInputComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountinfoComponent {
   fb = inject(FormBuilder);
 
-  constructor() {}
+  private cdf = inject(ChangeDetectorRef)
   passwordForm = this.fb.group({
     name: [null, Validators.required],
     id: [null, Validators.required],
@@ -74,6 +75,7 @@ export class AccountinfoComponent {
     const reader = new FileReader();
     reader.onload = () => {
       this.defaultImgLink = reader.result as string;
+      this.cdf.detectChanges()
     };
     reader.readAsDataURL(e.target.files[0]);
   }

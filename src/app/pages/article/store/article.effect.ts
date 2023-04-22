@@ -24,8 +24,6 @@ import {
   updateArticleActionSuccess,
 } from './article.action';
 import { Store } from '@ngrx/store';
-import genericActionModule from 'src/app/shared/store/statusAPI.action';
-import { ModuleAPI } from 'src/app/shared/store/statusAPI.type';
 
 @Injectable()
 export class GetArticleEffect {

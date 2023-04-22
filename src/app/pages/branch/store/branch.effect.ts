@@ -18,7 +18,7 @@ export class BranchEffect {
         switchMap(() => {
             return this.branchService.getBrand().pipe(map((res) => {
                 return getBranchActionSuccess({
-                    listBranch: res['data']['getAllbrand-manager']
+                    listBranch: res['data']['getAllBrand']
                 })
             }), catchError((err: Error) => {
                 return of(getBannerActionFailure({ error: err.message }))

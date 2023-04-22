@@ -31,7 +31,7 @@
               [for]="item"
               >{{ listControlName![i] | formLabel: listFormControlName}}</label
             >
-            <!-- <app-selectInput [selectControlName]="item"> </app-selectInput> -->
+            <!-- <app-selectInput [formControlProps]="item"> </app-selectInput> -->
             <input
               class="border-[gray] border-[1px] rounded-[10px] pl-[10px] h-[40px]"
               [formControlName]="item"

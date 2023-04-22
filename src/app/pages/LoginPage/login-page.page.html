@@ -2,7 +2,8 @@
   <ion-header>
     <h1>Đăng nhập</h1>
   </ion-header>
-  <ion-content class="relative">
+  <!-- <ion-content class="relative"> -->
+  <ng-container>
     <form
       [formGroup]="formLogin"
       class="justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] w-[50vw]"
@@ -37,5 +38,9 @@
 
       <a (click)="navigateForgotPassword()">quên mật khẩu ? </a>
     </form>
-  </ion-content>
+  </ng-container>
+
+  <!-- </ion-content> -->
 </ion-content>
+
+<div ToastDirective></div>

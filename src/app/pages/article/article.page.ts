@@ -6,8 +6,6 @@ import {
     updateArticleActionSuccess,
     getArticleActionSuccess,
     getArticleActionFailure,
-    GET_ARTICLE_ACTION_FAILURE,
-    GET_ARTICLE_ACTION_SUCCESS,
     updateArticleActionFailure,
     createArticleActionSuccess,
     createArticleActionFailure,
@@ -135,7 +133,7 @@ export class ArticleComponent implements OnDestroy, AfterViewInit {
         this.store.dispatch(getArticleActionVoid());
         // this.getArticleResponse.subscribe()
         // this.fakeListArticleApi(); // bug ExpressionChangedAfterItHasBeenCheckedError: Expression has changed
-        this.cdf.detectChanges(); // fix bug NG0100/*  */
+        this.cdf.markForCheck(); // fix bug NG0100/*  */
 
     }
 

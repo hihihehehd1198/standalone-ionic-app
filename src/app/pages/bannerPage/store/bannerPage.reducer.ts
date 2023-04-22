@@ -28,7 +28,7 @@ const bannerReducer = createReducer(
         return { ...state, loading: true };
     }),
     on(getBannerActionSuccess, (state, action) => {
-        return { ...state, listBanner: action.listBanner };
+        return { ...state, listBanner: action.listBanner, loading: false };
     }),
     on(getBannerActionFailure, (state, action) => {
         return { ...state, error: action.error, loading: false };

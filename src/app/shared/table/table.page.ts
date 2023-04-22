@@ -156,7 +156,7 @@ export class TableComponent
       this.createCheckBoxDefaultStatus();
       console.log('formcontrolgroup', this.ListformControlGroup)
     }
-    this.cdf.markForCheck()
+    // this.cdf.markForCheck()
     // this.cdf.detach()
   }
   ngDoCheck(): void {

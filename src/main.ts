@@ -120,10 +120,10 @@ bootstrapApplication(AppComponent, {
         logOnly: environment.production,
       })
     ),
-    // {
-    //   provide: NgZone,
-    //   useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
-    // },
+    {
+      provide: NgZone,
+      useValue: new NgZone({ shouldCoalesceEventChangeDetection: false }),
+    },
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {

@@ -11,7 +11,7 @@ import { ServiceState } from "../../servicePage/store/servicePage.types";
 export interface AppStateType {
     article: ArticleStore,
     userLogin: LoginState
-    banner: BannerState,
+    bannerState: BannerState,
     servicePage: ServiceState,
     accountState: AccountState,
     categoryState: CategoryState,

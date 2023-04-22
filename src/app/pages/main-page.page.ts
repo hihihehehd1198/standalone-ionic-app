@@ -12,9 +12,9 @@ import { Apollo } from 'apollo-angular';
 import { ArticleComponent } from './article/article.page';
 
 @Component({
-    selector: 'app-main-page',
-    styles: [],
-    template: `<ion-app>
+  selector: 'app-main-page',
+  styles: [],
+  template: `<ion-app>
       <app-menu> </app-menu>
   
       <div class="ion-page" id="main-content">
@@ -34,19 +34,17 @@ import { ArticleComponent } from './article/article.page';
       </div>
   </ion-app>
   `,
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [IonicModule, CommonModule, ToolbarComponent, MenuComponent, RouterOutlet],
-    providers: [ArticleService],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IonicModule, CommonModule, ToolbarComponent, MenuComponent, RouterOutlet],
+  providers: [ArticleService],
 
 })
 export class MainPageComponent {
-    isPageApp = new BehaviorSubject(false);
-    routeService = inject(Router);
-    environmentInjector = inject(EnvironmentInjector);
-    // constructor(public environmentInjector: EnvironmentInjector  ) {}
-    apollo = inject(Apollo);
-    ngZone = inject(NgZone);
-    cdf = inject(ChangeDetectorRef);
-    constructor() { }
+  isPageApp = new BehaviorSubject(false);
+  routeService = inject(Router);
+  environmentInjector = inject(EnvironmentInjector);
+  apollo = inject(Apollo);
+  cdf = inject(ChangeDetectorRef);
+
 }

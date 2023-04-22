@@ -14,7 +14,7 @@ export class ToastService {
     generateToast(res: any, containerRef?: ViewContainerRef) {
         const viewContainerRef = containerRef
         let dataResponse!: ToastInput;
-        if (res.type.toString().toLowerCase().includes('failure')) {
+        if (res.type.toString().toLowerCase().includes('fail')) {
             dataResponse = {
                 title: 'error case',
                 body: 'loi he thong !',

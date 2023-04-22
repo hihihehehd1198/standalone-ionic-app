@@ -28,6 +28,9 @@ import { CustomerEffect } from './pages/customer/store/customer.effect';
 import { AccountEffect } from './pages/account/store/account.effect';
 import AccountReducer from './pages/account/store/account.reducer';
 import { UserManagerService } from './services/userManager.service';
+import { BannerService } from './services/banner.service';
+import { BannerEffect } from './pages/bannerPage/store/bannerPage.effects';
+import bannerReducer from './pages/bannerPage/store/bannerPage.reducer';
 const Router: Routes = [
   // {
   //   path: 'login',
@@ -67,10 +70,22 @@ const Router: Routes = [
     children: [
       {
         path: 'Banner',
+        providers: [
+          BannerService,
+          UserManagerService,
+          importProvidersFrom(ApolloModule,
+            StoreModule.forFeature('bannerState', bannerReducer),
+            StoreModule.forFeature('accountState', AccountReducer),
+            EffectsModule.forFeature([BannerEffect, AccountEffect]))
+        ],
         loadComponent: () =>
           import('./pages/bannerPage/banner.page').then(
             (c) => c.BannerComponent
           ),
+      },
+      {
+        path: 'account-detail',
+        loadComponent: () => import('./pages/account-info/account-info.page').then(c => c.AccountinfoComponent)
       },
       {
         path: "account-manager",
@@ -149,6 +164,12 @@ const Router: Routes = [
       },
       {
         path: 'banner-manager',
+        providers: [
+          importProvidersFrom(
+            StoreModule.forFeature('accountState', AccountReducer),
+            EffectsModule.forFeature([AccountEffect])
+          )
+        ],
         loadComponent: () =>
           import('./pages/bannerPage/banner.page').then(
             (c) => c.BannerComponent
@@ -179,8 +200,8 @@ const Router: Routes = [
       {
         path: 'Banner',
         loadComponent: () =>
-          import('./pages/account-info/account-info.page').then(
-            (c) => c.AccountinfoComponent
+          import('./pages/bannerPage/banner.page').then(
+            (c) => c.BannerComponent
           ),
       },
       {
