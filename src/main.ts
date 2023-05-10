@@ -102,6 +102,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(
       Router,
+      withDebugTracing(),    //cai nay de debug cycle cua router r
       withRouterConfig({ paramsInheritanceStrategy: 'always' })
     ),
     provideHttpClient(withInterceptors([HeaderInterceptor])),

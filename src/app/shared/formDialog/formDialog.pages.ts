@@ -12,6 +12,8 @@ import {
   AfterViewInit,
   TemplateRef,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonModal } from '@ionic/angular';
@@ -24,6 +26,7 @@ import { SelectInputComponent } from '../selectInput/selectInput.page';
   templateUrl: 'formDialog.pages.html',
   styleUrls: ['formDialog.pages.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
     IonicModule,
@@ -34,6 +37,7 @@ import { SelectInputComponent } from '../selectInput/selectInput.page';
     CustomInputDirective,
     SelectInputComponent,
   ],
+
 })
 export class FormDialogComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() formDialogParam!: FormGroup;
@@ -76,9 +80,11 @@ export class FormDialogComponent implements OnChanges, OnInit, AfterViewInit {
     console.log(this.formTemplate);
   }
   closeModal(e: any) {
+    console.log('remove form ________________')
     e.dismiss();
   }
   testingDismiss() {
     console.log('testing ')
   }
+
 }

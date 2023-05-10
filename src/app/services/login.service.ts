@@ -25,6 +25,9 @@ mutation signin($email:String!, $password:String!){
 export class LoginService {
     apollo = inject(Apollo)
     router = inject(Router)
+    logOutAction() {
+        localStorage.clear()
+    }
     submitLogin(form: UserLogin): Observable<any> {
         console.log(form)
         return this.apollo.mutate({

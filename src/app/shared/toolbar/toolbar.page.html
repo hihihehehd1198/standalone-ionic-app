@@ -2,7 +2,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-toggle autoHide="false">
+      <!-- <button (click)="toggleMenu()">toggle</button> -->
+      <!-- <h1>testing</h1> -->
+      <button (click)="toggleMenu()">tesging</button>
+      </ion-menu-toggle>
+      <!-- <ion-menu-toggle>
+        <h1>testing</h1>
+      </ion-menu-toggle> -->
     </ion-buttons>
     <div class="border-[1px] px-[20px]">
       <div class="float-right">
@@ -23,10 +30,7 @@
                 <ng-template>
                   <ion-content class="ion-padding">
                     <div class="flex px-[10px] flex-col">
-                      <div
-                        class="py-[10px]"
-                        (click)="checkRoute()"
-                      >
+                      <div class="py-[10px]" (click)="checkRoute()">
                         Thông tin tài khoản
                       </div>
                       <div class="py-[10px]" (click)="logOut()">Đăng xuất</div>

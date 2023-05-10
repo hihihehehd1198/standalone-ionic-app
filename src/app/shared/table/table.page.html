@@ -1,4 +1,4 @@
-<div class="flex flex-col w-[100%] p-[15px] border-[1px]">
+<div class="flex flex-col w-[100%] p-[15px] border-[1px] ">
   <div class="flex flex-row w-full justify-between">
     <h5>{{titleScreen}}</h5>
     <app-button [id]="'form-add'" (clickEvent)="createEditAddForm()">
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="py-[15px]">
+    <div class="py-[15px] overflow-scroll block">
       <ng-container
         *ngIf="tableData && tableData.length && checkList , else noDataTemplate"
       >

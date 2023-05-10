@@ -1,3 +1,4 @@
+// import { CanComponentDeactivate } from './guards/confirmPage.guard';
 import { BookingComponent } from './pages/booking/booking.page';
 import { ApolloModule } from 'apollo-angular';
 import { AppComponent } from './app.component';
@@ -31,6 +32,8 @@ import { UserManagerService } from './services/userManager.service';
 import { BannerService } from './services/banner.service';
 import { BannerEffect } from './pages/bannerPage/store/bannerPage.effects';
 import bannerReducer from './pages/bannerPage/store/bannerPage.reducer';
+import { canDeactivateGuard } from './guards/checkUser.guard';
+
 const Router: Routes = [
   // {
   //   path: 'login',
@@ -67,6 +70,17 @@ const Router: Routes = [
   {
     path: 'Pages',
     component: MainPageComponent,
+    // canActivate: [LoginGuard],
+    // canActivate: [ConfirmDeactivateGuard],
+
+    canMatch: [LoginGuard],
+    // canDeactivate: [(component: MainPageComponent) => {
+    //   console.log('guard________________________')
+    //   return false
+    // }],
+
+    // runGuardsAndResolvers: "paramsOrQueryParamsChange",
+    // canDeactivate: [canDeactivateGuard],
     children: [
       {
         path: 'Banner',

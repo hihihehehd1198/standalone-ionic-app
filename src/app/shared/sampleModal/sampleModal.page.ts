@@ -52,6 +52,7 @@ export class SampleModalComponent implements OnInit {
     }
     closeForm() {
         // this.formSubmit()
+        console.log('diable form ______________________')
         this.modalController.dismiss()
     }
 

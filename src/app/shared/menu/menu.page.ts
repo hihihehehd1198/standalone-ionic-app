@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
@@ -14,6 +14,7 @@ import {
 import { RouteReuseStrategy, RouterLink } from '@angular/router';
 import { IonicModule, IonicRouteStrategy, IonMenu } from '@ionic/angular';
 import { Observable, timeout } from 'rxjs';
+import { relative } from 'path';
 
 @Component({
   selector: 'app-menu',
@@ -27,6 +28,7 @@ import { Observable, timeout } from 'rxjs';
 export class MenuComponent implements OnInit, AfterViewInit {
   cdf = inject(ChangeDetectorRef);
   constructor() { }
+  routes = inject(ActivatedRoute)
   router = inject(Router)
   @ViewChild('menu') menu?: any;
 
@@ -101,6 +103,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
     // this.menu?.setOpen(true)
   }
   redirectUrl(url: string) {
-    this.router.navigateByUrl(url, { replaceUrl: true })
+    // this.router.navigateByUrl(url, { replaceUrl: true })
+    this.router.navigate([url], { replaceUrl: true, relativeTo: this.routes, skipLocationChange: true })
   }
 }
