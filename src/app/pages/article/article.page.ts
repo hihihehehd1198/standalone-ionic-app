@@ -33,9 +33,6 @@ import {
 } from '@angular/core';
 import {
     IonicModule,
-    ViewDidEnter,
-    ViewDidLeave,
-    ViewWillEnter,
 } from '@ionic/angular';
 import { TableComponent } from '../../shared/table/table.page';
 import {

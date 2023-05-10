@@ -1,20 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanMatch,
-  Route,
-  Router,
-  RouterStateSnapshot,
-  UrlSegment,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard implements CanMatch {
+export class LoginGuard  {
   private router = inject(Router)
   canMatch(
     route: Route, segments: UrlSegment[]
