@@ -1,4 +1,4 @@
-<!-- <ng-container>
+<ng-container>
   <app-table
     [tableData]="listBannerSubscription | async"
     [titleScreen]="titleScreen"
@@ -6,12 +6,13 @@
     (buttonAddEvent)="buttonAddBannerEvent($event)"
     (buttonDeleteEvent)="buttonDeleteBannerEvent($event)"
     (buttonEditEvent)="buttonEditBannerEvent($event)"
+    (customOpenModal)="openDialogBannerForm($event)"
+    [isUsingCustomForm]="true"
   >
   </app-table>
 
   <div ToastDirective></div>
 </ng-container>
-<hr /> -->
+<hr />
 
-
-<app-banner-form></app-banner-form>
+<!-- <app-banner-form></app-banner-form> -->

@@ -81,7 +81,6 @@ const bannerReducer = createReducer(
             ...state,
             loading: false,
             listBanner: [...state.listBanner, action.bannerItem]
-
         }
     }),
     on(createBannerActionFailure, (state, action) => {

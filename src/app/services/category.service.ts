@@ -57,7 +57,7 @@ export class CategoryService {
     });
   }
 
-  createCategory(categoryItem: CategoryItem): Observable<any> {
+  createCategory(categoryItem: Omit<CategoryItem, 'id'>): Observable<any> {
     return this.apolloService.mutate({
       mutation: CREATE_CATEGORY,
       variables: {

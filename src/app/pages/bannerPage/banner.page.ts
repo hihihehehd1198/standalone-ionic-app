@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, inject, ChangeDetectorRef, ViewChild, SimpleChanges, AfterViewInit, OnDestroy } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonModal, IonicModule, ModalController } from '@ionic/angular';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -26,6 +26,7 @@ export class BannerComponent implements AfterViewInit, OnDestroy {
     private toastService = inject(ToastService)
     cdf = inject(ChangeDetectorRef);
     action = inject(Actions)
+    modalController = inject(ModalController);
     getBannerResponse = new Subject<void>()
     editBannerResponse = new Subject<void>()
     deleteBannerResponse = new Subject<void>()
@@ -49,10 +50,12 @@ export class BannerComponent implements AfterViewInit, OnDestroy {
                 return x?.bannerState?.listBanner;
             }),
             switchMap((x: BannerItem[]) => {
+
                 return this.searchingText.pipe(map((y) => {
+                    console.log('after change : ', x, y)
                     console.log(y)
                     const newlistBanner = [...x].filter(x => x.id.toString().includes(y))
-                    console.log(newlistBanner)
+                    // console.log(newlistBanner)
                     return newlistBanner
                 }))
             })
@@ -137,5 +140,34 @@ export class BannerComponent implements AfterViewInit, OnDestroy {
 
     searchEvent(text: string) {
         this.searchingText.next(text)
+    }
+
+
+
+    async openDialogBannerForm(data?: BannerItem) {
+        // if (!data) {
+            const formTemplate = await this.modalController.create({
+                component: BannerFormComponent,
+                componentProps: {
+                    formDialogParam: data,
+                    dialogTitle: 'testing',
+                    dialogName: 'testing',
+                    closeModalEvent: () => { this.closeModal(formTemplate) }
+                    // listTitleInput: formControlNameObj,
+                    // listFormControlName: this.formcontrolName,
+                    // listControlName: this.formcontrolName,
+                },
+                showBackdrop: true,
+                backdropDismiss: true,
+                cssClass: '',
+            });
+            return await formTemplate.present();
+        // }
+    }
+    closeModal(dialog?: HTMLIonModalElement) {
+        // console.log(e)
+        console.log('testing closing modal')
+        dialog?.dismiss()
+        this.cdf.detectChanges()
     }
 }

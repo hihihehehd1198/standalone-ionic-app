@@ -68,7 +68,7 @@ export class ArticleService {
     return this.apolloService.mutate({
       mutation: gql`
         query {
-          getArticle(id:null) {
+          getArticle {
             id
             body
             title

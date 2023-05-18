@@ -18,10 +18,11 @@ const DELETE_BANNER_ACTION_FAILURE = "DELETE_BANNER_ACTION_FAILURE"
 
 
 interface BannerItem {
-    id: number | string,
-    adminId: number | string
-    img: string | File
-    location: string
+    id: number,
+    userId: number,
+    urlImg: string
+    location: string,
+    status: boolean
 }
 interface BannerState {
     error: string,

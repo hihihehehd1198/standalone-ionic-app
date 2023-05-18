@@ -1,61 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicModule, IonModal, ModalController } from '@ionic/angular';
 import { SampleModalComponent } from '../../shared/sampleModal/sampleModal.page';
+import { ProductFormComponent } from './productForm/proudctForm.page';
+import { Store } from '@ngrx/store';
+import { Actions } from '@ngrx/effects';
 
 @Component({
     selector: 'app-product',
     templateUrl: 'product.page.html',
     styleUrls: ['product.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, SampleModalComponent]
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [IonicModule, CommonModule, SampleModalComponent, ProductFormComponent]
 })
 export class ProductComponent implements OnDestroy, AfterViewInit {
 
-    // modalController = inject(ModalController)
-    // fb = inject(FormBuilder)
-    // formGroupping?: FormGroup
-    // formTemplate!: any
-    // async openModal() {
-    //     this.formGroupping = this.fb.group({
-    //         name: ['', Validators.required],
-    //         pass: ['', Validators.required],
-    //         mail: ['', Validators.required],
-    //     })
-    //     const formControlNameObj = {
-    //         name: 'ten',
-    //         pass: 'pass',
-    //         mail: 'mail',
+    cdf = inject(ChangeDetectorRef)
+    store = inject(Store)
+    action = inject(Actions)
 
-    //     }
-    //     this.formTemplate = await this.modalController.create({
-    //         component: SampleModalComponent,
-    //         componentProps: {
-    //             formDialogParam: this.formGroupping,
-    //             formSubmit: () => {
-    //                 this.submitForm()
-    //             },
-    //             dialogTitle: 'testing',
-    //             dialogName: 'testing',
-    //             // listTitleInput: formControlNameObj,
-    //             listFormControlName: formControlNameObj,
-    //             listControlName: formControlNameObj,
-    //         },
-    //         showBackdrop: true,
-    //         backdropDismiss: true,
-    //         cssClass: ''
-    //     })
-    //     return await this.formTemplate?.present()
-    // }
-    // submitForm() {
-    //     console.log(this.formGroupping?.getRawValue())
-    // }
-
-    // private fb = inject(FormBuilder)
-    // formEditAdd = this.fb.group({
-
-    // })
     ngAfterViewInit(): void {
 
     }

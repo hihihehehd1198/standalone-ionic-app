@@ -16,7 +16,7 @@ const DELETE_BRANCH_FAILURE = "DELETE_BRANCH_FAILURE"
 
 interface BranchItem {
     id: number;
-    name: string;
+    brandName: string;
     status: boolean
 }
 interface BranchState {

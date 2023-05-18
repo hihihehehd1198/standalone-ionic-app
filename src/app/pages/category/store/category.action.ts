@@ -26,7 +26,7 @@ const deleteCategoryActionSuccess = createAction(DELETE_CATEGORY_SUCCESS, props<
 
 const deleteCategoryActionFailure = createAction(DELETE_CATEGORY_FAILURE, props<ErrorMessageType>())
 
-const addCategoryAction = createAction(ADD_CATEGORY, props<{ categoryItem: CategoryItem }>())
+const addCategoryAction = createAction(ADD_CATEGORY, props<{ categoryItem: Omit<CategoryItem, 'id'> }>())
 
 const addCategoryActionSuccess = createAction(ADD_CATEGORY_SUCCESS, props<{ categoryItem: CategoryItem }>())
 

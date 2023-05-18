@@ -1,4 +1,4 @@
-<h1>App banner form work !</h1>
+<h1>App banner form work testing !</h1>
 
 <ng-container *ngIf="FormEditAddBanner">
   <div [formGroup]="FormEditAddBanner">
@@ -6,8 +6,9 @@
       <div class="flex flex-col col-span-2 gap-[20px]">
         <label for="bannerUrl">
           <img
+            #imgInstance
             [src]="defaultImgLink"
-            class="min-w-[100vw] h-[30vh] object-contain border-[black] border-[1px] text-center leading-[30vh]"
+            class="w-[70vw] max-h-[20vh] object-fill border-[black] border-[1px] text-center leading-[30vh]"
             alt="chua co anh hien thi "
         /></label>
         <input
@@ -40,7 +41,8 @@
         /> -->
         <app-selectInput
           [formControlProps]="FormEditAddBanner.controls['userId']"
-          [listItem]="listUserSubscription"
+          [listItem]="listUserIdSignal()"
+          [defaultValue]="FormEditAddBanner.controls['userId'].value"
           customClass=""
         >
         </app-selectInput>
