@@ -13,6 +13,7 @@ import {
     deleteCategoryActionFailure,
     deleteCategoryActionSuccess,
 } from "./category.action";
+import { MutationResult } from 'apollo-angular';
 
 
 
@@ -36,8 +37,8 @@ export class CategoryEffect {
     updateCategory$ = createEffect(() => this.action$.pipe(
         ofType(updateCategoryAction),
         switchMap(({ categoryItem }) => {
-            return this.categoryService.updateCategory(categoryItem).pipe(map(() => {
-                return updateCategoryActionSuccess({ categoryItem: categoryItem })
+            return this.categoryService.updateCategory(categoryItem).pipe(map((res: MutationResult) => {
+                return updateCategoryActionSuccess({ categoryItem: res['data']['updateCategory'] })
             }),
                 catchError((err: Error) => {
                     return of(updateCategoryActionFailure({ error: err.message }))
@@ -59,8 +60,8 @@ export class CategoryEffect {
     createCategory$ = createEffect(() => this.action$.pipe(
         ofType(addCategoryAction),
         switchMap(({ categoryItem }) => {
-            return this.categoryService.createCategory(categoryItem).pipe(map(() => {
-                return addCategoryActionSuccess({ categoryItem: categoryItem })
+            return this.categoryService.createCategory(categoryItem).pipe(map((res: MutationResult<any>) => {
+                return addCategoryActionSuccess({ categoryItem: res['data']['createCategory'] })
             }), catchError((err: Error) => {
                 return of(addCategoryActionFailure({ error: err.message }))
             }))

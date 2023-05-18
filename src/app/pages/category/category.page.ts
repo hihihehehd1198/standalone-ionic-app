@@ -70,14 +70,11 @@ export class CategoryComponent implements AfterViewInit, OnDestroy {
     }
 
     buttonAddCategoryEvent(data: CategoryItem) {
-        const mappingData: CategoryItem = {
-            ...data,
-            id: +data.id,
-            status: data.status.toString() == 'true' ? true : false
-        }
+        const { id, ...bodyData } = data
+        bodyData.status = data.status.toString().toLowerCase() == 'true'
         this.store.dispatch(
             addCategoryAction({
-                categoryItem: mappingData
+                categoryItem: bodyData
             })
         );
     }

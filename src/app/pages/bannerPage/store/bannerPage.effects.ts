@@ -28,8 +28,8 @@ export class BannerEffect {
     createBannerEffect = createEffect(() => this.action$.pipe(
         ofType(createBannerAction),
         switchMap(({ bannerItem }) => {
-            return this.bannerService.createBanner(bannerItem).pipe(map(() => {
-                return createBannerActionSuccess({ bannerItem })
+            return this.bannerService.createBanner(bannerItem).pipe(map((res) => {
+                return createBannerActionSuccess({ bannerItem: res['data']['createBanner'] })
             }), catchError((err: Error) => {
                 return of(createBannerActionFailure({ error: err.message }))
             }))
@@ -42,7 +42,7 @@ export class BannerEffect {
             return this.bannerService.updateBanner(banner).pipe(map((res) => {
 
                 return updateBannerActionSuccess({
-                    banner: res['data']
+                    banner: res['data']['updateBanner']
                 })
             }), catchError((err: Error) => {
                 return of(updateBannerActionFailure({ error: err.message }))

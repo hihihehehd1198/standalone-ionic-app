@@ -103,7 +103,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
     // this.menu?.setOpen(true)
   }
   redirectUrl(url: string) {
-    // this.router.navigateByUrl(url, { replaceUrl: true })
-    this.router.navigate([url], { replaceUrl: true, relativeTo: this.routes, skipLocationChange: true })
+    this.router.navigateByUrl(url, { replaceUrl: true })
+    // this.router.navigate([url], { replaceUrl: true, relativeTo: this.routes, skipLocationChange: true })
   }
 }

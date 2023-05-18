@@ -45,7 +45,7 @@ import { InputSearchComponent } from '../inputSearch/inputSearch.page';
 // import { cloneDeep } from 'lodash';
 import * as Lodash from 'lodash';
 import { SampleModalComponent } from '../sampleModal/sampleModal.page';
-import { map, of, tap, take } from 'rxjs';
+import { map, of, tap, take, distinctUntilChanged } from 'rxjs';
 @Component({
   selector: 'app-table',
   templateUrl: 'table.page.html',
@@ -91,11 +91,14 @@ export class TableComponent
 
 
 
+
+  @Output('customOpenModal') customOpenModal: EventEmitter<any> = new EventEmitter()
+  @Input() isUsingCustomForm = false
+
   @Output('buttonAddEvent') buttonAddEvent: EventEmitter<any> =
     new EventEmitter();
 
   @Output() searchingEvent: EventEmitter<any> = new EventEmitter()
-
   @Output('buttonEditEvent') buttonEditEvent: EventEmitter<any> =
     new EventEmitter();
   @Output('buttonDeleteEvent') buttonDeleteEvent: EventEmitter<any> =
@@ -151,13 +154,15 @@ export class TableComponent
   ngOnChanges(): void {
     this.tableData = this.tableDataProps;
     if (this.tableDataProps && this.tableDataProps.length) {
-      console.log('this.tableDataProps', this.tableDataProps);
+      // console.log('this.tableDataProps', this.tableDataProps);
       this.formatTableFormControl();
       this.createCheckBoxDefaultStatus();
-      console.log('formcontrolgroup', this.ListformControlGroup)
+      // console.log('formcontrolgroup', this.ListformControlGroup)
     }
     // this.cdf.markForCheck()
     // this.cdf.detach()
+
+
   }
   ngDoCheck(): void {
 
@@ -185,9 +190,9 @@ export class TableComponent
         Validators.required,
       ];
     });
-    console.log(newObjetForm);
+    // console.log(newObjetForm);
     const form = this.fb.group(newObjetForm);
-    console.log(form);
+    // console.log(form);
     // lodash.cloneDeep(newObjetForm)
     return form;
   }
@@ -218,7 +223,7 @@ export class TableComponent
       Object.keys(this.tableDataProps[0]).forEach((item: any) => {
         (this.formcontrolName as any)[`${item}`] = item;
       });
-      console.log('object keys ', this.formcontrolName);
+      // console.log('object keys ', this.formcontrolName);
     }
   }
   ngAfterViewInit() {
@@ -229,16 +234,23 @@ export class TableComponent
       // collection.style.maxWidth = '30px'
       // collection.style.width = '30px'
     }
-
   }
 
 
 
   async createEditAddForm(data?: any) {
-    console.log('data', data)
-    console.log(this.formcontrolName);
+    // console.log('data', data)
+    // console.log("customOpenModal", this.customOpenModal)
+    // console.log(this.formcontrolName);
 
     this.formRender = this.formEditAddProps ? this.formEditAddProps : this.generateFormGroup(data);
+
+    //check custom form modal 
+    console.log('form modale : ', this.customOpenModal)
+    if (this.isUsingCustomForm) {
+      this.customOpenModal.emit(data)
+      return;
+    }
 
     const formTemplate = await this.modalController.create({
       component: SampleModalComponent,
@@ -260,7 +272,7 @@ export class TableComponent
     return await formTemplate.present();
   }
   submitFormEdit(data?: string, dialog?: HTMLIonModalElement): void {
-    console.log('data update: ', data)
+    // console.log('data update: ', data)
     // console.log(this.formRender.getRawValue())
     dialog?.dismiss()
     data?.length
@@ -271,11 +283,10 @@ export class TableComponent
 
   //open modal delete
   async openModalDelete(data?: any) {
-    debugger
     const isDeleteAll = data ? data : [...this.checkList].filter(
       (x) => x.isSelected === true
     );
-    console.log('rowData ,........', data)
+    // console.log('rowData ,........', data)
     const isDeleteId = data ? [data.id] : [...isDeleteAll].map(x => +x['id'])
 
 
@@ -297,7 +308,7 @@ export class TableComponent
     return await formDelete.present();
   }
   deleteData(e?: any, dialog?: HTMLIonModalElement) {
-    console.log(e)
+    // console.log(e)
     dialog?.dismiss()
     this.buttonDeleteEvent.emit(e);
   }
@@ -313,7 +324,7 @@ export class TableComponent
     });
   }
   ngOnDestroy(): void {
-    console.log('destroyed !');
+    // console.log('destroyed !');
   }
   eventSearchTable(event: string) {
     this.searchingEvent?.emit(event)

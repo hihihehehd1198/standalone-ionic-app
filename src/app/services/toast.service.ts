@@ -35,7 +35,7 @@ export class ToastService {
         if (componentRef) {
             componentRef.instance.inputData = dataResponse
         }
-        timer(3500).subscribe({
+        timer(1000).subscribe({
             complete: () => viewContainerRef?.clear()
         })
     }

@@ -12,7 +12,6 @@ type modalType = 'form' | 'dialog-confirm' | 'submit';
 @Component({
     selector: 'app-sampleModal',
     templateUrl: 'sampleModal.page.html',
-    styleUrls: ['sampleModal.page.scss'],
     standalone: true,
     imports: [IonicModule,
         CommonModule,

@@ -33,6 +33,9 @@ import { BannerService } from './services/banner.service';
 import { BannerEffect } from './pages/bannerPage/store/bannerPage.effects';
 import bannerReducer from './pages/bannerPage/store/bannerPage.reducer';
 import { canDeactivateGuard } from './guards/checkUser.guard';
+import { ProductService } from './services/product.service';
+import ProductReducer from './pages/product/store/product.reducer';
+import { ProductEffect } from './pages/product/store/product.effect';
 
 const Router: Routes = [
   // {
@@ -131,6 +134,18 @@ const Router: Routes = [
       },
       {
         path: 'product-manager',
+        providers: [
+          ProductService,
+          BrandService,
+          CategoryService,
+          importProvidersFrom(
+            ApolloModule,
+            StoreModule.forFeature('productState', ProductReducer),
+            StoreModule.forFeature('brandState', branchReducer),
+            StoreModule.forFeature('categoryState', categoryReducer),
+            EffectsModule.forFeature([ProductEffect, BranchEffect, CategoryEffect])
+          )
+        ],
         loadComponent: () =>
           import('./pages/product/product.page').then(
             (c) => c.ProductComponent
@@ -211,13 +226,16 @@ const Router: Routes = [
             (c) => c.ArticleComponent
           ),
       },
-      {
-        path: 'Banner',
-        loadComponent: () =>
-          import('./pages/bannerPage/banner.page').then(
-            (c) => c.BannerComponent
-          ),
-      },
+      // {
+      //   path: 'Banner',
+      //   providers: [BannerService, importProvidersFrom(ApolloModule,
+      //     StoreModule.forFeature('brandState', bannerReducer),
+      //     EffectsModule.forFeature([BannerEffect]))],
+      //   loadComponent: () =>
+      //     import('./pages/bannerPage/banner.page').then(
+      //       (c) => c.BannerComponent
+      //     ),
+      // },
       {
         path: 'dashboard',
         loadComponent: () =>
@@ -252,13 +270,14 @@ const Router: Routes = [
   },
   {
     path: '',
-    redirectTo: 'Pages',
+    redirectTo: 'Pages/product-manager',
     pathMatch: 'prefix'
   },
   {
     path: '**',
     // redirectTo: 'Pages/dashboard',
-    redirectTo: 'not-found',
+    // redirectTo: 'not-found',
+    redirectTo:"Pages/product-manager",
     // redirectTo: 'Pages/article',
 
     pathMatch: 'full',

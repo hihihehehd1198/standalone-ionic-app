@@ -42,8 +42,8 @@ export class ToolbarComponent {
         this.router.navigateByUrl('Pages/account-detail', { replaceUrl: true })
     }
     toggleMenu(): any {
-        const splitPane = document.querySelector('ion-split-pane');
-        console.log(splitPane)
+        // const splitPane = document.querySelector('ion-split-pane');
+        // console.log(splitPane)
         const windowWidth = window.innerWidth;
         const splitPaneShownAt = 992;
         const when = `(min-width: ${splitPaneShownAt}px)`;

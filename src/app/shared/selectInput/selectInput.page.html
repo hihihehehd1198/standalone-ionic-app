@@ -1,19 +1,31 @@
 <ng-container *ngIf="formControlProps ;else templateName">
   <select
     [formControl]="formControlProps"
-    *ngIf="listItem!"
     [class]="customClass"
   >
-    <option [ngValue]="item" *ngFor="let item of listItem| async ">
-      {{item}}
+    <!-- <ng-contain *ngIf="listItem"> -->
+    <option
+      [ngValue]="item | selectInputPipe :selectViewPropValue"
+      *ngFor="let item of listItem"
+    >
+      {{item | selectInputPipe : selectViewPropView}}
     </option>
+    <!-- </ng-contain> -->
   </select>
 </ng-container>
 
 <ng-template #templateName>
-  <select *ngIf="listItem!" [class]="customClass">
-    <option [ngValue]="item" *ngFor="let item of listItem| async ">
-      {{item}}
+  <select [class]="customClass">
+    <option
+      [ngValue]="item | selectInputPipe: selectViewPropValue"
+      *ngFor="let item of listItem "
+    >
+      {{item | selectInputPipe : selectViewPropView}}
     </option>
   </select>
 </ng-template>
+<!-- (ngModelChange)="defaultValue" -->
+
+<!-- <select *ngIf="listItem!" [class]="customClass">
+  <option [ngValue]="item " *ngFor="let item of listItem ">{{item }}</option>
+</select> -->
