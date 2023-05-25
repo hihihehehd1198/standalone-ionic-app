@@ -13,7 +13,6 @@ import { ToastComponent } from 'src/app/shared/toast/toast.page';
 import { Actions, ofType } from '@ngrx/effects';
 import { ToastService } from 'src/app/services/toast.service';
 import { ButtonComponent } from 'src/app/shared/button/button.page';
-import { FormValidatorModule } from '@popeyelab/ngx-validator';
 
 
 @Component({
@@ -22,7 +21,6 @@ import { FormValidatorModule } from '@popeyelab/ngx-validator';
     styleUrls: ['login-page.page.scss'],
     standalone: true,
     imports: [IonicModule, CommonModule, ReactiveFormsModule, ToastDirective, ToastComponent, FormsModule, ButtonComponent,
-        FormValidatorModule
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 
