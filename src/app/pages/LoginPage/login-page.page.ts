@@ -13,6 +13,7 @@ import { ToastComponent } from 'src/app/shared/toast/toast.page';
 import { Actions, ofType } from '@ngrx/effects';
 import { ToastService } from 'src/app/services/toast.service';
 import { ButtonComponent } from 'src/app/shared/button/button.page';
+import { FormValidatorModule, required } from '@popeyelab/ngx-validator';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { ButtonComponent } from 'src/app/shared/button/button.page';
     styleUrls: ['login-page.page.scss'],
     standalone: true,
     imports: [IonicModule, CommonModule, ReactiveFormsModule, ToastDirective, ToastComponent, FormsModule, ButtonComponent,
+        FormValidatorModule
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 
@@ -37,10 +39,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         password: ['', Validators.required]
     })
     formSignUp = this.fb.group({
-        email: ['', Validators.required],
-        userName: ['', Validators.required],
-        password: ['', Validators.required],
-        rePassword: ['', Validators.required],
+        email: ['', Validators.required, required('bat buoc nhap')],
+        userName: ['', Validators.required, required('bat buoc nhap')],
+        password: ['', Validators.required, required('bat buoc nhap')],
+        rePassword: ['', Validators.required, required('bat buoc nhap')],
     })
     @ViewChild(ToastDirective, { static: false }) host?: ToastDirective
     private subscriptionLogin = new Subject<void>()

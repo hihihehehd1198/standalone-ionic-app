@@ -31,7 +31,7 @@
     "@ngrx/effects": "^16.0.0",
     "@ngrx/store": "^16.0.0",
     "@ngrx/store-devtools": "^16.0.0",
-    "@popeyelab/ngx-validator": "^2.5.4",
+    "@popeyelab/ngx-validator": "^2.5.5",
     "apollo-angular": "^4.2.1",
     "firebase": "^9.17.1",
     "ionicons": "^6.0.3",
@@ -41,12 +41,12 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.0.0",
+    "@angular-devkit/build-angular": "^16.0.3",
     "@angular-eslint/builder": "^14.0.0",
     "@angular-eslint/eslint-plugin": "^14.0.0",
     "@angular-eslint/eslint-plugin-template": "^14.0.0",
     "@angular-eslint/template-parser": "^14.0.0",
-    "@angular/cli": "^15.2.8",
+    "@angular/cli": "^16.0.3",
     "@angular/compiler": "^16.0.1",
     "@angular/compiler-cli": "^16.0.1",
     "@angular/language-service": "^16.0.1",
