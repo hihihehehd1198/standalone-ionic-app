@@ -134,6 +134,12 @@ const Router: Routes = [
       },
       {
         path: 'product-manager',
+        // data: {
+        //   routeParamProps: 'trsting'
+        // },
+        // resolve: {
+        //   testingComponent: () => 'test comp'
+        // },
         providers: [
           ProductService,
           BrandService,
@@ -146,6 +152,8 @@ const Router: Routes = [
             EffectsModule.forFeature([ProductEffect, BranchEffect, CategoryEffect])
           )
         ],
+
+
         loadComponent: () =>
           import('./pages/product/product.page').then(
             (c) => c.ProductComponent
@@ -277,7 +285,7 @@ const Router: Routes = [
     path: '**',
     // redirectTo: 'Pages/dashboard',
     // redirectTo: 'not-found',
-    redirectTo:"Pages/product-manager",
+    redirectTo: "Pages/product-manager",
     // redirectTo: 'Pages/article',
 
     pathMatch: 'full',

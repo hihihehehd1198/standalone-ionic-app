@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { ProductService } from "src/app/services/product.service";
-import { createProductAction, createProductActionFailure, createProductActionSuccess, deleteProductAction, deleteProductActionFailure, deleteProductActionSuccess, getProductAction, getProductActionFailure, getProductActionSuccess, updateProductAction, updateProductActionFailure } from "./product.action";
+import { createProductAction, createProductActionFailure, createProductActionSuccess, deleteProductAction, deleteProductActionFailure, deleteProductActionSuccess, getProductAction, getProductActionFailure, getProductActionSuccess, updateProductAction, updateProductActionFailure, updateProductActionSuccess } from "./product.action";
 import { catchError, map, of, switchMap } from "rxjs";
 import { ProductItem } from "./product.type";
 import { MutationResult } from "apollo-angular";
@@ -25,6 +25,7 @@ export class ProductEffect {
     getProduct$ = createEffect(() => {
         return this.action$.pipe(ofType(getProductAction), switchMap(() => {
             return this.productService.getProductList().pipe(map((res: MutationResult<any>) => {
+
                 return getProductActionSuccess({ listProductItem: res.data['findProduct'] as ProductItem[] })
             }), catchError((err) => {
                 return of(getProductActionFailure(err))
@@ -36,7 +37,8 @@ export class ProductEffect {
     updateProduct$ = createEffect(() => {
         return this.action$.pipe(ofType(updateProductAction), switchMap(({ productItem }) => {
             return this.productService.updateProductList(productItem).pipe(map((res: MutationResult<any>) => {
-                return updateProductAction({ productItem: res.data['updateProduct'] })
+
+                return updateProductActionSuccess({ productItem: res.data['updateProduct'] })
             }), catchError(err => {
                 return of(updateProductActionFailure({ error: err }))
             }))
@@ -47,8 +49,10 @@ export class ProductEffect {
     createProduct$ = createEffect(() => {
         return this.action$.pipe(ofType(createProductAction), switchMap(({ productItem }) => {
             return this.productService.createProductList(productItem).pipe(map((res: MutationResult<any>) => {
+                console.log('____________res________', res)
                 return createProductActionSuccess({ productItem: res['data']['createProduct'] })
             }), catchError((err) => {
+                console.log('____________err________', err)
                 return of(createProductActionFailure({ error: err }))
             }))
         }))

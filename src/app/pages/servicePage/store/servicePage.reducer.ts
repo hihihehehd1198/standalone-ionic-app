@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash';
 import {
     createServiceAction,
     createServiceActionFailure,
@@ -48,20 +48,24 @@ const serviceReducer = createReducer(
         return { ...state, loading: false, error: action.error };
     }),
     on(createServiceActionSuccess, (state, action) => {
-        return { ...state, loading: false, listService: [...state.listService, action.serviceItem] };
+        return {
+            ...state,
+            loading: false,
+            listService: [...state.listService, action.serviceItem],
+        };
     }),
 
     on(updateServicePageAction, (state, action) => {
         return { ...state, loading: true };
     }),
     on(updateServicePageActionSuccess, (state, action) => {
-        let newListService = cloneDeep(state.listService)
+        let newListService = cloneDeep(state.listService);
         newListService = [...newListService].map((x: ServiceItem) => {
             if (x.id === action.serivceItem.id) {
-                x = action.serivceItem
+                x = action.serivceItem;
             }
-            return x
-        })
+            return x;
+        });
         return { ...state, loading: false, listService: newListService };
     }),
     on(updateServicePageActionFailure, (state, action) => {
@@ -73,8 +77,8 @@ const serviceReducer = createReducer(
     }),
     on(deleteServiceActionSuccess, (state, action) => {
         const filter = [...state.listService].filter((value) => {
-            return [...action.serviceId].indexOf(+value['id']) == -1
-        })
+            return [...action.serviceId].indexOf(+value['id']) == -1;
+        });
         return { ...state, loading: false, listService: [...filter] };
     }),
     on(deleteServiceActionFailure, (state, action) => {

@@ -15,9 +15,10 @@ export class ToastService {
         const viewContainerRef = containerRef
         let dataResponse!: ToastInput;
         if (res.type.toString().toLowerCase().includes('fail')) {
+            console.log(res)
             dataResponse = {
                 title: 'error case',
-                body: 'loi he thong !',
+                body: res['error']['message'],
                 iconType: 'error'
             }
         }
@@ -35,7 +36,7 @@ export class ToastService {
         if (componentRef) {
             componentRef.instance.inputData = dataResponse
         }
-        timer(1000).subscribe({
+        timer(100000).subscribe({
             complete: () => viewContainerRef?.clear()
         })
     }

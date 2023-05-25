@@ -96,28 +96,35 @@ export class BannerFormComponent implements OnDestroy, AfterViewInit {
         }), switchMap((listUser) => {
             this.listUserIdSignal.set(listUser.map(x => +x))
             return listUser
-        }), distinctUntilChanged((next, prev) => {
-            return next.length !== prev.length
-        }), tap(() => {
-            // console.log(this.formDialogParam)
+        }),
 
-            if (this.formDialogParam) {
+            /**
+             * todo : using it with utils func
+             */
+            distinctUntilChanged((o1, o2) => {
+                return Object.keys(o1).length !== Object.keys(o2).length
+                    && Object.keys(o1).every((p: any) => o1[p] !== o2[p]);
+            }),
+            tap(() => {
+                // console.log(this.formDialogParam)
 
-                const { urlImg, id, status, ...rest } = this.formDialogParam as BannerItem
-                // this.imgInstance?.nativeElement.src = urlImg as string
-                this.defaultImgLink = urlImg
-                // console.log(this.imgInstance.nativeElement)
-                this.imgInstance.nativeElement.src = urlImg as string
-                this.FormEditAddBanner.patchValue({
-                    ...rest,
-                    bannerId: id,
-                    // bannerUrl: urlImg,
-                    status: status as boolean,
-                })
-            }
+                if (this.formDialogParam) {
 
-            // this.cdf.detectChanges()
-        })).subscribe()
+                    const { urlImg, id, status, ...rest } = this.formDialogParam as BannerItem
+                    // this.imgInstance?.nativeElement.src = urlImg as string
+                    this.defaultImgLink = urlImg
+                    // console.log(this.imgInstance.nativeElement)
+                    this.imgInstance.nativeElement.src = urlImg as string
+                    this.FormEditAddBanner.patchValue({
+                        ...rest,
+                        bannerId: id,
+                        // bannerUrl: urlImg,
+                        status: status as boolean,
+                    })
+                }
+
+                // this.cdf.detectChanges()
+            })).subscribe()
         // console.log(this.myForm)]
         this.cdf.detectChanges()
         console.log(this.bannerInputEmitValue?.emit())
@@ -191,7 +198,6 @@ export class BannerFormComponent implements OnDestroy, AfterViewInit {
                 location: this.FormEditAddBanner.value.location!,
             }
             this.store.dispatch(createBannerAction({ bannerItem: formState }))
-            this.closeModalEvent()
             this.cdf.markForCheck()
             return;
         }

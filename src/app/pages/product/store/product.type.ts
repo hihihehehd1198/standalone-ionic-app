@@ -8,11 +8,13 @@ type ProductItem = {
     count: number,
     price: number
     location: string
+    Category?: Array<Pick<CategoryItem, 'id' | 'name'>>
+    Brand?: Pick<BranchItem, 'id' | 'brandName'>
 }
 
-type ProductItemDetail = ProductItem & {
-    brand: BranchItem
-    listCategory: CategoryItem[]
+type ProductItemParam = Omit<ProductItem, 'id' | 'Category' | 'Brand'> & {
+    brandId?: number,
+    categoryId?: number[]
 }
 
 interface ProductState {
@@ -52,5 +54,5 @@ export {
     DELETE_PRODUCT_ACTION_SUCCESS,
     ProductState,
     ProductItem,
-    ProductItemDetail
+    ProductItemParam
 }

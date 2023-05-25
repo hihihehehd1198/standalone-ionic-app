@@ -1,46 +1,147 @@
-<ion-content>
-  <ion-header>
-    <h1>Đăng nhập</h1>
-  </ion-header>
+<ion-content class="">
   <!-- <ion-content class="relative"> -->
-  <ng-container>
-    <form
-      [formGroup]="formLogin"
-      class="justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] w-[50vw]"
-    >
-      <div class="flex flex-row my-[10px]">
-        <!-- <label for=""> email </label> -->
-        <input
-          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-[50%]"
-          type="email"
-          formControlName="email"
-          placeholder=" nhap email hoac sdt"
-        />
-      </div>
-      <div class="flex flex-row my-[10px]">
-        <!-- <label for=""> password </label> -->
-        <input
-          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-[50%]"
-          type="password"
-          formControlName="password"
-          placeholder=" nhap password"
-        />
-      </div>
-      <div class="flex flex-row my-[10px]">
-        <!-- <label for=""> password </label> -->
-        <button
-          class="bg-[yellowgreen] rounded-[10px] py-[10px] px-[20px] min-w-[100%]"
-          (click)="loginSubmit()"
+  <ng-container [ngSwitch]="numberForm">
+    <!-- <ng-container *ngIf="false else ForgotPassword"> -->
+
+    <div *ngSwitchDefault>
+      <form
+        [formGroup]="formLogin"
+        class="mx-auto my-auto align-middle justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] max-h-[500px] max-w-[500px]"
+      >
+        <h1
+          class="flex flex-row my-[10px] justify-center w-[75%] font-bold text-[30px]"
         >
-          login
-        </button>
+          Đăng nhập
+        </h1>
+        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+          <!-- <label for=""> email </label> -->
+          <input
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            type="email"
+            formControlName="email"
+            placeholder=" nhap email hoac sdt"
+          />
+        </div>
+        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+          <!-- <label for=""> password </label> -->
+          <input
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            type="password"
+            formControlName="password"
+            placeholder=" nhap password"
+          />
+        </div>
+        <div class="flex flex-row my-[10px] justify-center w-[75%] gap-[15px]">
+          <!-- <label for=""> password </label> -->
+          <app-button
+            [customClass]="'bg-[yellowgreen] !rounded-[10px] !py-[10px] !px-[20px] !h-[40px]'"
+            (clickEvent)="loginSubmit()"
+          >
+            login
+          </app-button>
+
+          <app-button
+            [customClass]='"bg-[yellowgreen] rounded-[10px] py-[10px] px-[20px] !h-[40px]"'
+            (click)="numberForm=1"
+          >
+            Đăng ký
+          </app-button>
+        </div>
+        <a (click)="numberForm=2">quên mật khẩu ? </a>
+      </form>
+    </div>
+
+    <div
+      *ngSwitchCase="2"
+      class="mx-auto align-middle justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] max-h-[500px] max-w-[500px]"
+    >
+      <h1
+        class="flex flex-row my-[10px] justify-center w-[75%] font-bold text-[30px]"
+      >
+        Đặt lại mật khẩu
+      </h1>
+      <div class="flex flex-col my-[10px] justify-center w-[75%]">
+        <input
+          class="border-[1px] border-black rounded-[10px] p-[10px]"
+          [(ngModel)]="forgotPasswordInput"
+          placeholder="email / số điện thoại"
+        />
+        <app-button
+          [customClass]="'bg-[red] !mt-[30px] px-[10px] min-w-full rounded-[10px] bg-[yellowgreen] !h-[40px]'"
+          (clickEvent)="numberForm=0"
+        >
+          Khôi phục mật khẩu
+        </app-button>
       </div>
+    </div>
 
-      <a (click)="navigateForgotPassword()">quên mật khẩu ? </a>
-    </form>
+    <div *ngSwitchCase="1">
+      <form
+        [formGroup]="formSignUp"
+        class="mx-auto my-auto align-middle justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] max-h-[500px] max-w-[500px]"
+      >
+        <h1
+          class="flex flex-row my-[10px] justify-center w-[75%] font-bold text-[30px]"
+        >
+          Đăng ký
+        </h1>
+        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+          <!-- <label for=""> email </label> -->
+          <input
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            type="email"
+            formControlName="email"
+            placeholder=" nhap email hoac sdt"
+          />
+        </div>
+
+        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+          <!-- <label for=""> email </label> -->
+          <input
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            type="userName"
+            formControlName="userName"
+            placeholder=" nhap userName"
+          />
+        </div>
+
+        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+          <!-- <label for=""> password </label> -->
+          <input
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            type="password"
+            formControlName="password"
+            placeholder=" nhap password"
+          />
+        </div>
+
+        <div class="flex flex-col my-[10px] justify-center w-[75%]">
+          <!-- <label for=""> password </label> -->
+          <input
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            type="rePassword"
+            formControlName="rePassword"
+            placeholder=" nhap lai mat khau"
+          />
+        </div>
+        <div class="flex flex-row my-[10px] justify-center w-[75%] gap-[15px]">
+          <app-button
+            [customClass]="'bg-[yellowgreen] !rounded-[10px] !py-[10px] !px-[20px] !h-[40px]'"
+            (clickEvent)="numberForm = 0"
+          >
+            Đăng nhập
+          </app-button>
+          <app-button
+            [customClass]="'bg-[yellowgreen] !rounded-[10px] !py-[10px] !px-[20px] !h-[40px]'"
+            (clickEvent)="signUp()"
+          >
+            Đăng ký
+          </app-button>
+        </div>
+        <a (click)="numberForm=2">quên mật khẩu ? </a>
+      </form>
+    </div>
   </ng-container>
-
-  <!-- </ion-content> -->
 </ion-content>
 
 <div ToastDirective></div>

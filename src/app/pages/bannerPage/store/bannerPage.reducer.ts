@@ -25,7 +25,7 @@ const initState: BannerState = {
 const bannerReducer = createReducer(
     initState,
     on(getBannerAction, (state) => {
-        return { ...state, loading: true };
+        return { ...state, loading: true, error: '' };
     }),
     on(getBannerActionSuccess, (state, action) => {
         return { ...state, listBanner: action.listBanner, loading: false };
@@ -34,61 +34,61 @@ const bannerReducer = createReducer(
         return { ...state, error: action.error, loading: false };
     }),
     on(updateBannerAction, (state, action) => {
-        return { ...state, loading: false };
+        return { ...state, loading: false, error: '' };
     }),
     on(updateBannerActionSuccess, (state, action) => {
-        let newListBanner = Lodash.cloneDeep(state.listBanner)
+        let newListBanner = Lodash.cloneDeep(state.listBanner);
         newListBanner = [...newListBanner].map((x: BannerItem) => {
             if (x.id === action.banner.id) {
-                x = action.banner
+                x = action.banner;
             }
-            return x
-        })
+            return x;
+        });
         return { ...state, loading: false, listBanner: newListBanner };
-
     }),
     on(updateBannerActionFailure, (state, action) => {
         return { ...state, loading: false, error: action.error };
     }),
     on(deleteBannerAction, (state, action) => {
-        return { ...state, loading: true };
+        return { ...state, loading: true, error: '' };
     }),
     on(deleteBannerActionSuccess, (state, action) => {
         const filter = [...state.listBanner].filter((value) => {
-            return [...action.id].indexOf(+value['id']) == -1
-        })
+            return [...action.id].indexOf(+value['id']) == -1;
+        });
         return {
             ...state,
             loading: false,
-            listBanner: [...filter]
-        }
+            listBanner: [...filter],
+        };
     }),
     on(deleteBannerActionFailure, (state, action) => {
         return {
             ...state,
             loading: false,
-            error: action.error
-        }
+            error: action.error,
+        };
     }),
     on(createBannerAction, (state, action) => {
         return {
             ...state,
             loading: true,
-        }
+            error: '',
+        };
     }),
     on(createBannerActionSuccess, (state, action) => {
         return {
             ...state,
             loading: false,
-            listBanner: [...state.listBanner, action.bannerItem]
-        }
+            listBanner: [...state.listBanner, action.bannerItem],
+        };
     }),
     on(createBannerActionFailure, (state, action) => {
         return {
             ...state,
             loading: false,
-            error: action.error
-        }
+            error: action.error,
+        };
     })
 );
 

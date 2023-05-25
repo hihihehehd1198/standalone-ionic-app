@@ -2,15 +2,23 @@ import { Injectable, inject } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 
 const FIND_PRODUCT_QUERY = gql`
-query {
-    findProduct{
+  query {
+    findProduct {
+      id
+      name
+      count
+      price
+      location
+      Category {
         id
         name
-        count
-        price
-        location
+      }
+      Brand {
+        id
+        brandName
+      }
     }
-}
+  }
 `;
 
 const FIND_PRODUCT_QUERY_DETAIL = gql`
@@ -36,26 +44,41 @@ const FIND_PRODUCT_QUERY_DETAIL = gql`
 `;
 
 const CREATE_PRODUCT = gql`
-  mutation createProduct($data: data!) {
-    createProduct(data: $data) {
+  mutation createProduct($ProductBodyDTO: ProductBodyDTO!) {
+    createProduct(body: $ProductBodyDTO) {
       id
+      name
       count
       price
-      name
       location
+      Category {
+        id
+        name
+      }
+      Brand {
+        id
+        brandName
+      }
     }
   }
 `;
 
-
 const UPDATE_PRODUCT = gql`
-  mutation updateProduct($data: data!) {
-    updateProduct(data: $data) {
+  mutation updateProduct($ProductBodyDTO: ProductBodyDTO!) {
+    updateProduct(body: $ProductBodyDTO) {
       id
+      name
       count
       price
-      name
       location
+      Category {
+        id
+        name
+      }
+      Brand {
+        id
+        brandName
+      }
     }
   }
 `;
@@ -67,43 +90,43 @@ const DELETE_PRODUCT = gql`
 `;
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class ProductService {
-    apollo = inject(Apollo);
+  apollo = inject(Apollo);
 
-    getProductList(id?: number) {
-        return id
-            ? this.apollo.mutate({
-                mutation: FIND_PRODUCT_QUERY,
-            })
-            : this.apollo.mutate({
-                mutation: FIND_PRODUCT_QUERY_DETAIL,
-            });
-    }
-    updateProductList(product: any) {
-        return this.apollo.mutate({
-            mutation: UPDATE_PRODUCT,
-            variables: {
-                data: product
-            }
-        });
-    }
+  getProductList(id?: number) {
+    return !id
+      ? this.apollo.mutate({
+        mutation: FIND_PRODUCT_QUERY,
+      })
+      : this.apollo.mutate({
+        mutation: FIND_PRODUCT_QUERY_DETAIL,
+      });
+  }
+  updateProductList(product: any) {
+    return this.apollo.mutate({
+      mutation: UPDATE_PRODUCT,
+      variables: {
+        ProductBodyDTO: product,
+      },
+    });
+  }
 
-    createProductList(product: any) {
-        return this.apollo.mutate({
-            mutation: CREATE_PRODUCT,
-            variables: {
-                data: product
-            }
-        });
-    }
-    deleteProduct(id: number[]) {
-        return this.apollo.mutate({
-            mutation: DELETE_PRODUCT,
-            variables: {
-                id: [...id]
-            }
-        })
-    }
+  createProductList(product: any) {
+    return this.apollo.mutate({
+      mutation: CREATE_PRODUCT,
+      variables: {
+        ProductBodyDTO: product,
+      },
+    });
+  }
+  deleteProduct(id: number[]) {
+    return this.apollo.mutate({
+      mutation: DELETE_PRODUCT,
+      variables: {
+        id: [...id],
+      },
+    });
+  }
 }

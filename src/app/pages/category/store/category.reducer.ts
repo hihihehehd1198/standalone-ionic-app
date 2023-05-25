@@ -13,7 +13,8 @@ const categoryReducer = createReducer(
     on(getCategoryAction, (state, action) => {
         return {
             ...state,
-            loading: true
+            loading: true,
+            error: '',
         }
     }),
     on(getCategoryActionSuccess, (state, action) => {
@@ -34,6 +35,7 @@ const categoryReducer = createReducer(
         return {
             ...state,
             loading: true,
+            error: '',
 
         }
     }),
@@ -62,7 +64,7 @@ const categoryReducer = createReducer(
         return {
             ...state,
             loading: true,
-
+            error: '',
         }
     }),
     on(deleteCategoryActionSuccess, (state, action) => {
@@ -86,7 +88,7 @@ const categoryReducer = createReducer(
         return {
             ...state,
             loading: true,
-
+            error: '',
         }
     }),
     on(addCategoryActionSuccess, (state, action) => {

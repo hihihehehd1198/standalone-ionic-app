@@ -11,6 +11,13 @@ import Router from './app/app.router';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { Capacitor } from '@capacitor/core';
+import { indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
+import { getApp } from 'firebase/app';
+
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -23,7 +30,7 @@ import {
   withRouterConfig,
   ROUTER_CONFIGURATION,
 } from '@angular/router';
-// import { provideFirebaseApp, initializeApp, getApp } from '@angular/fire/app'
+import { provideFirebaseApp } from '@angular/fire/app'
 import { HeaderInterceptor } from './app/interceptor/header/header.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
@@ -34,10 +41,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NhapComponent } from './app/pages/nhap/nhap.page';
 // import { initializeApp } from 'firebase/app';
 
-import { AngularFireModule } from '@angular/fire/compat';
-if (environment.production) {
-  enableProdMode();
-}
+// import { AngularFireModule, FIREBASE_OPTIONS } from '@angular/fire';
+// if (environment.production) {
+//   enableProdMode();
+// }
+enableProdMode()
 import * as firebase from 'firebase/app';
 import 'firebase/messaging';
 import { initializeApp } from 'firebase/app';
@@ -57,7 +65,7 @@ const firebaseConfig = {
 
 const defaultStoreApp: ActionReducerMap<AppStateType | undefined> = undefined
 
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
 // initializeApp(firebaseConfig)
 
 // bootstrapApplication(NhapComponent, {
@@ -107,11 +115,23 @@ bootstrapApplication(AppComponent, {
     ),
     provideHttpClient(withInterceptors([HeaderInterceptor])),
     importProvidersFrom(
+      provideFirebaseApp(() => initializeApp(firebaseConfig)),
+      provideAuth(() => {
+        if (Capacitor.isNativePlatform()) {
+          return initializeAuth(getApp(), {
+            persistence: indexedDBLocalPersistence
+          });
+        } else {
+          return getAuth();
+        }
+      }),
+      provideFirestore(() => getFirestore()),
+      provideStorage(() => getStorage()),
       IonicModule.forRoot({}),
       // StoreModule.forFeature('article', reducer),
       // StoreModule.forFeature('userLogin',reducer)
       // EffectsModule.forFeature([GetArticleEffect]),
-      AngularFireModule.initializeApp(firebaseConfig),
+      // AngularFireModule.initializeApp(firebaseConfig),
       StoreModule.forRoot(defaultStoreApp, { metaReducers: metaReducers }),
       EffectsModule.forRoot([]),
       ApolloModule,
@@ -139,8 +159,9 @@ bootstrapApplication(AppComponent, {
       },
       deps: [HttpLink],
     },
+
   ],
 });
 
 
-// ionic serve -c --ssl --address=192.168.43.133
+// ionic serve -c --ssl --address=192.168.43.133 --no-open

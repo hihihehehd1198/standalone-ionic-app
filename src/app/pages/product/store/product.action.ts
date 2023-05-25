@@ -9,6 +9,7 @@ import {
     GET_PRODUCT_ACTION_FAILURE,
     GET_PRODUCT_ACTION_SUCCESS,
     ProductItem,
+    ProductItemParam,
     UPDATE_PRODUCT_ACTION,
     UPDATE_PRODUCT_ACTION_FAILURE,
     UPDATE_PRODUCT_ACTION_SUCCESS,
@@ -16,7 +17,7 @@ import {
 
 const createProductAction = createAction(
     CREATE_PRODUCT_ACTION,
-    props<{ productItem: Omit<ProductItem, 'id'> }>()
+    props<{ productItem: ProductItemParam }>()
 );
 const createProductActionSuccess = createAction(
     CREATE_PRODUCT_ACTION_SUCCESS,
@@ -31,7 +32,7 @@ const createProductActionFailure = createAction(
 
 const updateProductAction = createAction(
     UPDATE_PRODUCT_ACTION,
-    props<{ productItem: Omit<ProductItem, 'id'> }>()
+    props<{ productItem: ProductItemParam & { id: number[] } }>()
 );
 const updateProductActionSuccess = createAction(
     UPDATE_PRODUCT_ACTION_SUCCESS,

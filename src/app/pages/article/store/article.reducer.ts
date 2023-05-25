@@ -16,9 +16,9 @@ import {
 import { createReducer, on } from '@ngrx/store';
 
 export interface ArticleItem {
-  id: Number,
-  title: String,
-  body: String,
+  id: Number;
+  title: String;
+  body: String;
 }
 export interface ArticleStore {
   loading: boolean;
@@ -28,7 +28,7 @@ export interface ArticleStore {
 export const initState: ArticleStore = {
   listArticle: [],
   loading: false,
-  error: ''
+  error: '',
 };
 const articleReducer = createReducer(
   initState,
@@ -36,7 +36,7 @@ const articleReducer = createReducer(
     return {
       ...state,
       loading: true,
-      error: "",
+      error: '',
     };
   }),
   on(getArticleActionSuccess, (state, action) => {
@@ -50,85 +50,84 @@ const articleReducer = createReducer(
     return {
       ...state,
       loading: false,
-      error: action.error
+      error: action.error,
     };
   }),
   on(createArticleAction, (state) => {
     return {
       ...state,
       loading: true,
-      error: "",
-    }
+      error: '',
+    };
   }),
   on(createArticleActionSuccess, (state, action) => {
     return {
       ...state,
       listArticle: [...state.listArticle, action.article],
       loading: false,
-    }
+    };
   }),
   on(createArticleActionFailure, (state, action) => {
     return {
       ...state,
       loading: false,
-      error: action.error
-    }
+      error: action.error,
+    };
   }),
   on(updateArticleAction, (state) => {
     return {
       ...state,
       loading: true,
-      error: "",
-    }
+      error: '',
+    };
   }),
   on(updateArticleActionSuccess, (state, action) => {
-    let newListArticle = Lodash.cloneDeep(state.listArticle)
+    let newListArticle = Lodash.cloneDeep(state.listArticle);
     newListArticle = [...newListArticle].map((x: ArticleItem) => {
       if (x.id === action.articleItem.id) {
-        x = action.articleItem
+        x = action.articleItem;
       }
-      return x
-    })
+      return x;
+    });
     return {
       ...state,
       listArticle: newListArticle,
       loading: false,
-    }
+    };
   }),
   on(updateArticleActionFailure, (state, action) => {
     return {
       ...state,
       loading: false,
-      error: action.error
-    }
+      error: action.error,
+    };
   }),
   on(deleteArticleAction, (state) => {
-
     return {
       ...state,
       loading: true,
-      error: "",
-    }
+      error: '',
+    };
   }),
   on(deleteArticleActionSuccess, (state, action) => {
     const filter = [...state.listArticle].filter((value) => {
-      return [...action.id].indexOf(value['id']) == -1
-    })
+      return [...action.id].indexOf(value['id']) == -1;
+    });
     return {
       ...state,
       listArticle: [...filter],
       loading: false,
-    }
+    };
   }),
   on(deleteArticleActionFailure, (state, action) => {
     return {
       ...state,
       loading: false,
-      error: action.error
-    }
+      error: action.error,
+    };
   })
 );
 
 export function reducer(state: any, action: any) {
-  return articleReducer(state, action)
+  return articleReducer(state, action);
 }

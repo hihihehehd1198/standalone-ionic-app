@@ -5,7 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ionic serve -c --ssl --no-open --address=192.168.43.133",
+    "start": "ionic serve -c --ssl --address=192.168.43.133 --no-open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -31,6 +31,7 @@
     "@ngrx/effects": "^16.0.0",
     "@ngrx/store": "^16.0.0",
     "@ngrx/store-devtools": "^16.0.0",
+    "@popeyelab/ngx-validator": "^2.5.4",
     "apollo-angular": "^4.2.1",
     "firebase": "^9.17.1",
     "ionicons": "^6.0.3",

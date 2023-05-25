@@ -1,13 +1,13 @@
-<h1>product work</h1>
+<ng-container>
+  <app-table
+    [tableData]="listProduct() | productPipe"
+    [titleScreen]="titleScreen"
+    (searchingEvent)="searchEvent($event)"
+    (buttonDeleteEvent)="buttonDeleteProductEvent($event)"
+    (customOpenModal)="openDialogProductForm($event)"
+    [isUsingCustomForm]="true"
+  >
+  </app-table>
 
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>Controller Modal</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="ion-padding">
-  <ion-button expand="block" (click)="openModal()">Open</ion-button>
-  <p>testinggggggggggggggg</p>
-</ion-content> -->
-
-<app-product-form> </app-product-form>
+  <div ToastDirective></div>
+</ng-container>

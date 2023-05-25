@@ -28,8 +28,8 @@ export const HeaderInterceptor: HttpInterceptorFn = (
   return next(newReq).pipe(
     tap((x: Error | any) => {
       const authenError = null || x?.body?.errors?.[0].message;
-      if (authenError) {
-        console.log('authen error : ', authenError);
+      if (authenError == "Unauthorized") {
+        // console.log('authen error : ', authenError);
         router.navigateByUrl('/login-page', { replaceUrl: true });
       }
     })
