@@ -35,14 +35,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     store = inject(Store)
     action = inject(Actions)
     formLogin = this.fb.group({
-        email: ['', Validators.required],
-        password: ['', Validators.required]
+        email: ['', required('bat buoc nhap')],
+        password: ['', required('bat buoc nhap')]
     })
     formSignUp = this.fb.group({
-        email: ['', Validators.required, required('bat buoc nhap')],
-        userName: ['', Validators.required, required('bat buoc nhap')],
-        password: ['', Validators.required, required('bat buoc nhap')],
-        rePassword: ['', Validators.required, required('bat buoc nhap')],
+        email: ['', required('bat buoc nhap')],
+        userName: ['', required('bat buoc nhap')],
+        password: ['', required('bat buoc nhap')],
+        rePassword: ['', required('bat buoc nhap')],
     })
     @ViewChild(ToastDirective, { static: false }) host?: ToastDirective
     private subscriptionLogin = new Subject<void>()
