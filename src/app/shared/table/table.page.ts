@@ -63,6 +63,10 @@ import { map, of, tap, take, distinctUntilChanged } from 'rxjs';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
+/**
+ * this is  Presentation Components 
+ */
 export class TableComponent
   implements
   OnChanges,

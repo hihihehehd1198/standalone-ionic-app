@@ -7,6 +7,11 @@ interface UserLogin {
     email: string,
     password: string
 }
+export interface userLogin {
+    password: string
+    email: string
+    username: string
+}
 const LOGIN_QUERY = gql`
 mutation signin($email:String!, $password:String!){
     signin(signInInput: {
@@ -18,6 +23,25 @@ mutation signin($email:String!, $password:String!){
     }
 }
 `
+
+const LOGIN_FIREBASE = gql`
+mutation checkUserLoginFirebase($signInInput:LoginFirebaseInput!){
+  checkUserLoginFirebase(signInInput:$signInInput){
+    accessToken
+    refreshToken
+    requireChangePassword
+  }
+}
+`
+
+const SIGNUP_QUERY = gql`
+mutation($signUpInput:SignUpInput!){
+signup(signUpInput:$signUpInput){
+  accessToken
+  refreshToken
+}}
+`
+
 @Injectable({
     providedIn: "root",
 })
@@ -52,5 +76,29 @@ export class LoginService {
         //         console.log('complete')
         //     }
         // })
+    }
+    signUp(user: UserLogin) {
+        return this.apollo.mutate({
+            mutation: SIGNUP_QUERY,
+            variables: {
+                signUpInput: { ...user }
+            }
+        })
+    }
+
+    loginFirebase(user: {
+        email: string,
+        userName: string,
+    }) {
+        return this.apollo.mutate({
+            mutation: LOGIN_FIREBASE,
+            variables: {
+                signInInput: { ...user }
+            }
+        })
+    }
+
+    setStorageLogin(accessToken: string) {
+        localStorage.setItem('accessToken', accessToken)
     }
 }

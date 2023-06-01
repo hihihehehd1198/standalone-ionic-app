@@ -1,0 +1,28 @@
+<h1>orderForm work !</h1>
+
+<ng-container *ngIf="listProductSignal().length">
+  <table>
+    <tr>
+      <td></td>
+      <td>STT</td>
+      <td>Mã sản phẩm</td>
+      <td>Tên sản phẩm</td>
+      <td>Số lượng</td>
+      <td>Giá bán</td>
+      <td>Thành tiền</td>
+      <td>Thao tác</td>
+    </tr>
+    td>input
+    <tr *ngFor="let item of listProductSignal(); trackBy: trackByFn ">
+      <td>
+        <input type="checkbox" />
+      </td>
+      <td><input type="text" /></td>
+      <td><input type="text" /></td>
+      <td><input type="number" /></td>
+      <td><input type="text" /></td>
+      <td><input type="text" /></td>
+      <td><input type="button" /></td>
+    </tr>
+  </table>
+</ng-container>

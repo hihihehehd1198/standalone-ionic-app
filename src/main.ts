@@ -51,6 +51,7 @@ import 'firebase/messaging';
 import { initializeApp } from 'firebase/app';
 import { AppStateType } from './app/pages/article/store/article.selector';
 import { metaReducers } from './app/pages/LoginPage/UserStore/meta.reducer';
+import { AngularFireModule } from '@angular/fire/compat';
 // import { DynamicCompRenderComponent } from './app/pages/test-login-guard/dynamic-comp-render/dynamic-comp-render.page';
 const firebaseConfig = {
   apiKey: 'AIzaSyDkZSndxYuL_T_BuI3mJjXYc_woBcL2uDM',
@@ -110,11 +111,12 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(
       Router,
-      withDebugTracing(),    //cai nay de debug cycle cua router r
-      withRouterConfig({ paramsInheritanceStrategy: 'always' })
+      withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+      withDebugTracing()
     ),
     provideHttpClient(withInterceptors([HeaderInterceptor])),
     importProvidersFrom(
+      AngularFireModule.initializeApp(firebaseConfig),
       provideFirebaseApp(() => initializeApp(firebaseConfig)),
       provideAuth(() => {
         if (Capacitor.isNativePlatform()) {

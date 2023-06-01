@@ -4,9 +4,8 @@ import { ApolloModule } from 'apollo-angular';
 import { AppComponent } from './app.component';
 import { Routes } from '@angular/router';
 import { ArticleService } from './services/article.service';
-import { importProvidersFrom } from '@angular/core';
+import { effect, importProvidersFrom } from '@angular/core';
 import { LoginComponent } from './pages/test-login-guard/pages-guard/login/login.page';
-import { LoginGuard } from './login.guard';
 import { MainPageComponent } from './pages/main-page.page';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -36,6 +35,9 @@ import { canDeactivateGuard } from './guards/checkUser.guard';
 import { ProductService } from './services/product.service';
 import ProductReducer from './pages/product/store/product.reducer';
 import { ProductEffect } from './pages/product/store/product.effect';
+import { OrderService } from './services/order.service';
+import { OrderEffect } from './pages/order/store/order.effect';
+import orderReducer from './pages/order/store/order.reducer';
 
 const Router: Routes = [
   // {
@@ -76,7 +78,7 @@ const Router: Routes = [
     // canActivate: [LoginGuard],
     // canActivate: [ConfirmDeactivateGuard],
 
-    canMatch: [LoginGuard],
+    // canMatch: [LoginGuard],
     // canDeactivate: [(component: MainPageComponent) => {
     //   console.log('guard________________________')
     //   return false
@@ -176,6 +178,14 @@ const Router: Routes = [
       },
       {
         path: 'order-manager',
+        providers: [
+          OrderService,
+          importProvidersFrom(
+            ApolloModule,
+            EffectsModule.forFeature([OrderEffect]),
+            StoreModule.forFeature('orderState', orderReducer)
+          )
+        ],
         loadComponent: () =>
           import('./pages/order/order.page').then((c) => c.OrderComponent),
       },
@@ -266,6 +276,7 @@ const Router: Routes = [
   {
     path: 'login-page',
     providers: [
+      UserManagerService,
       importProvidersFrom(
         EffectsModule.forFeature([UserLoginEffect]),
         StoreModule.forFeature('userLogin', UserReducer)
@@ -276,6 +287,22 @@ const Router: Routes = [
         (c) => c.LoginPageComponent
       ),
   },
+
+  {
+    path: 'reset-password/:email',
+    providers: [
+      UserManagerService,
+      importProvidersFrom(
+        EffectsModule.forFeature([UserLoginEffect]),
+        StoreModule.forFeature('userLogin', UserReducer)
+      )
+    ],
+    loadComponent: () =>
+      import('./pages/LoginPage/login-page.page').then(
+        (c) => c.LoginPageComponent
+      ),
+  },
+
   {
     path: '',
     redirectTo: 'Pages/product-manager',

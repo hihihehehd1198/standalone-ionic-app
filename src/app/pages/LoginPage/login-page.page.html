@@ -6,14 +6,14 @@
     <div *ngSwitchDefault>
       <form
         [formGroup]="formLogin"
-        class="mx-auto my-auto align-middle justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh] max-h-[500px] max-w-[500px]"
+        class="mx-auto my-auto align-middle justify-center items-center flex flex-col border-black border-[1px] rounded-[10px] px-[15px] py-[5px] h-[50vh]  min-h-[400px] max-w-[500px]"
       >
         <h1
           class="flex flex-row my-[10px] justify-center w-[75%] font-bold text-[30px]"
         >
           Đăng nhập
         </h1>
-        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+        <div class="flex flex-col my-[10px] justify-center w-[75%]">
           <!-- <label for=""> email </label> -->
           <input
             class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
@@ -22,7 +22,7 @@
             placeholder=" nhap email hoac sdt"
           />
         </div>
-        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+        <div class="flex flex-col my-[10px] justify-center w-[75%]">
           <!-- <label for=""> password </label> -->
           <input
             class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
@@ -39,15 +39,27 @@
           >
             login
           </app-button>
-
           <app-button
-            [customClass]='"bg-[yellowgreen] rounded-[10px] py-[10px] px-[20px] !h-[40px]"'
+            [customClass]="'bg-[yellowgreen] !rounded-[10px] !py-[10px] !px-[20px] !h-[40px]'"
+            (clickEvent)="loginwithFirebase()"
+          >
+            login with firebase
+          </app-button>
+        </div>
+        <div class="flex flex-row my-[10px] justify-center w-[75%] gap-[15px]">
+          <a
+            [class]='" rounded-[10px] py-[10px] px-[20px] !h-[40px]"'
             (click)="numberForm=1"
           >
             Đăng ký
-          </app-button>
+          </a>
+          <a
+            [class]="' !rounded-[10px] !py-[10px] !px-[20px] !h-[40px]'"
+            (click)="numberForm=2"
+          >
+            quên mật khẩu?
+          </a>
         </div>
-        <a (click)="numberForm=2">quên mật khẩu ? </a>
       </form>
     </div>
 
@@ -61,18 +73,41 @@
         Đặt lại mật khẩu
       </h1>
       <div class="flex flex-col my-[10px] justify-center w-[75%]">
-        <input
-          class="border-[1px] border-black rounded-[10px] p-[10px]"
-          [(ngModel)]="forgotPasswordInput"
-          placeholder="email / số điện thoại"
-        />
-        <app-button
-          [customClass]="'bg-[red] !mt-[30px] px-[10px] min-w-full rounded-[10px] bg-[yellowgreen] !h-[40px]'"
-          (clickEvent)="numberForm=0"
+        <ng-container
+          *ngIf="!userForgotPass().length else resetPasswordTemplate"
         >
-          Khôi phục mật khẩu
-        </app-button>
+          <input
+            #forgotPasswordInput
+            type="text"
+            class="border-[1px] border-black rounded-[10px] p-[10px]"
+            placeholder="email / số điện thoại"
+          />
+          <app-button
+            [customClass]="'bg-[red] !mt-[30px] px-[10px] min-w-full rounded-[10px] bg-[yellowgreen] !h-[40px]'"
+            (clickEvent)="sendEmailforgotPassword(forgotPasswordInput)"
+          >
+            Khôi phục mật khẩu
+          </app-button>
+        </ng-container>
+
+        <ng-template #resetPasswordTemplate>
+          <input
+            #resetPassword
+            type="password"
+            class="border-[1px] mt-[10px] border-black rounded-[10px] p-[10px]"
+            placeholder="nhập mật khẩu mới "
+          />
+
+          <app-button
+            *ngIf="userForgotPass().length"
+            [customClass]="'bg-[red] !mt-[30px] px-[10px] min-w-full rounded-[10px] bg-[yellowgreen] !h-[40px]'"
+            (clickEvent)="resetPasswordEvent(resetPassword)"
+          >
+            Đặt lại mật khẩu
+          </app-button>
+        </ng-template>
       </div>
+      <a (click)="numberForm=0">về trang đăng nhập </a>
     </div>
 
     <div *ngSwitchCase="1">
@@ -85,10 +120,10 @@
         >
           Đăng ký
         </h1>
-        <div class="flex flex-row my-[10px] justify-center w-[75%]">
+        <div class="flex flex-col my-[10px] justify-center w-[75%]">
           <!-- <label for=""> email </label> -->
           <input
-          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
             type="email"
             formControlName="email"
             placeholder=" nhap email hoac sdt"
@@ -98,7 +133,7 @@
         <div class="flex flex-col my-[10px] justify-center w-[75%]">
           <!-- <label for=""> email </label> -->
           <input
-          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
             type="userName"
             formControlName="userName"
             placeholder=" nhap userName"
@@ -108,7 +143,7 @@
         <div class="flex flex-col my-[10px] justify-center w-[75%]">
           <!-- <label for=""> password </label> -->
           <input
-          class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
+            class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
             type="password"
             formControlName="password"
             placeholder=" nhap password"
@@ -119,7 +154,7 @@
           <!-- <label for=""> password </label> -->
           <input
             class="border-[1px] rounded-[10px] px-[15px] py-[5px] border-[gray] min-w-full"
-            type="rePassword"
+            type="password"
             formControlName="rePassword"
             placeholder=" nhap lai mat khau"
           />
@@ -143,5 +178,4 @@
     </div>
   </ng-container>
 </ion-content>
-
 <div ToastDirective></div>

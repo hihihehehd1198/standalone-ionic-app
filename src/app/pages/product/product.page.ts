@@ -13,6 +13,7 @@ import {
     SimpleChanges,
     ViewChild,
     WritableSignal,
+    ɵɵsetComponentScope,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicModule, IonModal, ModalController } from '@ionic/angular';
@@ -22,7 +23,9 @@ import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import {
     BehaviorSubject,
+    concatMap,
     distinctUntilChanged,
+    exhaustMap,
     map,
     of,
     Subscription,
@@ -98,15 +101,18 @@ export class ProductComponent implements OnDestroy, AfterViewInit {
                 switchMap((x: AppStateType) => {
                     console.log(x?.productState.listProductItem);
                     return this.searchingText.pipe(
+                        tap(console.log),
                         map((y) => {
                             const newListProduct = [
                                 ...x?.productState?.listProductItem,
-                            ].filter((x: ProductItem) => x.id.toString().includes(y));
+                            ].filter((x: ProductItem) => x?.id?.toString().includes(y));
+                            console.log(newListProduct)
+                            this.listProduct.update(() => newListProduct);
                             return newListProduct as ProductItem[];
                         })
                     );
                 }),
-                switchMap((listProduct: ProductItem[]) => {
+                exhaustMap((_) => {
                     return this.action.pipe(
                         ofType(
                             getProductActionFailure,
@@ -119,9 +125,6 @@ export class ProductComponent implements OnDestroy, AfterViewInit {
                             createProductActionFailure
                         ),
                         tap((res) => {
-                            // console.log(listProduct)
-                            this.listProduct.set(listProduct);
-                            console.log('________________', this.listProduct(), res);
                             return this.toastService.generateToast(
                                 res,
                                 this.host?.viewContainerRef
@@ -130,7 +133,9 @@ export class ProductComponent implements OnDestroy, AfterViewInit {
                     );
                 })
             )
-            .subscribe();
+            .subscribe(_ => {
+                this.cdf.markForCheck()
+            });
 
         this.store.dispatch(getProductAction());
         // this.cdf.detectChanges() -- when use signal ,cd as auto run 

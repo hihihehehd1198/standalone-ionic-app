@@ -30,6 +30,21 @@ const GET_LIST_USER = gql`
   }
 `;
 
+// const RESET_PASSWORD = gql`
+//   mutation updateUser($UserUpdateDto: UserUpdateDto!) {
+//     updateUser(user: $UserUpdateDto) {
+//       id
+//       username
+//       hashedPassword
+//     }
+//   }
+// `;
+const CHANGE_PASSWORD = gql`
+mutation changePassword($user: UserUpdatePassDto!){
+  changePassword(user:$user)
+}
+`
+
 const UPDATE_USER = gql`
   mutation updateUser($UserUpdateDto: UserUpdateDto!) {
     updateUser(user: $UserUpdateDto) {
@@ -83,5 +98,17 @@ export class UserManagerService {
         id,
       },
     });
+  }
+
+  changePassword(user: {
+    email: string,
+    password: string
+  }) {
+    return this.apolloService.mutate({
+      mutation: CHANGE_PASSWORD,
+      variables: {
+        user
+      }
+    })
   }
 }

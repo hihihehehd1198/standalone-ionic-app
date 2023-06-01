@@ -7,6 +7,7 @@ import { CustomerState } from "../../customer/store/customer.types";
 import { LoginState } from "../../LoginPage/UserStore/user.type";
 import { ServiceState } from "../../servicePage/store/servicePage.types";
 import { ProductState } from "../../product/store/product.type";
+import { OrderState } from "../../order/store/order.types";
 // import { ArticleStore } from "./article.reducer";
 
 export interface AppStateType {
@@ -19,7 +20,7 @@ export interface AppStateType {
     customerState: CustomerState,
     brandState: BranchState,
     productState: ProductState
-
+    orderState: OrderState,
 }
 interface ArticleItem { }
 
